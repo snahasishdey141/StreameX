@@ -37,21 +37,22 @@ const servers = [
 // --- INITIALIZATION ---
 window.onload = async () => {
     // 1. Initialize Firebase
-    if (window.firebaseModules) {
+    if(window.firebaseModules) {
         const { initializeApp, getAuth, getFirestore, onAuthStateChanged } = window.firebaseModules;
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
 
-        // Auth Listener: Runs whenever user logs in or out
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
+            // Force UI update whenever auth state is confirmed
+            injectLoginUI(); 
             updateAuthUI(user);
-            if (user) showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`);
-
-            // Refresh libraries if they are open
-            if (document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
-            if (document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
+            
+            if(user) showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`);
+            
+            if(document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
+            if(document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
         });
     }
 
@@ -59,34 +60,37 @@ window.onload = async () => {
     applyTheme();
 
     // 2. Settings API
-    try {
-        await populateSettingsAPI();
-    } catch (error) {
-        console.error("Settings API Error:", error);
-        addFallbackSettings();
-    }
+    try { await populateSettingsAPI(); } 
+    catch (error) { console.error("Settings API Error:", error); addFallbackSettings(); }
 
-    // 3. Check for Deep Links
+    // 3. Handle Deep Links & Back Button
     const params = new URLSearchParams(window.location.search);
-    const type = params.get('type');
-    const id = params.get('id');
-
-    if (type && id) {
-        openPlayer(id, type);
+    if (params.get('type') && params.get('id')) {
+        openPlayer(params.get('id'), params.get('type'));
     } else {
         router('home');
     }
 
-    // 4. Inject Login Button
-    injectLoginUI();
-
-    // Anti-DevTools Logic
-    document.addEventListener('keydown', function (e) {
-        if (e.keyCode == 123) { e.preventDefault(); }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { e.preventDefault(); }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
+    window.addEventListener('popstate', (event) => {
+        if (!window.location.search) {
+            router('home');
+            document.getElementById('iframe-box').innerHTML = '';
+        } else {
+            const p = new URLSearchParams(window.location.search);
+            if (p.get('type')) openPlayer(p.get('id'), p.get('type'));
+        }
     });
+
+    // Anti-DevTools
+    document.addEventListener('keydown', function(e) {
+        if(e.keyCode == 123) { e.preventDefault(); }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { e.preventDefault(); }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
+    });
+
+    // 4. FORCE LOGIN UI (Last Step)
+    // We add a small delay (100ms) to ensure HTML is 100% ready
     setTimeout(() => {
         injectLoginUI();
         // If we don't know the user yet (null), show the Sign In button
@@ -894,4 +898,5 @@ window.saveSettings = saveSettings;
 window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
+
 
