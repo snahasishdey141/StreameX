@@ -87,6 +87,11 @@ window.onload = async () => {
         if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
         if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
     });
+    setTimeout(() => {
+        injectLoginUI();
+        // If we don't know the user yet (null), show the Sign In button
+        if (!currentUser) updateAuthUI(null);
+    }, 100);
 };
 
 // --- AUTH LOGIC ---
@@ -889,3 +894,4 @@ window.saveSettings = saveSettings;
 window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
+
