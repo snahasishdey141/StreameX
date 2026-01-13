@@ -36,6 +36,8 @@ body {
     overflow: hidden;
     transition: 0.3s;
     user-select: none;
+    overflow-x: hidden; /* This prevents horizontal scrollbar jumps */
+    width: 100%;
 }
 
 /* Scrollbar */
@@ -1444,15 +1446,16 @@ body {
     }
 }
 
-/* --- TOAST NOTIFICATIONS --- */
-#toast-container {
+/* --- TOAST NOTIFICATION (Top Position - No Sink) --- */
+.toast-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
+    top: 70px;            /* 90px from top (Below the Navbar) */
+    right: 20px;          /* Right side */
+    z-index: 10000;       /* On top of everything */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    pointer-events: none; /* Lets you click things behind it */
 }
 
 .toast {
@@ -1461,25 +1464,29 @@ body {
     padding: 12px 20px;
     border-radius: 8px;
     border-left: 4px solid var(--accent);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    font-size: 14px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
-    animation: slideIn 0.3s ease-out;
     min-width: 250px;
+    pointer-events: auto; /* Re-enable clicks on the toast itself */
+    
+    /* ANIMATION: Slide Down from Top */
+    animation: slideDown 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+    backdrop-filter: blur(5px);
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+/* Slide Down Animation (Vertical movement prevents screen width jumping) */
+@keyframes slideDown { 
+    from { transform: translateY(-20px); opacity: 0; } 
+    to { transform: translateY(0); opacity: 1; } 
+}
 
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+@keyframes fadeOut { 
+    from { opacity: 1; } 
+    to { opacity: 0; visibility: hidden; } 
 }
 
 /* --- USER AUTH STYLES --- */
