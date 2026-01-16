@@ -409,6 +409,13 @@ async function loadHome() {
     showSkeletons('home-hollywood', 6);
     showSkeletons('home-tv', 6);
 
+    // Show skeleton for history too
+    const continueSection = document.getElementById('continue-watching-section');
+    if (continueSection) {
+        continueSection.style.display = 'block';
+        showSkeletons('home-history', 4);
+    }
+
     const today = new Date().toISOString().split('T')[0];
     const currentRegion = appSettings.region || 'IN';
 
@@ -428,39 +435,65 @@ async function loadHome() {
         : '/movie/trending/week';
 
     // 2. Fetch All in Parallel
-    const [trending, localMovies, hollyData, tvShows] = await Promise.all([
-        fetchAPI('/trending/all/week'),
-        fetchAPI(localQuery),
-        fetchAPI(hollyQuery),
-        fetchAPI('/trending/tv/week')
-    ]);
+    // We wrap this in try-catch to ensure we don't crash if API fails
+    try {
+        const [trending, localMovies, hollyData, tvShows] = await Promise.all([
+            fetchAPI('/trending/all/week'),
+            fetchAPI(localQuery),
+            fetchAPI(hollyQuery),
+            fetchAPI('/trending/tv/week')
+        ]);
 
-    // 3. Render
-    let slides = [];
-    if (trending.results) {
-        const validSlides = trending.results.filter(item => item.backdrop_path);
-        slides = validSlides.slice(0, 5);
-    }
-    renderSlider(slides);
-
-    let historyList = [];
-    // We try to get data from LocalStorage first because it is instant
-    historyList = getLib('history');
-
-    const continueSection = document.getElementById('continue-watching-section');
-    if (continueSection) {
-        if (historyList && historyList.length > 0) {
-            continueSection.style.display = 'block';
-            // Show top 4 items
-            renderGrid(historyList.slice(0, 4), 'home-history');
-        } else {
-            continueSection.style.display = 'none';
+        // 3. Render Content IMMEDIATELY (So page is never empty)
+        let slides = [];
+        if (trending && trending.results) {
+            const validSlides = trending.results.filter(item => item.backdrop_path);
+            slides = validSlides.slice(0, 5);
         }
+        renderSlider(slides);
+
+        renderGrid(localMovies ? localMovies.results : [], 'home-bollywood');
+        renderGrid(hollyData ? hollyData.results : [], 'home-hollywood');
+        renderGrid(tvShows ? tvShows.results : [], 'home-tv', 'tv');
+
+    } catch (error) {
+        console.error("Home Data Load Error:", error);
     }
 
-    renderGrid(localMovies.results, 'home-bollywood');
-    renderGrid(hollyData.results, 'home-hollywood');
-    renderGrid(tvShows.results, 'home-tv', 'tv');
+    // 4. LOAD HISTORY SAFELY (Won't block the rest of the page)
+    try {
+        let historyList = [];
+
+        if (currentUser && db) {
+            // A. If Logged In: Fetch from Cloud
+            const { doc, getDoc } = window.firebaseModules;
+            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+            if (docSnap.exists()) {
+                historyList = docSnap.data().history || [];
+            }
+        } else {
+            // B. If Not Logged In: Fetch from LocalStorage
+            historyList = getLib('history');
+        }
+
+        // Sort by time (Newest First)
+        if (historyList && historyList.length > 0) {
+            historyList.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+        }
+
+        // Render History
+        if (continueSection) {
+            if (historyList && historyList.length > 0) {
+                continueSection.style.display = 'block';
+                renderGrid(historyList.slice(0, 4), 'home-history');
+            } else {
+                continueSection.style.display = 'none';
+            }
+        }
+    } catch (e) {
+        console.error("History Load Error:", e);
+        if (continueSection) continueSection.style.display = 'none';
+    }
 }
 
 function renderSlider(items) {
