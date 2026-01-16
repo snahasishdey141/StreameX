@@ -428,19 +428,19 @@ async function loadHome() {
         : '/movie/trending/week';
 
     // 2. Fetch All in Parallel
-    const [trending, jjkRes, localMovies, hollyData, tvShows] = await Promise.all([
+    const [trending, localMovies, hollyData, tvShows] = await Promise.all([
         fetchAPI('/trending/all/week'),
-        fetch(`${BASE_URL}/tv/95479?api_key=${API_KEY}&language=${appSettings.lang}`),
         fetchAPI(localQuery),
         fetchAPI(hollyQuery),
         fetchAPI('/trending/tv/week')
     ]);
 
     // 3. Render
-    const jjkData = await jjkRes.json();
-    jjkData.media_type = 'tv';
-    let slides = [jjkData];
-    if (trending.results) slides = [...slides, ...trending.results.slice(0, 4)];
+    let slides = [];
+    if (trending.results) {
+        const validSlides = trending.results.filter(item => item.backdrop_path);
+        slides = validSlides.slice(0, 5);
+    }
     renderSlider(slides);
 
     renderGrid(localMovies.results, 'home-bollywood');
@@ -571,26 +571,48 @@ function renderGrid(items, containerId, forceType) {
 
 // --- PLAYER LOGIC (With Sidebar & Mobile Layout) ---
 async function openPlayer(id, type, skipPush = false) {
+    // 1. Initialize Default State
     playerState = { id, type, season: 1, episode: 1 };
+    let preferredServer = 0; // Default to first server
 
+    // 2. CHECK HISTORY FOR SAVED PROGRESS
+    // We check the local cache first for speed.
+    // Ideally, if you want cross-device sync, you'd wait for Firebase here, 
+    // but checking local 'history' array (which syncs on load) is faster for UI.
+    let savedState = getLib('history').find(i => i.id == id);
+
+    if (savedState) {
+        // Restore Season & Episode for TV Shows
+        if (type === 'tv') {
+            playerState.season = savedState.season || 1;
+            playerState.episode = savedState.episode || 1;
+        }
+        // Restore Server Preference
+        if (savedState.serverIdx !== undefined) {
+            preferredServer = savedState.serverIdx;
+        }
+        // Notify User
+        showToast(`Resumed: S${playerState.season} E${playerState.episode}`, 'info');
+    }
+
+    // 3. UI Setup & Navigation
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
     document.getElementById('view-player').classList.add('active');
 
     // Scroll Fix
     window.scrollTo(0, 0);
+
+    // URL Management
     if (!skipPush) {
         const newUrl = `?type=${type}&id=${id}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
-
-    // Deep Link
-    const newUrl = `?type=${type}&id=${id}`;
-    window.history.pushState({ path: newUrl }, '', newUrl);
+    // Note: We don't push state twice (removed the duplicate push from old code)
 
     // Loading State
     document.getElementById('iframe-box').innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center;"><i class="fas fa-spinner fa-spin" style="font-size:40px;"></i></div>';
 
-    // Fetch Details
+    // 4. Fetch Details from API
     const data = await fetchAPI(`/${type}/${id}`);
 
     const title = data.title || data.name;
@@ -600,13 +622,13 @@ async function openPlayer(id, type, skipPush = false) {
     const genres = data.genres ? data.genres.map(g => g.name).slice(0, 2).join(', ') : '';
     const rating = data.vote_average ? data.vote_average.toFixed(1) : 'N/A';
 
-    // Panels
+    // Panels Setup
     const rightPanel = document.getElementById('episode-panel');
     const bottomDetails = document.querySelector('.media-details-box');
     if (rightPanel) rightPanel.innerHTML = '';
     if (bottomDetails) bottomDetails.innerHTML = '';
 
-    // MOVIE LAYOUT
+    // --- MOVIE LAYOUT ---
     if (type === 'movie') {
         if (rightPanel) {
             rightPanel.style.display = 'flex';
@@ -642,7 +664,7 @@ async function openPlayer(id, type, skipPush = false) {
         setTimeout(() => setupWatchlistBtn(id, 'watchlist-btn-movie', type, title, data.poster_path), 0);
 
     } else {
-        // TV LAYOUT
+        // --- TV SHOW LAYOUT ---
         if (rightPanel) {
             rightPanel.style.display = 'flex';
             rightPanel.innerHTML = `
@@ -678,8 +700,10 @@ async function openPlayer(id, type, skipPush = false) {
         }
         setTimeout(() => setupWatchlistBtn(id, 'watchlist-btn-tv', type, title, data.poster_path), 0);
 
+        // TV Logic: Populate Seasons & Load Correct One
         const sSelect = document.getElementById('season-select');
         if (sSelect && data.seasons) {
+            sSelect.innerHTML = ''; // Clear existing options
             data.seasons.forEach(s => {
                 if (s.season_number > 0) {
                     const opt = document.createElement('option');
@@ -688,17 +712,33 @@ async function openPlayer(id, type, skipPush = false) {
                     sSelect.appendChild(opt);
                 }
             });
+            // Auto-select the saved season (from Step 2)
+            sSelect.value = playerState.season;
         }
-        await loadSeason(1);
+
+        // Load the SPECIFIC season (not just season 1)
+        await loadSeason(playerState.season);
+
+        // Auto-scroll to the saved episode
+        setTimeout(() => {
+            const activeEp = document.querySelector('.ep-item.active');
+            if (activeEp) activeEp.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }, 500);
     }
 
-    // Add to History (Sync)
+    // 5. Add to History (Standard Sync)
+    // Note: 'updateHistory' inside loadVideo will update the specific details later.
+    // This initial call ensures the item exists in the list immediately.
     if (currentUser) toggleLib('history', id, type, title, data.poster_path);
     else addToLib('history', { id, type, title, poster: data.poster_path });
 
+    // 6. Final Player Launch
     renderServers();
-    loadVideo(0); // Auto Play
 
+    // Load the PREFERRED server (from Step 2), not just 0
+    loadVideo(preferredServer);
+
+    // 7. Recommendations
     const recs = await fetchAPI(`/${type}/${id}/recommendations`);
     renderGrid(recs.results.slice(0, 12), 'player-recommendations');
 }
@@ -833,9 +873,36 @@ function renderServers() {
 }
 
 function loadVideo(serverIdx) {
+    const iframeBox = document.getElementById('iframe-box');
+
+    // 1. AUTH CHECK: Lock Screen if not logged in
+    if (!currentUser) {
+        iframeBox.innerHTML = `
+            <div class="lock-screen">
+                <i class="fas fa-lock lock-icon"></i>
+                <div class="lock-title">Login Required</div>
+                <div class="lock-desc">Please sign in to stream content.</div>
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="fab fa-google"></i> Login to Watch
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    // 2. Save Progress (Episode & Server)
+    if (!playerState) playerState = { season: 1, episode: 1 };
+    updateHistory(serverIdx);
+
+    // 3. Play Video
     const srv = servers[serverIdx];
     const url = srv.url(playerState.id, playerState.type, playerState.season, playerState.episode);
-    document.getElementById('iframe-box').innerHTML = `<iframe src="${url}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    iframeBox.innerHTML = `<iframe src="${url}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+
+    // Update UI buttons
+    document.querySelectorAll('.server-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === serverIdx);
+    });
 }
 
 // --- LOCAL STORAGE HELPERS ---
@@ -910,6 +977,101 @@ function showSkeletons(containerId, count = 6) {
     }
 }
 
+// --- SMART SEARCH LOGIC ---
+let searchTimer;
+
+function handleSmartSearch(query) {
+    // 1. Clear previous timer
+    clearTimeout(searchTimer);
+
+    // --- NEW: HANDLE EMPTY INPUT (RESET) ---
+    if (!query || query.trim().length === 0) {
+        // Check if we are currently in the Mobile Search View
+        const mobileView = document.getElementById('view-mobile-search');
+
+        if (mobileView && mobileView.classList.contains('active')) {
+            // Mobile: Just clean the page (clear results), stay on search tab
+            const results = document.getElementById('mobile-search-results');
+            if (results) results.innerHTML = '';
+        } else {
+            // Desktop: Switch back to Home view immediately
+            router('home');
+        }
+        return; // Stop here
+    }
+    // ---------------------------------------
+
+    // 2. Minimum length check (don't search for 1 letter)
+    if (query.length < 2) return;
+
+    // 3. Wait 500ms after user stops typing then search
+    searchTimer = setTimeout(() => {
+        performLiveSearch(query);
+    }, 500);
+}
+
+function performLiveSearch(query) {
+    let resultContainerId = 'search-res';
+    const mobileView = document.getElementById('view-mobile-search');
+
+    if (mobileView && mobileView.classList.contains('active')) {
+        resultContainerId = 'mobile-search-results';
+    } else {
+        router('movies');
+        const container = document.getElementById('view-movies');
+        container.innerHTML = `
+            <h1>Results for: "<span style="color:var(--accent)">${query}</span>"</h1>
+            <div class="media-grid" id="search-res"></div>
+        `;
+    }
+
+    showSkeletons(resultContainerId, 6);
+
+    fetchAPI(`/search/multi?query=${encodeURIComponent(query)}`).then(data => {
+        const filtered = data.results.filter(i => i.media_type !== 'person' && i.poster_path);
+        if (filtered.length === 0) {
+            document.getElementById(resultContainerId).innerHTML = '<div style="color:#888; padding:20px;">No matches found. Check spelling?</div>';
+        } else {
+            renderGrid(filtered, resultContainerId);
+        }
+    });
+}
+
+// --- INTELLIGENT HISTORY UPDATE ---
+async function updateHistory(serverIdx) {
+    // 1. Create Detailed History Object
+    const item = {
+        id: playerState.id,
+        type: playerState.type,
+        title: document.getElementById('p-title') ? document.getElementById('p-title').innerText : "Unknown",
+        poster: document.querySelector('.details-poster-img') ? document.querySelector('.details-poster-img').src : "",
+        season: playerState.season,   // Save exact Season
+        episode: playerState.episode, // Save exact Episode
+        serverIdx: serverIdx,         // Save exact Server used
+        savedAt: Date.now()
+    };
+
+    // 2. Sync to Firebase or LocalStorage
+    if (currentUser && db) {
+        const { doc, getDoc, updateDoc } = window.firebaseModules;
+        const userRef = doc(db, "users", currentUser.uid);
+        try {
+            const docSnap = await getDoc(userRef);
+            let history = docSnap.exists() ? (docSnap.data().history || []) : [];
+            history = history.filter(i => i.id != item.id); // Remove old
+            history.unshift(item); // Add new to top
+            if (history.length > 50) history.pop();
+            await updateDoc(userRef, { history: history });
+        } catch (e) { console.error("History Sync Error", e); }
+    } else {
+        let history = getLib('history');
+        history = history.filter(i => i.id != item.id);
+        history.unshift(item);
+        if (history.length > 50) history.pop();
+        saveLib('history', history);
+    }
+}
+
 // --- EXPOSE FUNCTIONS TO HTML (REQUIRED FOR MODULES) ---
 window.router = router;
 window.openPlayer = openPlayer;
@@ -928,3 +1090,4 @@ window.saveSettings = saveSettings;
 window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
+window.handleSmartSearch = handleSmartSearch;

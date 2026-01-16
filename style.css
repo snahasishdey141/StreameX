@@ -36,7 +36,8 @@ body {
     overflow: hidden;
     transition: 0.3s;
     user-select: none;
-    overflow-x: hidden; /* This prevents horizontal scrollbar jumps */
+    overflow-x: hidden;
+    /* This prevents horizontal scrollbar jumps */
     width: 100%;
 }
 
@@ -1449,13 +1450,17 @@ body {
 /* --- TOAST NOTIFICATION (Top Position - No Sink) --- */
 .toast-container {
     position: fixed;
-    top: 70px;            /* 90px from top (Below the Navbar) */
-    right: 20px;          /* Right side */
-    z-index: 10000;       /* On top of everything */
+    top: 70px;
+    /* 90px from top (Below the Navbar) */
+    right: 20px;
+    /* Right side */
+    z-index: 10000;
+    /* On top of everything */
     display: flex;
     flex-direction: column;
     gap: 10px;
-    pointer-events: none; /* Lets you click things behind it */
+    pointer-events: none;
+    /* Lets you click things behind it */
 }
 
 .toast {
@@ -1464,29 +1469,43 @@ body {
     padding: 12px 20px;
     border-radius: 8px;
     border-left: 4px solid var(--accent);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     font-size: 14px;
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 10px;
     min-width: 250px;
-    pointer-events: auto; /* Re-enable clicks on the toast itself */
-    
+    pointer-events: auto;
+    /* Re-enable clicks on the toast itself */
+
     /* ANIMATION: Slide Down from Top */
     animation: slideDown 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
     backdrop-filter: blur(5px);
 }
 
 /* Slide Down Animation (Vertical movement prevents screen width jumping) */
-@keyframes slideDown { 
-    from { transform: translateY(-20px); opacity: 0; } 
-    to { transform: translateY(0); opacity: 1; } 
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-@keyframes fadeOut { 
-    from { opacity: 1; } 
-    to { opacity: 0; visibility: hidden; } 
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 /* --- USER AUTH STYLES --- */
@@ -1547,28 +1566,34 @@ body {
 
 /* --- MOBILE AUTH OVERLAY (Top Right) --- */
 #mobile-auth-container {
-    display: none; /* Hidden on Desktop */
+    display: none;
+    /* Hidden on Desktop */
 }
 
 @media (max-width: 1000px) {
     #mobile-auth-container {
         display: flex;
         position: absolute;
-        top: 25px;       /* Spacing from top */
-        right: 20px;     /* Spacing from right */
-        z-index: 20;     /* Sit on top of the Slider */
+        top: 25px;
+        /* Spacing from top */
+        right: 20px;
+        /* Spacing from right */
+        z-index: 20;
+        /* Sit on top of the Slider */
     }
-    
+
     /* 1. Mobile Login Button Style */
     #mobile-auth-container .login-btn {
         width: auto;
         padding: 8px 16px;
-        border-radius: 30px; /* Pill shape */
-        background: rgba(229, 9, 20, 0.9); /* Red semi-transparent */
+        border-radius: 30px;
+        /* Pill shape */
+        background: rgba(229, 9, 20, 0.9);
+        /* Red semi-transparent */
         backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         font-size: 12px;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     /* 2. Mobile Profile Circle Style */
@@ -1578,12 +1603,48 @@ body {
         margin: 0;
         border: none;
     }
-    
+
     #mobile-auth-container .user-avatar {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         border: 2px solid #fff;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
+}
+
+/* --- LOGIN LOCK SCREEN --- */
+.lock-screen {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.lock-icon {
+    font-size: 50px;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.lock-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.lock-desc {
+    color: #aaa;
+    margin-bottom: 25px;
+    font-size: 14px;
+    max-width: 80%;
 }

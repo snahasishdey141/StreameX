@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="manifest" href="manifest.json">
 
 </head>
 
@@ -60,11 +59,18 @@
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" class="search-input" placeholder="Search for content..."
-                onkeypress="handleSearch(event)">
+                onkeyup="handleSmartSearch(this.value)">
         </div>
 
         <div id="view-home" class="page-view active">
             <div class="slider-container" id="hero-slider"></div>
+
+            <div id="continue-watching-section" style="display:none;">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-history"></i> Continue Watching</div>
+                </div>
+                <div class="media-grid" id="home-history"></div>
+            </div>
 
             <div class="section-header">
                 <div class="section-title">Latest Bollywood</div>
@@ -86,7 +92,7 @@
             <div class="search-container mobile-search-bar" style="margin-top: 20px;">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-input" id="mobile-search-input" placeholder="Search movies..."
-                    onkeypress="handleSearch(event)">
+                    onkeyup="handleSmartSearch(this.value)">
             </div>
             <div id="mobile-search-results" class="media-grid"
                 style="grid-template-columns: repeat(3, 1fr); display: grid;"></div>
@@ -385,20 +391,19 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } 
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } 
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Expose Firebase to the window so script.js can use it
-        window.firebaseModules = { 
+        window.firebaseModules = {
             initializeApp, getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
-            getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove 
+            getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove
         };
     </script>
 
     <script src="script.js" type="module"></script>
 </body>
-
 
 </html>
