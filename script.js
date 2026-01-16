@@ -622,34 +622,48 @@ async function openPlayer(id, type, skipPush = false) {
     playerState = { id, type, season: 1, episode: 1 };
     let preferredServer = 0; // Default to first server
 
-    // 2. CHECK HISTORY FOR SAVED PROGRESS
-    let savedState = getLib('history').find(i => i.id == id);
+    // 2. CHECK HISTORY (CLOUD FIRST)
+    // This is the FIX: We check Firebase specifically for this item's progress
+    let savedState = null;
 
+    if (currentUser && db) {
+        try {
+            const { doc, getDoc } = window.firebaseModules;
+            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+            if (docSnap.exists()) {
+                const history = docSnap.data().history || [];
+                // Find the specific show/movie in the cloud list
+                savedState = history.find(i => i.id == id);
+            }
+        } catch (e) {
+            console.error("Cloud Resume Error:", e);
+        }
+    }
+
+    // Fallback: If not found in cloud (or not logged in), check LocalStorage
+    if (!savedState) {
+        savedState = getLib('history').find(i => i.id == id);
+    }
+
+    // 3. RESTORE PROGRESS (If found)
     if (savedState) {
-        // Restore Season & Episode for TV Shows
         if (type === 'tv') {
             playerState.season = savedState.season || 1;
             playerState.episode = savedState.episode || 1;
 
-            // --- FIX: ONLY SHOW TOAST IF IT'S A TV SHOW AND HAS PROGRESS ---
-            // We check if season > 1 or episode > 1. 
-            // If it's just S1 E1, we don't annoy the user with a "Resumed" message.
+            // Only show toast if we are actually resuming progress
             if (playerState.season > 1 || playerState.episode > 1) {
                 showToast(`Resumed: S${playerState.season} E${playerState.episode}`, 'info');
             }
         }
-
-        // Restore Server Preference
         if (savedState.serverIdx !== undefined) {
             preferredServer = savedState.serverIdx;
         }
     }
 
-    // 3. UI Setup & Navigation
+    // 4. UI Setup & Navigation
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
     document.getElementById('view-player').classList.add('active');
-
-    // Scroll Fix
     window.scrollTo(0, 0);
 
     // URL Management
@@ -661,7 +675,7 @@ async function openPlayer(id, type, skipPush = false) {
     // Loading State
     document.getElementById('iframe-box').innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center;"><i class="fas fa-spinner fa-spin" style="font-size:40px;"></i></div>';
 
-    // 4. Fetch Details from API
+    // 5. Fetch Details from API
     const data = await fetchAPI(`/${type}/${id}`);
 
     const title = data.title || data.name;
@@ -749,7 +763,7 @@ async function openPlayer(id, type, skipPush = false) {
         }
         setTimeout(() => setupWatchlistBtn(id, 'watchlist-btn-tv', type, title, data.poster_path), 0);
 
-        // TV Logic: Populate Seasons & Load Correct One
+        // TV Logic: Populate Seasons
         const sSelect = document.getElementById('season-select');
         if (sSelect && data.seasons) {
             sSelect.innerHTML = '';
@@ -761,6 +775,7 @@ async function openPlayer(id, type, skipPush = false) {
                     sSelect.appendChild(opt);
                 }
             });
+            // Select the RESTORED season
             sSelect.value = playerState.season;
         }
 
@@ -774,17 +789,17 @@ async function openPlayer(id, type, skipPush = false) {
         }, 500);
     }
 
-    // 5. Add to History
+    // 6. Add to History (Standard Sync)
     if (currentUser) toggleLib('history', id, type, title, data.poster_path);
     else addToLib('history', { id, type, title, poster: data.poster_path });
 
-    // 6. Final Player Launch
+    // 7. Final Player Launch
     renderServers();
 
-    // Load the PREFERRED server
+    // Load the PREFERRED/RESTORED server
     loadVideo(preferredServer);
 
-    // 7. Recommendations
+    // 8. Recommendations
     const recs = await fetchAPI(`/${type}/${id}/recommendations`);
     renderGrid(recs.results.slice(0, 12), 'player-recommendations');
 }
