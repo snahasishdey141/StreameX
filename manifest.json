@@ -1,8 +1,10 @@
 {
+  "id": "/",
   "name": "StreameX - Watch Movies & TV",
   "short_name": "StreameX",
   "description": "Stream the latest movies and TV shows in HD for free.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0f0f0f",
   "theme_color": "#e50914",
