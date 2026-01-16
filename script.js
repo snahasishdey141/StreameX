@@ -443,6 +443,21 @@ async function loadHome() {
     }
     renderSlider(slides);
 
+    let historyList = [];
+    // We try to get data from LocalStorage first because it is instant
+    historyList = getLib('history');
+
+    const continueSection = document.getElementById('continue-watching-section');
+    if (continueSection) {
+        if (historyList && historyList.length > 0) {
+            continueSection.style.display = 'block';
+            // Show top 4 items
+            renderGrid(historyList.slice(0, 4), 'home-history');
+        } else {
+            continueSection.style.display = 'none';
+        }
+    }
+
     renderGrid(localMovies.results, 'home-bollywood');
     renderGrid(hollyData.results, 'home-hollywood');
     renderGrid(tvShows.results, 'home-tv', 'tv');
@@ -569,16 +584,12 @@ function renderGrid(items, containerId, forceType) {
     });
 }
 
-// --- PLAYER LOGIC (With Sidebar & Mobile Layout) ---
 async function openPlayer(id, type, skipPush = false) {
     // 1. Initialize Default State
     playerState = { id, type, season: 1, episode: 1 };
     let preferredServer = 0; // Default to first server
 
     // 2. CHECK HISTORY FOR SAVED PROGRESS
-    // We check the local cache first for speed.
-    // Ideally, if you want cross-device sync, you'd wait for Firebase here, 
-    // but checking local 'history' array (which syncs on load) is faster for UI.
     let savedState = getLib('history').find(i => i.id == id);
 
     if (savedState) {
@@ -586,13 +597,19 @@ async function openPlayer(id, type, skipPush = false) {
         if (type === 'tv') {
             playerState.season = savedState.season || 1;
             playerState.episode = savedState.episode || 1;
+
+            // --- FIX: ONLY SHOW TOAST IF IT'S A TV SHOW AND HAS PROGRESS ---
+            // We check if season > 1 or episode > 1. 
+            // If it's just S1 E1, we don't annoy the user with a "Resumed" message.
+            if (playerState.season > 1 || playerState.episode > 1) {
+                showToast(`Resumed: S${playerState.season} E${playerState.episode}`, 'info');
+            }
         }
+
         // Restore Server Preference
         if (savedState.serverIdx !== undefined) {
             preferredServer = savedState.serverIdx;
         }
-        // Notify User
-        showToast(`Resumed: S${playerState.season} E${playerState.episode}`, 'info');
     }
 
     // 3. UI Setup & Navigation
@@ -607,7 +624,6 @@ async function openPlayer(id, type, skipPush = false) {
         const newUrl = `?type=${type}&id=${id}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
-    // Note: We don't push state twice (removed the duplicate push from old code)
 
     // Loading State
     document.getElementById('iframe-box').innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center;"><i class="fas fa-spinner fa-spin" style="font-size:40px;"></i></div>';
@@ -703,7 +719,7 @@ async function openPlayer(id, type, skipPush = false) {
         // TV Logic: Populate Seasons & Load Correct One
         const sSelect = document.getElementById('season-select');
         if (sSelect && data.seasons) {
-            sSelect.innerHTML = ''; // Clear existing options
+            sSelect.innerHTML = '';
             data.seasons.forEach(s => {
                 if (s.season_number > 0) {
                     const opt = document.createElement('option');
@@ -712,11 +728,10 @@ async function openPlayer(id, type, skipPush = false) {
                     sSelect.appendChild(opt);
                 }
             });
-            // Auto-select the saved season (from Step 2)
             sSelect.value = playerState.season;
         }
 
-        // Load the SPECIFIC season (not just season 1)
+        // Load the SPECIFIC season
         await loadSeason(playerState.season);
 
         // Auto-scroll to the saved episode
@@ -726,16 +741,14 @@ async function openPlayer(id, type, skipPush = false) {
         }, 500);
     }
 
-    // 5. Add to History (Standard Sync)
-    // Note: 'updateHistory' inside loadVideo will update the specific details later.
-    // This initial call ensures the item exists in the list immediately.
+    // 5. Add to History
     if (currentUser) toggleLib('history', id, type, title, data.poster_path);
     else addToLib('history', { id, type, title, poster: data.poster_path });
 
     // 6. Final Player Launch
     renderServers();
 
-    // Load the PREFERRED server (from Step 2), not just 0
+    // Load the PREFERRED server
     loadVideo(preferredServer);
 
     // 7. Recommendations
