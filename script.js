@@ -37,22 +37,21 @@ const servers = [
 // --- INITIALIZATION ---
 window.onload = async () => {
     // 1. Initialize Firebase
-    if(window.firebaseModules) {
+    if (window.firebaseModules) {
         const { initializeApp, getAuth, getFirestore, onAuthStateChanged } = window.firebaseModules;
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
 
+        // Auth Listener: Runs whenever user logs in or out
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
-            // Force UI update whenever auth state is confirmed
-            injectLoginUI(); 
             updateAuthUI(user);
-            
-            if(user) showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`);
-            
-            if(document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
-            if(document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
+            if (user) showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`);
+
+            // Refresh libraries if they are open
+            if (document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
+            if (document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
         });
     }
 
@@ -60,44 +59,57 @@ window.onload = async () => {
     applyTheme();
 
     // 2. Settings API
-    try { await populateSettingsAPI(); } 
-    catch (error) { console.error("Settings API Error:", error); addFallbackSettings(); }
+    try {
+        await populateSettingsAPI();
+    } catch (error) {
+        console.error("Settings API Error:", error);
+        addFallbackSettings();
+    }
 
-    // 3. Handle Deep Links & Back Button
+    // 3. Check for Deep Links (Initial Load)
     const params = new URLSearchParams(window.location.search);
-    if (params.get('type') && params.get('id')) {
-        openPlayer(params.get('id'), params.get('type'));
+    const type = params.get('type');
+    const id = params.get('id');
+
+    if (type && id) {
+        // We pass 'true' to skipPush here so we don't duplicate the history entry on load
+        openPlayer(id, type, true);
     } else {
         router('home');
     }
 
+    // 4. Inject Login Button
+    injectLoginUI();
+
+    // Anti-DevTools Logic
+    document.addEventListener('keydown', function (e) {
+        if (e.keyCode == 123) { e.preventDefault(); }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { e.preventDefault(); }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
+    });
+
+    // --- BROWSER BACK BUTTON LISTENER ---
+    // This handles when the user presses the physical Back/Forward button
     window.addEventListener('popstate', (event) => {
-        if (!window.location.search) {
-            router('home');
-            document.getElementById('iframe-box').innerHTML = '';
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get('type');
+        const id = params.get('id');
+
+        if (type && id) {
+            // If URL has params, open player (skipPush = true)
+            openPlayer(id, type, true);
         } else {
-            const p = new URLSearchParams(window.location.search);
-            if (p.get('type')) openPlayer(p.get('id'), p.get('type'));
+            // If URL is clean, return to Home
+            // 1. Hide Player
+            document.getElementById('view-player').classList.remove('active');
+            document.getElementById('iframe-box').innerHTML = ''; // Stop video
+
+            // 2. Show Home
+            router('home');
         }
     });
-
-    // Anti-DevTools
-    document.addEventListener('keydown', function(e) {
-        if(e.keyCode == 123) { e.preventDefault(); }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { e.preventDefault(); }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
-    });
-
-    // 4. FORCE LOGIN UI (Last Step)
-    // We add a small delay (100ms) to ensure HTML is 100% ready
-    setTimeout(() => {
-        injectLoginUI();
-        // If we don't know the user yet (null), show the Sign In button
-        if (!currentUser) updateAuthUI(null);
-    }, 100);
 };
-
 // --- AUTH LOGIC ---
 async function login() {
     const { GoogleAuthProvider, signInWithPopup } = window.firebaseModules;
@@ -325,6 +337,14 @@ function applyTheme() {
 
 // --- ROUTING ---
 function router(viewName) {
+    // --- NEW: URL CLEANUP ---
+    // If we have query params (like ?id=123) and we are navigating via buttons, clear them.
+    if (window.location.search.length > 0) {
+        const cleanURL = window.location.pathname;
+        window.history.pushState({}, '', cleanURL);
+    }
+    // ------------------------
+
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
 
@@ -332,6 +352,12 @@ function router(viewName) {
     if (target) target.classList.add('active');
 
     document.querySelectorAll('.b-nav-item').forEach(el => el.classList.remove('active'));
+
+    // Stop video if leaving player
+    if (viewName !== 'player') {
+        document.getElementById('iframe-box').innerHTML = ''; // Kill iframe to stop audio
+    }
+
     if (viewName === 'home') {
         document.querySelectorAll('.b-nav-item')[0]?.classList.add('active');
         loadHome();
@@ -544,7 +570,7 @@ function renderGrid(items, containerId, forceType) {
 }
 
 // --- PLAYER LOGIC (With Sidebar & Mobile Layout) ---
-async function openPlayer(id, type) {
+async function openPlayer(id, type, skipPush = false) {
     playerState = { id, type, season: 1, episode: 1 };
 
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
@@ -552,6 +578,10 @@ async function openPlayer(id, type) {
 
     // Scroll Fix
     window.scrollTo(0, 0);
+    if (!skipPush) {
+        const newUrl = `?type=${type}&id=${id}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+    }
 
     // Deep Link
     const newUrl = `?type=${type}&id=${id}`;
@@ -781,7 +811,7 @@ function renderEpisodeList() {
 
 function closePlayer() {
     document.getElementById('iframe-box').innerHTML = '<div style="color:#666;">Player Closed</div>';
-    window.history.pushState({}, '', window.location.pathname);
+    // We don't need history.pushState here anymore, router('home') will clean the URL.
     router('home');
 }
 
@@ -898,5 +928,3 @@ window.saveSettings = saveSettings;
 window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
-
-
