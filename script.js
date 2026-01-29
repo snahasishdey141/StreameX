@@ -762,7 +762,7 @@ async function openPlayer(id, type, skipPush = false) {
                         <div class="action-buttons">
                              <button id="watchlist-btn-tv" class="btn btn-primary"><i class="far fa-heart"></i> Add</button>
                              <button class="btn btn-glass" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
-                             <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="btn btn-glass"><i class="fas fa-share-alt"></i> Share</button>
+                             <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="btn s-btn-gray"><i class="fas fa-share-alt"></i> Share</button>
                         </div>
                     </div>
                 </div>
@@ -1191,4 +1191,5 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
+
 window.downloadContent = downloadContent;
