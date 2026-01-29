@@ -1388,18 +1388,26 @@ body {
 }
 
 .s-btn-red {
-    background: var(--accent);
-    /* #e50914 */
+    background: #ea0b16;
     color: white;
 }
 
 .s-btn-red:hover {
-    background: #b20710;
+    background: #da5259;
 }
 
 .s-btn-gray {
     background: #333;
     color: white;
+}
+
+.s-btn-green {
+    background: #28a745;
+    color: white;
+}
+
+.s-btn-green:hover {
+    background: #1e7e34;
 }
 
 .s-btn-gray:hover {
@@ -1647,4 +1655,25 @@ body {
     margin-bottom: 25px;
     font-size: 14px;
     max-width: 80%;
+}
+
+/* FORCE DOWNLOAD BUTTON VISIBILITY */
+.btn-download {
+    background-color: #28a745 !important; /* Bright Green */
+    color: white !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    display: inline-flex !important; /* Ensures it takes up space */
+    align-items: center !important;
+    gap: 10px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    border: none !important;
+    margin-top: 15px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.btn-download i {
+    font-size: 1.2rem !important;
 }

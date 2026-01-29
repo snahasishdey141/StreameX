@@ -31,7 +31,8 @@ const servers = [
     { name: "VidSrc", url: (id, type, s, e) => type === 'movie' ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}` },
     { name: "Server 5", url: (id, type, s, e) => type === 'movie' ? `https://primesrc.me/embed/movie?tmdb=${id}` : `https://primesrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}` },
     { name: "Vidpro", url: (id, type, s, e) => type === 'movie' ? `https://vidking.net/embed/movie/${id}` : `https://vidking.net/embed/tv/${id}/${s}/${e}` },
-    { name: "CStream", url: (id, type, s, e) => type === 'movie' ? `https://zxcstream.xyz/player/movie/${id}/?autoplay=false&back=true&server=0` : `https://zxcstream.xyz/player/tv/${id}/${s}/${e}/?autoplay=false&back=true&server=0` }
+    { name: "CStream", url: (id, type, s, e) => type === 'movie' ? `https://zxcstream.xyz/player/movie/${id}/?autoplay=false&back=true&server=0` : `https://zxcstream.xyz/player/tv/${id}/${s}/${e}/?autoplay=false&back=true&server=0` },
+    { name: "Vidking", url: (id, type, s, e) => type === 'movie' ? `https://vidrock.net/movie/${id}` : `https://vidrock.net/tv/${id}/${s}/${e}` },
 ];
 
 // --- INITIALIZATION ---
@@ -52,6 +53,10 @@ window.onload = async () => {
             // Refresh libraries if they are open
             if (document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
             if (document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
+
+            if (document.getElementById('view-home').classList.contains('active')) {
+                refreshHomeHistory();
+            }
         });
     }
 
@@ -401,6 +406,37 @@ async function fetchAPI(endpoint) {
     }
 }
 
+// --- NEW FUNCTION: Handles History Rendering Separately ---
+async function refreshHomeHistory() {
+    const continueSection = document.getElementById('continue-watching-section');
+    if (!continueSection) return;
+
+    let historyList = [];
+
+    if (currentUser && db) {
+        // Logged In? Fetch from Cloud
+        try {
+            const { doc, getDoc } = window.firebaseModules;
+            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+            if (docSnap.exists()) {
+                historyList = docSnap.data().history || [];
+            }
+        } catch (e) { console.error("Cloud History Error:", e); }
+    } else {
+        // Logged Out? Fetch from LocalStorage
+        historyList = getLib('history');
+    }
+
+    // Sort Newest First
+    if (historyList && historyList.length > 0) {
+        historyList.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+        continueSection.style.display = 'block';
+        renderGrid(historyList.slice(0, 4), 'home-history');
+    } else {
+        continueSection.style.display = 'none';
+    }
+}
+
 // --- HOME PAGE ---
 async function loadHome() {
     // 1. Show Skeletons Instantly
@@ -460,40 +496,7 @@ async function loadHome() {
         console.error("Home Data Load Error:", error);
     }
 
-    // 4. LOAD HISTORY SAFELY (Won't block the rest of the page)
-    try {
-        let historyList = [];
-
-        if (currentUser && db) {
-            // A. If Logged In: Fetch from Cloud
-            const { doc, getDoc } = window.firebaseModules;
-            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-            if (docSnap.exists()) {
-                historyList = docSnap.data().history || [];
-            }
-        } else {
-            // B. If Not Logged In: Fetch from LocalStorage
-            historyList = getLib('history');
-        }
-
-        // Sort by time (Newest First)
-        if (historyList && historyList.length > 0) {
-            historyList.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
-        }
-
-        // Render History
-        if (continueSection) {
-            if (historyList && historyList.length > 0) {
-                continueSection.style.display = 'block';
-                renderGrid(historyList.slice(0, 4), 'home-history');
-            } else {
-                continueSection.style.display = 'none';
-            }
-        }
-    } catch (e) {
-        console.error("History Load Error:", e);
-        if (continueSection) continueSection.style.display = 'none';
-    }
+    await refreshHomeHistory();
 }
 
 function renderSlider(items) {
@@ -681,6 +684,8 @@ async function openPlayer(id, type, skipPush = false) {
     const title = data.title || data.name;
     const desc = data.overview;
     const poster = data.poster_path ? IMG_URL + data.poster_path : '';
+    playerState.title = title;
+    playerState.poster = poster;
     const year = (data.release_date || data.first_air_date || '').substring(0, 4);
     const genres = data.genres ? data.genres.map(g => g.name).slice(0, 2).join(', ') : '';
     const rating = data.vote_average ? data.vote_average.toFixed(1) : 'N/A';
@@ -716,7 +721,8 @@ async function openPlayer(id, type, skipPush = false) {
                             <span class="badge-rating">${rating}</span>
                         </div>
                         <div class="sidebar-buttons">
-                            <button id="watchlist-btn-movie" class="s-btn s-btn-red"><i class="far fa-heart"></i> Watchlist</button>
+                            <button class="s-btn s-btn-red" id="watchlist-btn-movie"><i class="far fa-heart"></i> Watchlist </button>
+                            <button class="s-btn s-btn-green" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
                             <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="s-btn s-btn-gray"><i class="fas fa-share-alt"></i> Share</button>
                         </div>
                         <div class="sidebar-desc">${desc}</div>
@@ -755,6 +761,7 @@ async function openPlayer(id, type, skipPush = false) {
                         <p>${desc}</p>
                         <div class="action-buttons">
                              <button id="watchlist-btn-tv" class="btn btn-primary"><i class="far fa-heart"></i> Add</button>
+                             <button class="btn btn-glass" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
                              <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="btn btn-glass"><i class="fas fa-share-alt"></i> Share</button>
                         </div>
                     </div>
@@ -788,10 +795,6 @@ async function openPlayer(id, type, skipPush = false) {
             if (activeEp) activeEp.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }, 500);
     }
-
-    // 6. Add to History (Standard Sync)
-    if (currentUser) toggleLib('history', id, type, title, data.poster_path);
-    else addToLib('history', { id, type, title, poster: data.poster_path });
 
     // 7. Final Player Launch
     renderServers();
@@ -841,11 +844,30 @@ async function updateWatchlistBtnStyles(id, btnId) {
 
     if (exists) {
         btn.innerHTML = '<i class="fas fa-check"></i> Added';
-        if (btn.classList.contains('s-btn')) btn.style.background = '#333';
-        else btn.innerHTML = '<i class="fas fa-check"></i> Added';
+
+        // Handle Movie Button (s-btn)
+        if (btn.classList.contains('s-btn')) {
+            btn.classList.remove('s-btn-red');
+            btn.classList.add('s-btn-gray'); // Turn Gray
+        }
+        // Handle TV Button (btn-primary)
+        else if (btn.classList.contains('btn-primary')) {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-glass'); // Turn Glass/Gray
+        }
     } else {
         btn.innerHTML = '<i class="far fa-heart"></i> Watchlist';
-        if (btn.classList.contains('s-btn')) btn.style.background = 'var(--accent)';
+
+        // Handle Movie Button
+        if (btn.classList.contains('s-btn')) {
+            btn.classList.remove('s-btn-gray');
+            btn.classList.add('s-btn-red'); // Turn Red
+        }
+        // Handle TV Button
+        else if (btn.classList.contains('btn-glass')) {
+            btn.classList.remove('btn-glass');
+            btn.classList.add('btn-primary'); // Turn Red
+        }
     }
 }
 
@@ -1104,8 +1126,8 @@ async function updateHistory(serverIdx) {
     const item = {
         id: playerState.id,
         type: playerState.type,
-        title: document.getElementById('p-title') ? document.getElementById('p-title').innerText : "Unknown",
-        poster: document.querySelector('.details-poster-img') ? document.querySelector('.details-poster-img').src : "",
+        title: playerState.title || "Unknown Title",
+        poster: playerState.poster || "",
         season: playerState.season,   // Save exact Season
         episode: playerState.episode, // Save exact Episode
         serverIdx: serverIdx,         // Save exact Server used
@@ -1133,6 +1155,23 @@ async function updateHistory(serverIdx) {
     }
 }
 
+// --- DOWNLOAD LOGIC ---
+function downloadContent() {
+    const { id, type, season, episode } = playerState;
+    let downloadUrl = "";
+
+    if (type === 'movie') {
+        // Construct Movie Download URL
+        downloadUrl = `https://dl.vidsrc.vip/movie/${id}`;
+    } else {
+        // Construct TV Series Download URL
+        downloadUrl = `https://dl.vidsrc.vip/tv/${id}/${season}/${episode}`;
+    }
+
+    // Open the download link in a new tab
+    window.open(downloadUrl, '_blank');
+}
+
 // --- EXPOSE FUNCTIONS TO HTML (REQUIRED FOR MODULES) ---
 window.router = router;
 window.openPlayer = openPlayer;
@@ -1152,3 +1191,4 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
+window.downloadContent = downloadContent;
