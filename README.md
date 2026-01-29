@@ -125,7 +125,7 @@ Contributions are welcome! If you have suggestions for new servers, UI improveme
  5. Open a Pull Request.
 
 ## 📄 License
-Distributed under the MIT License. See `[LICENSE](LICENSE)` for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ---
 <div align="center"> Made with ❤️ by <b>Snahasish Dey</b> </div>
