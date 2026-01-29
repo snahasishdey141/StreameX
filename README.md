@@ -3,6 +3,11 @@
 <div align="center">
   <img src="assets/icon-192.png" alt="StreameX Logo" width="120">
   <br>
+  <div align="center">
+  <a href="https://github.com/snahasishdey141/StreameX/releases/latest">
+    <img src="https://img.shields.io/github/v/release/snahasishdey141/StreameX?style=for-the-badge&label=Download%20APK&color=green" alt="Download APK">
+  </a>
+</div>
   <b>Stream movies and TV shows in HD. No ads. registration required.</b>
   <br>
   <br>
@@ -120,7 +125,7 @@ Contributions are welcome! If you have suggestions for new servers, UI improveme
  5. Open a Pull Request.
 
 ## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `[LICENSE](LICENSE)` for more information.
 
 ---
 <div align="center"> Made with ❤️ by <b>Snahasish Dey</b> </div>
