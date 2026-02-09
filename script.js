@@ -1191,5 +1191,4 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
-
 window.downloadContent = downloadContent;

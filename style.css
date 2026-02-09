@@ -244,7 +244,7 @@ body {
 }
 
 .btn-glass {
-    background:  rgb(21, 179, 21);
+    background: rgb(21, 179, 21);
     backdrop-filter: blur(10px);
     color: var(--text-main);
     margin-left: 10px;
@@ -1676,5 +1676,50 @@ body {
 
 .btn-download i {
     font-size: 1.2rem !important;
+}
 
+#mobile-download-btn {
+    display: none;
+}
+
+/* 2. Mobile View Implementation */
+@media (max-width: 1000px) {
+    #mobile-download-btn {
+        display: flex;
+        position: absolute;
+        top: 25px; /* Aligned with the profile pic */
+        left: 20px; /* Left side */
+        z-index: 20; /* Above slider */
+    }
+
+    #mobile-download-btn a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        /* Glassmorphism Effect */
+        background: rgba(20, 20, 20, 0.6); 
+        backdrop-filter: blur(5px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        /* Icon centering */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4caf50; /* Green Icon */
+        text-decoration: none;
+        font-size: 16px;
+        transition: transform 0.2s;
+    }
+
+    #mobile-download-btn a:active {
+        transform: scale(0.9);
+    }
+}
+
+/* 3. THE LOGIC: Hide Download Buttons if App is Installed (PWA Mode) */
+@media all and (display-mode: standalone) {
+    #desktop-download-btn,
+    #mobile-download-btn {
+        display: none !important;
+    }
 }

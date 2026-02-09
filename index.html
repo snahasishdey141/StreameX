@@ -16,6 +16,7 @@
     <meta property="og:title" content="StreameX - Free HD Streaming">
     <meta property="og:description" content="Watch your favorite movies and shows for free on StreameX.">
     <meta property="og:image" content="https://streamex.pages.dev/assets/logo.png">
+    <meta name="referrer" content="origin" />
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -51,10 +52,19 @@
                 <i class="fas fa-file-contract"></i> Legal/DMCA
             </div>
             <div class="nav-item" onclick="router('settings')"><i class="fas fa-cog"></i> Settings</div>
+            <a href="https://rebrand.ly/StreameX" target="_blank" class="nav-item" id="desktop-download-btn">
+                <i class="fas fa-download" style="color: #4caf50;"></i> Download App
+            </a>
         </div>
     </div>
 
     <div class="main-content">
+
+        <div id="mobile-download-btn">
+        <a href="https://rebrand.ly/StreameX" target="_blank">
+            <i class="fas fa-download"></i>
+        </a>
+    </div>
 
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
@@ -305,10 +315,11 @@
                                 <h1 id="p-title">Loading...</h1>
                                 <div class="meta-tags" id="p-meta"></div>
                                 <p id="p-desc">Description...</p>
-                                <div class="action-buttons">
-                                    <button id="watchlist-btn" class="btn btn-glass"><i class="far fa-heart"></i>
-                                        Watchlist</button>
-                                </div>
+                                <!-- <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 15px;">
+                                    <button id="watchlist-btn-player" class="btn btn-primary"><i class="far fa-heart"></i> Add to Watchlist</button>
+                                    <button class="btn btn-glass" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
+                                    <button onclick="shareContent(document.getElementById('p-title').innerText)" class="btn btn-glass"><i class="fas fa-share-alt"></i> Share</button>
+                                </div> -->
                             </div>
                         </div>
                     </div>
