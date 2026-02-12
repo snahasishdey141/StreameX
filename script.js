@@ -958,21 +958,6 @@ function renderServers() {
 function loadVideo(serverIdx) {
     const iframeBox = document.getElementById('iframe-box');
 
-    // 1. AUTH CHECK: Lock Screen if not logged in
-    if (!currentUser) {
-        iframeBox.innerHTML = `
-            <div class="lock-screen">
-                <i class="fas fa-lock lock-icon"></i>
-                <div class="lock-title">Login Required</div>
-                <div class="lock-desc">Please sign in to stream content.</div>
-                <button class="btn btn-primary" onclick="login()">
-                    <i class="fab fa-google"></i> Login to Watch
-                </button>
-            </div>
-        `;
-        return;
-    }
-
     // 2. Save Progress (Episode & Server)
     if (!playerState) playerState = { season: 1, episode: 1 };
     updateHistory(serverIdx);
@@ -1191,4 +1176,5 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
+
 window.downloadContent = downloadContent;
