@@ -38,16 +38,16 @@ const servers = [
 
     // --- MOVIE/TV SERVERS (Use TMDB ID) ---
     { name: "StreameX", key: "streamex" },
-    { name: "Fast Server", key: "fastserver" },
-    { name: "Multi Server", key: "multiserver" },
+    { name: "Server1", key: "fastserver" },
+    { name: "Server2", key: "multiserver" },
     { name: "VidSrc", key: "vidsrc" },
-    { name: "Server 5", key: "server5" },       // Maps to PrimeSrc in worker
+    { name: "Server4", key: "server5" },       // Maps to PrimeSrc in worker
     { name: "Vidpro", key: "vidpro" },        // Maps to VidKing in worker
-    { name: "CStream", key: "cstream" },
-    { name: "Vidking", key: "vidking_direct" }, // Maps to VidRock in worker
-    { name: "Vidlink", key: "vidlink_standard" },
-    { name: "Vidnest", key: "vidnest_standard" },
-    { name: "NontonGo", key: "nontongo" },
+    { name: "Stream", key: "cstream" },
+    { name: "king", key: "vidking_direct" }, // Maps to VidRock in worker
+    { name: "pro", key: "vidlink_standard" },
+    { name: "nest", key: "vidnest_standard" },
+    { name: "letest", key: "nontongo" },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
@@ -1090,4 +1090,5 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
+
 window.downloadContent = downloadContent;
