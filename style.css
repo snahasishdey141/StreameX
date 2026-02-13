@@ -490,23 +490,31 @@ body {
 }
 
 .server-list {
-    display: flex;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    /* Forces exactly 3 equal columns */
     gap: 10px;
-    flex-wrap: wrap;
+    /* Space between buttons */
+    width: 100%;
+    /* Ensure it spans full width */
     margin-top: 20px;
 }
 
 .server-btn {
     background: var(--input-bg);
     color: var(--text-main);
-    padding: 10px 20px;
-    border-radius: 6px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 12px 5px;
+    margin: 0;
+    box-sizing: border-box;
     cursor: pointer;
     border: 1px solid var(--border-color);
     font-size: 13px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
 }
 
 .server-btn:hover {
@@ -1659,11 +1667,13 @@ body {
 
 /* FORCE DOWNLOAD BUTTON VISIBILITY */
 .btn-download {
-    background-color: #28a745 !important; /* Bright Green */
+    background-color: #28a745 !important;
+    /* Bright Green */
     color: white !important;
     padding: 12px 24px !important;
     border-radius: 8px !important;
-    display: inline-flex !important; /* Ensures it takes up space */
+    display: inline-flex !important;
+    /* Ensures it takes up space */
     align-items: center !important;
     gap: 10px !important;
     font-weight: bold !important;
@@ -1687,9 +1697,12 @@ body {
     #mobile-download-btn {
         display: flex;
         position: absolute;
-        top: 25px; /* Aligned with the profile pic */
-        left: 20px; /* Left side */
-        z-index: 20; /* Above slider */
+        top: 25px;
+        /* Aligned with the profile pic */
+        left: 20px;
+        /* Left side */
+        z-index: 20;
+        /* Above slider */
     }
 
     #mobile-download-btn a {
@@ -1697,7 +1710,7 @@ body {
         height: 40px;
         border-radius: 50%;
         /* Glassmorphism Effect */
-        background: rgba(20, 20, 20, 0.6); 
+        background: rgba(20, 20, 20, 0.6);
         backdrop-filter: blur(5px);
         border: 2px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -1705,7 +1718,8 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #4caf50; /* Green Icon */
+        color: #4caf50;
+        /* Green Icon */
         text-decoration: none;
         font-size: 16px;
         transition: transform 0.2s;
@@ -1716,8 +1730,15 @@ body {
     }
 }
 
+@media (max-width: 400px) {
+    .server-list {
+        grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on very small phones if needed */
+    }
+}
+
 /* 3. THE LOGIC: Hide Download Buttons if App is Installed (PWA Mode) */
 @media all and (display-mode: standalone) {
+
     #desktop-download-btn,
     #mobile-download-btn {
         display: none !important;
