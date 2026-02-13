@@ -1,24 +1,14 @@
 // --- CONFIGURATION ---
+const WORKER_URL = 'https://streamex-server.snahasishdey141.workers.dev';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w342';
 const IMG_ORIG = 'https://image.tmdb.org/t/p/original';
 
-// --- FIREBASE CONFIG (YOURS) ---
-const firebaseConfig = {
-    apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
-    authDomain: "streamex-v1.firebaseapp.com",
-    projectId: "streamex-v1",
-    storageBucket: "streamex-v1.firebasestorage.app",
-    messagingSenderId: "87040295346",
-    appId: "1:87040295346:web:4369ebb00242756e5f24ab"
-};
-
 // --- GLOBAL VARIABLES ---
-let auth, db, currentUser = null;
+let currentUser = null;
 let appSettings = { theme: 'dark', lang: 'en', region: 'IN', adult: 'false' };
 let currentSlide = 0;
 let slideInterval;
-// Added 'anilistId' and 'isAnime' to playerState
 let playerState = { id: null, type: null, season: 1, episode: 1, anilistId: null, isAnime: false };
 let seasonData = [];
 let episodeView = 'list';
@@ -36,27 +26,28 @@ async function prefetchEndpoint(endpoint) {
 }
 
 
-// --- SERVERS (YOUR CUSTOM LIST) ---
+// --- SERVERS (UPDATED FOR WORKER) ---
 const servers = [
     // --- ANIME SERVERS (Require Anilist ID) ---
-    { name: "VidNest (Sub)", isAnime: true, url: () => `https://vidnest.fun/anime/${playerState.anilistId}/${playerState.episode}/sub` },
-    { name: "VidNest (Dub)", isAnime: true, url: () => `https://vidnest.fun/anime/${playerState.anilistId}/${playerState.episode}/dub` },
-    { name: "Anime (Sub)", isAnime: true, url: () => `https://vidnest.fun/animepahe/${playerState.anilistId}/${playerState.episode}/sub` },
-    { name: "Anime (Dub)", isAnime: true, url: () => `https://vidnest.fun/animepahe/${playerState.anilistId}/${playerState.episode}/dub` },
-    { name: "VidLink (Sub)", isAnime: true, url: () => `https://vidlink.pro/anime/${playerState.anilistId}/${playerState.episode}/sub` },
-    { name: "VidLink (Dub)", isAnime: true, url: () => `https://vidlink.pro/anime/${playerState.anilistId}/${playerState.episode}/dub` },
-    // --- MOVIE/TV SERVERS ---
-    { name: "StreameX", url: (id, type, s, e) => type === 'movie' ? `https://embed.wplay.me/embed/movie/${id}` : `https://embed.wplay.me/embed/tv/${id}/${s}/${e}` },
-    { name: "Fast Server", url: (id, type, s, e) => `https://player.videasy.net/${type}/${id}` + (type === 'tv' ? `/${s}/${e}` : '') },
-    { name: "Multi Server", url: (id, type, s, e) => type === 'movie' ? `https://watch.rivestream.app/embed?type=movie&id=${id}` : `https://watch.rivestream.app/embed?type=tv&id=${id}&season=${s}&episode=${e}` },
-    { name: "VidSrc", url: (id, type, s, e) => type === 'movie' ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}` },
-    { name: "Server 5", url: (id, type, s, e) => type === 'movie' ? `https://primesrc.me/embed/movie?tmdb=${id}` : `https://primesrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}` },
-    { name: "Vidpro", url: (id, type, s, e) => type === 'movie' ? `https://vidking.net/embed/movie/${id}` : `https://vidking.net/embed/tv/${id}/${s}/${e}` },
-    { name: "CStream", url: (id, type, s, e) => type === 'movie' ? `https://zxcstream.xyz/player/movie/${id}/?autoplay=false&back=true&server=0` : `https://zxcstream.xyz/player/tv/${id}/${s}/${e}/?autoplay=false&back=true&server=0` },
-    { name: "Vidking", url: (id, type, s, e) => type === 'movie' ? `https://vidrock.net/movie/${id}` : `https://vidrock.net/tv/${id}/${s}/${e}` },
-    { name: "Vidlink", url: (id, type, s, e) => type === 'movie' ? `https://vidlink.pro/movie/${id}` : `https://vidlink.pro/tv/${id}/${s}/${e}` },
-    { name: "Vidnest", url: (id, type, s, e) => type === 'movie' ? `https://vidnest.fun/movie/${id}` : `https://vidnest.fun/tv/${id}/${s}/${e}` },
-    { name: "NontonGo", url: (id, type, s, e) => type === 'movie' ? `https://www.NontonGo.win/embed/movie/${id}` : `https://www.NontonGo.win/embed/tv/?id=${id}&s=${s}&e=${e}` },
+    { name: "VidNest (Sub)", isAnime: true, key: "vidnest_anime_sub" },
+    { name: "VidNest (Dub)", isAnime: true, key: "vidnest_anime_dub" },
+    { name: "Anime (Sub)", isAnime: true, key: "animepahe_sub" },
+    { name: "Anime (Dub)", isAnime: true, key: "animepahe_dub" },
+    { name: "VidLink (Sub)", isAnime: true, key: "vidlink_anime_sub" },
+    { name: "VidLink (Dub)", isAnime: true, key: "vidlink_anime_dub" },
+
+    // --- MOVIE/TV SERVERS (Use TMDB ID) ---
+    { name: "StreameX", key: "streamex" },
+    { name: "Fast Server", key: "fastserver" },
+    { name: "Multi Server", key: "multiserver" },
+    { name: "VidSrc", key: "vidsrc" },
+    { name: "Server 5", key: "server5" },       // Maps to PrimeSrc in worker
+    { name: "Vidpro", key: "vidpro" },        // Maps to VidKing in worker
+    { name: "CStream", key: "cstream" },
+    { name: "Vidking", key: "vidking_direct" }, // Maps to VidRock in worker
+    { name: "Vidlink", key: "vidlink_standard" },
+    { name: "Vidnest", key: "vidnest_standard" },
+    { name: "NontonGo", key: "nontongo" },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
@@ -99,24 +90,6 @@ async function fetchAnilistId(title, season = 1) {
 
 // --- INITIALIZATION ---
 window.onload = async () => {
-    // 1. Initialize Firebase
-    if (window.firebaseModules) {
-        const { initializeApp, getAuth, getFirestore, onAuthStateChanged } = window.firebaseModules;
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        db = getFirestore(app);
-
-        // Auth Listener
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            updateAuthUI(user);
-            if (user) showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`);
-
-            if (document.getElementById('view-watchlist').classList.contains('active')) renderLibrary('watchlist-grid', 'watchlist');
-            if (document.getElementById('view-history').classList.contains('active')) renderLibrary('history-grid', 'history');
-            if (document.getElementById('view-home').classList.contains('active')) refreshHomeHistory();
-        });
-    }
 
     loadSettings();
     applyTheme();
@@ -134,8 +107,6 @@ window.onload = async () => {
     } else {
         router('home');
     }
-
-    injectLoginUI();
 
     // Anti-DevTools
     document.addEventListener('keydown', function (e) {
@@ -162,122 +133,63 @@ window.onload = async () => {
     });
 };
 
-// --- AUTH LOGIC ---
-async function login() {
-    const { GoogleAuthProvider, signInWithPopup } = window.firebaseModules;
-    const provider = new GoogleAuthProvider();
-    try { await signInWithPopup(auth, provider); } catch (error) { console.error(error); showToast("Login Failed", "error"); }
-}
-
-async function logout() {
-    const { signOut } = window.firebaseModules;
-    await signOut(auth);
-    showToast("Logged Out");
-    router('home');
-}
-
-function injectLoginUI() {
-    const sidebar = document.querySelector('.sidebar');
-    const logo = document.querySelector('.logo');
-    if (sidebar && logo && !document.getElementById('auth-container')) {
-        const authContainer = document.createElement('div');
-        authContainer.id = 'auth-container';
-        sidebar.insertBefore(authContainer, logo.nextSibling);
-    }
-    const mainContent = document.querySelector('.main-content');
-    if (mainContent && !document.getElementById('mobile-auth-container')) {
-        const mobContainer = document.createElement('div');
-        mobContainer.id = 'mobile-auth-container';
-        mainContent.insertBefore(mobContainer, mainContent.firstChild);
-    }
-}
-
-function updateAuthUI(user) {
-    const deskContainer = document.getElementById('auth-container');
-    if (deskContainer) {
-        if (user) {
-            deskContainer.innerHTML = `<div class="user-profile" onclick="logout()" title="Logout"><img src="${user.photoURL}" class="user-avatar"><div class="user-name">${user.displayName}</div><i class="fas fa-sign-out-alt" style="margin-left:auto; font-size:12px; color:#666;"></i></div>`;
-        } else {
-            deskContainer.innerHTML = `<button class="login-btn" onclick="login()" style="margin-bottom:20px;"><i class="fab fa-google"></i> Sign in to Sync</button>`;
-        }
-    }
-    const mobContainer = document.getElementById('mobile-auth-container');
-    if (mobContainer) {
-        if (user) {
-            mobContainer.innerHTML = `<div class="user-profile" onclick="logout()"><img src="${user.photoURL}" class="user-avatar" title="${user.displayName}"></div>`;
-        } else {
-            mobContainer.innerHTML = `<button class="login-btn" onclick="login()"><i class="fab fa-google"></i> Sign In</button>`;
-        }
-    }
-}
-
 // --- DATABASE LOGIC ---
-async function toggleLib(key, id, type, title, poster) {
-    if (currentUser && db) {
-        const { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } = window.firebaseModules;
-        const userRef = doc(db, "users", currentUser.uid);
-        try {
-            const docSnap = await getDoc(userRef);
-            if (!docSnap.exists()) await setDoc(userRef, { watchlist: [], history: [] });
-            const currentList = docSnap.data()[key] || [];
-            const exists = currentList.find(i => i.id == id);
-            if (exists) {
-                await updateDoc(userRef, { [key]: arrayRemove(exists) });
-                if (key === 'watchlist') showToast("Removed from Cloud Watchlist");
-            } else {
-                await updateDoc(userRef, { [key]: arrayUnion({ id, type, title, poster }) });
-                if (key === 'watchlist') showToast("Saved to Cloud Watchlist");
-            }
-            if (key === 'watchlist') updateWatchlistBtnStyles(id);
-        } catch (e) { console.error("Sync Error", e); showToast("Sync Error: " + e.message, "error"); }
+function toggleLib(key, id, type, title, poster) {
+    let list = getLib(key);
+
+    if (list.find(i => i.id == id)) {
+        list = list.filter(i => i.id != id);
+        if (key === 'watchlist') showToast("Removed from Watchlist");
     } else {
-        let list = getLib(key);
-        if (list.find(i => i.id == id)) {
-            list = list.filter(i => i.id != id);
-            if (key === 'watchlist') showToast("Removed from Device");
-        } else {
-            list.unshift({ id, type, title, poster });
-            if (key === 'watchlist') showToast("Saved to Device");
-        }
-        saveLib(key, list);
-        if (key === 'watchlist') updateWatchlistBtnStyles(id);
+        list.unshift({ id, type, title, poster, savedAt: Date.now() });
+        if (key === 'watchlist') showToast("Saved to Watchlist");
     }
+    saveLib(key, list);
 }
 
 async function renderLibrary(containerId, key) {
     const container = document.getElementById(containerId);
+    if (!container) return;
+
     showSkeletons(containerId, 6);
-    let list = [];
-    if (currentUser && db) {
-        const { doc, getDoc } = window.firebaseModules;
-        try {
-            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-            if (docSnap.exists()) {
-                list = docSnap.data()[key] || [];
-                if (key === 'history') list.reverse();
-            }
-        } catch (e) { console.error("Fetch Error", e); }
-    } else {
-        list = getLib(key);
+
+    let list = getLib(key) || [];
+
+    if (key === 'history') {
+        list = [...list].reverse();
     }
+
     renderGrid(list, containerId, null);
 }
+
 
 // --- SETTINGS LOGIC ---
 async function populateSettingsAPI() {
     const langSelect = document.getElementById('set-lang');
     const regionSelect = document.getElementById('set-region');
     if (!langSelect || !regionSelect) return;
-    const langRes = await fetch(`${BASE_URL}/configuration/languages?api_key=${API_KEY}`);
-    const langs = await langRes.json();
-    langs.sort((a, b) => a.english_name.localeCompare(b.english_name));
-    langSelect.innerHTML = '';
-    langs.forEach(l => { const opt = document.createElement('option'); opt.value = l.iso_639_1; opt.innerText = l.english_name; langSelect.appendChild(opt); });
-    const countryRes = await fetch(`${BASE_URL}/configuration/countries?api_key=${API_KEY}`);
-    const countries = await countryRes.json();
-    countries.sort((a, b) => a.english_name.localeCompare(b.english_name));
-    regionSelect.innerHTML = '';
-    countries.forEach(c => { const opt = document.createElement('option'); opt.value = c.iso_3166_1; opt.innerText = c.english_name; regionSelect.appendChild(opt); });
+    const langs = await fetchAPI('/configuration/languages');
+    if (Array.isArray(langs)) {
+        langs.sort((a, b) => a.english_name.localeCompare(b.english_name));
+        langSelect.innerHTML = '';
+        langs.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l.iso_639_1;
+            opt.innerText = l.english_name;
+            langSelect.appendChild(opt);
+        });
+    }
+    const countries = await fetchAPI('/configuration/countries');
+    if (Array.isArray(countries)) {
+        countries.sort((a, b) => a.english_name.localeCompare(b.english_name));
+        regionSelect.innerHTML = '';
+        countries.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.iso_3166_1;
+            opt.innerText = c.english_name;
+            regionSelect.appendChild(opt);
+        });
+    }
     langSelect.value = appSettings.lang || 'en';
     regionSelect.value = appSettings.region || 'IN';
 }
@@ -377,24 +289,19 @@ async function fetchAPI(endpoint) {
 async function refreshHomeHistory() {
     const continueSection = document.getElementById('continue-watching-section');
     if (!continueSection) return;
-    let historyList = [];
-    if (currentUser && db) {
-        try {
-            const { doc, getDoc } = window.firebaseModules;
-            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-            if (docSnap.exists()) historyList = docSnap.data().history || [];
-        } catch (e) { }
-    } else {
-        historyList = getLib('history');
-    }
-    if (historyList && historyList.length > 0) {
+
+    let historyList = getLib('history') || [];
+
+    if (historyList.length > 0) {
         historyList.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+
         continueSection.style.display = 'block';
         renderGrid(historyList.slice(0, 4), 'home-history');
     } else {
         continueSection.style.display = 'none';
     }
 }
+
 
 async function loadHome() {
     showSkeletons('hero-slider', 1); showSkeletons('home-bollywood', 6); showSkeletons('home-hollywood', 6); showSkeletons('home-tv', 6);
@@ -407,9 +314,17 @@ async function loadHome() {
     if (regionSelect && regionSelect.selectedIndex > -1) regionName = regionSelect.options[regionSelect.selectedIndex].text;
     const titleEl = document.getElementById('local-title');
     if (titleEl) titleEl.innerText = `Latest ${regionName} Movies`;
-    const hTitle = document.querySelectorAll('.section-title')[1];
+    const hTitle = document.getElementById('hollywood-title');
     if (hTitle) hTitle.innerText = (currentRegion !== 'US') ? "Latest Hollywood" : "Trending Worldwide";
-    const localQuery = `/discover/movie?with_origin_country=${currentRegion}&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5`;
+    let localQuery;
+
+    if (currentRegion === "IN") {
+        // True Bollywood (Hindi)
+        localQuery = `/discover/movie?with_original_language=hi&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5`;
+    } else {
+        // Other regions still use origin country
+        localQuery = `/discover/movie?with_origin_country=${currentRegion}&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5`;
+    }
     const hollyQuery = currentRegion !== 'US' ? `/discover/movie?with_origin_country=US&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5` : '/movie/trending/week';
     try {
         const [trending, localMovies, hollyData, tvShows] = await Promise.all([
@@ -561,20 +476,8 @@ async function openPlayer(id, type, skipPush = false) {
     // Reset player state completely
     playerState = { id, type, season: 1, episode: 1, anilistId: null, isAnime: false };
 
-    // 2. CHECK HISTORY (CLOUD FIRST)
-    let savedState = null;
-    if (currentUser && db) {
-        try {
-            const { doc, getDoc } = window.firebaseModules;
-            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-            if (docSnap.exists()) {
-                const history = docSnap.data().history || [];
-                savedState = history.find(i => i.id == id);
-            }
-        } catch (e) { console.error("Cloud Resume Error:", e); }
-    }
-    // Fallback to local history
-    if (!savedState) savedState = getLib('history').find(i => i.id == id);
+    // 2. CHECK HISTORY (LOCAL ONLY)
+    let savedState = getLib('history')?.find(i => i.id == id);
 
     // 3. RESTORE PROGRESS (If found)
     if (savedState) {
@@ -815,24 +718,30 @@ function setupWatchlistBtn(id, btnId, type, title, poster) {
 async function updateWatchlistBtnStyles(id, btnId) {
     const btn = document.getElementById(btnId);
     if (!btn) return;
-    let exists = false;
-    if (currentUser && db) {
-        const { doc, getDoc } = window.firebaseModules;
-        try {
-            const snap = await getDoc(doc(db, "users", currentUser.uid));
-            if (snap.exists()) { const list = snap.data().watchlist || []; exists = list.find(i => i.id == id); }
-        } catch (e) { }
-    } else {
-        exists = getLib('watchlist').find(i => i.id == id);
-    }
+
+    const watchlist = getLib('watchlist') || [];
+    const exists = watchlist.find(i => i.id == id);
+
     if (exists) {
         btn.innerHTML = '<i class="fas fa-check"></i> Added';
-        if (btn.classList.contains('s-btn')) { btn.classList.remove('s-btn-red'); btn.classList.add('s-btn-gray'); }
-        else if (btn.classList.contains('btn-primary')) { btn.classList.remove('btn-primary'); btn.classList.add('btn-glass'); }
+
+        if (btn.classList.contains('s-btn')) {
+            btn.classList.remove('s-btn-red');
+            btn.classList.add('s-btn-gray');
+        } else if (btn.classList.contains('btn-primary')) {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-glass');
+        }
     } else {
         btn.innerHTML = '<i class="far fa-heart"></i> Watchlist';
-        if (btn.classList.contains('s-btn')) { btn.classList.remove('s-btn-gray'); btn.classList.add('s-btn-red'); }
-        else if (btn.classList.contains('btn-glass')) { btn.classList.remove('btn-glass'); btn.classList.add('btn-primary'); }
+
+        if (btn.classList.contains('s-btn')) {
+            btn.classList.remove('s-btn-gray');
+            btn.classList.add('s-btn-red');
+        } else if (btn.classList.contains('btn-glass')) {
+            btn.classList.remove('btn-glass');
+            btn.classList.add('btn-primary');
+        }
     }
 }
 
@@ -954,16 +863,81 @@ function renderServers(activeIdx = -1) {
     }
 }
 
-function loadVideo(serverIdx) {
+async function loadVideo(serverIdx) {
     const iframeBox = document.getElementById('iframe-box');
-    if (!playerState) playerState = { season: 1, episode: 1 };
-    updateHistory(serverIdx);
-    const srv = servers[serverIdx];
-    // Ensure we have a valid server
-    if (!srv) return;
 
-    const url = srv.url(playerState.id, playerState.type, playerState.season, playerState.episode);
-    iframeBox.innerHTML = `<iframe src="${url}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    // Safety check for player state
+    if (!playerState) playerState = { season: 1, episode: 1 };
+
+    // 1. Show a professional Loading Screen while we fetch the secure token
+    iframeBox.innerHTML = `
+        <div style="display:flex; height:100%; width:100%; align-items:center; justify-content:center; flex-direction:column; color:#fff; background:#000;">
+            <i class="fas fa-circle-notch fa-spin" style="font-size:40px; margin-bottom:15px; color:var(--accent);"></i>
+            <div style="font-family:sans-serif; font-size:14px; opacity:0.8;">Securing Connection...</div>
+        </div>
+    `;
+
+    // Save to history
+    updateHistory(serverIdx);
+
+    const srv = servers[serverIdx];
+    // Ensure we have a valid server object
+    if (!srv) {
+        iframeBox.innerHTML = '<div style="color:red; padding:20px;">Error: Server not found.</div>';
+        return;
+    }
+
+    // 2. Determine the correct ID to send (Anilist for Anime, TMDB for others)
+    // The worker needs the specific ID type based on the server
+    let targetId = playerState.id; // Default to TMDB ID
+
+    if (srv.isAnime) {
+        if (playerState.anilistId) {
+            targetId = playerState.anilistId;
+        } else {
+            // If we are trying to play Anime but don't have an AniList ID yet, stop.
+            iframeBox.innerHTML = '<div style="text-align:center; padding:20px; color:#ff4444;">Error: Anime ID missing. Please refresh the page.</div>';
+            return;
+        }
+    }
+
+    try {
+        // 3. CALL YOUR WORKER TO GET A TOKEN
+        // We assume you added 'const WORKER_URL' at the top of your file
+        const tokenUrl = `${WORKER_URL}/token?server=${srv.key}&id=${targetId}`;
+        const response = await fetch(tokenUrl);
+
+        if (!response.ok) throw new Error("Failed to generate security token");
+
+        const data = await response.json();
+        if (!data.token) throw new Error("Invalid token received");
+
+        // 4. CONSTRUCT THE SECURE PLAY URL
+        // This URL points to your Worker, which verifies the token and redirects to the video
+        const playUrl = new URL(`${WORKER_URL}/play`);
+        playUrl.searchParams.set('server', srv.key);
+        playUrl.searchParams.set('id', targetId);
+        playUrl.searchParams.set('token', data.token);
+
+        // Pass extra details needed for the stream
+        if (playerState.type) playUrl.searchParams.set('type', playerState.type);
+        if (playerState.season) playUrl.searchParams.set('season', playerState.season);
+        if (playerState.episode) playUrl.searchParams.set('episode', playerState.episode);
+
+        // 5. LOAD THE IFRAME
+        // We use the Worker URL as the source. The browser will never see the real video source URL.
+        iframeBox.innerHTML = `<iframe src="${playUrl.toString()}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" style="width:100%; height:100%;"></iframe>`;
+
+    } catch (error) {
+        console.error("Video Load Error:", error);
+        iframeBox.innerHTML = `
+            <div style="text-align:center; padding:20px; color:#ff4444; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%;">
+                <i class="fas fa-exclamation-triangle" style="font-size:30px; margin-bottom:10px;"></i>
+                <div>Stream Error: ${error.message}</div>
+                <div style="font-size:12px; margin-top:5px; opacity:0.7;">Try selecting a different server.</div>
+            </div>
+        `;
+    }
 }
 
 // --- HELPERS ---
@@ -1044,26 +1018,30 @@ function performLiveSearch(query) {
     });
 }
 
-async function updateHistory(serverIdx) {
-    const item = { id: playerState.id, type: playerState.type, title: playerState.title || "Unknown Title", poster: playerState.poster || "", season: playerState.season, episode: playerState.episode, serverIdx: serverIdx, savedAt: Date.now() };
-    if (currentUser && db) {
-        const { doc, getDoc, updateDoc } = window.firebaseModules;
-        const userRef = doc(db, "users", currentUser.uid);
-        try {
-            const docSnap = await getDoc(userRef);
-            let history = docSnap.exists() ? (docSnap.data().history || []) : [];
-            history = history.filter(i => i.id != item.id);
-            history.unshift(item);
-            if (history.length > 50) history.pop();
-            await updateDoc(userRef, { history: history });
-        } catch (e) { console.error("History Sync Error", e); }
-    } else {
-        let history = getLib('history');
-        history = history.filter(i => i.id != item.id);
-        history.unshift(item);
-        if (history.length > 50) history.pop();
-        saveLib('history', history);
-    }
+function updateHistory(serverIdx) {
+    const item = {
+        id: playerState.id,
+        type: playerState.type,
+        title: playerState.title || "Unknown Title",
+        poster: playerState.poster || "",
+        season: playerState.season,
+        episode: playerState.episode,
+        serverIdx: serverIdx,
+        savedAt: Date.now()
+    };
+
+    let history = getLib('history') || [];
+
+    // Remove existing entry
+    history = history.filter(i => i.id != item.id);
+
+    // Add to top
+    history.unshift(item);
+
+    // Keep only latest 50
+    if (history.length > 50) history.pop();
+
+    saveLib('history', history);
 }
 
 function downloadContent() {
@@ -1098,8 +1076,6 @@ function restoreLastState() {
 // --- EXPOSE TO HTML ---
 window.router = router;
 window.openPlayer = openPlayer;
-window.login = login;
-window.logout = logout;
 window.shareContent = shareContent;
 window.loadSeason = loadSeason;
 window.setEpView = setEpView;
