@@ -508,6 +508,7 @@ body {
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
+    border-radius: 6px;
     text-overflow: ellipsis;
     padding: 12px 5px;
     margin: 0;
@@ -931,7 +932,9 @@ body {
 
 .server-controls {
     background: var(--input-bg);
-    padding: 15px;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 15px 10px;
     border-radius: 12px;
     margin-top: 15px;
     border: 1px solid var(--border-color);
@@ -1740,3 +1743,4 @@ body {
     }
 
 }
+
