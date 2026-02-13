@@ -1730,11 +1730,6 @@ body {
     }
 }
 
-@media (max-width: 400px) {
-    .server-list {
-        grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on very small phones if needed */
-    }
-}
 
 /* 3. THE LOGIC: Hide Download Buttons if App is Installed (PWA Mode) */
 @media all and (display-mode: standalone) {
@@ -1743,4 +1738,5 @@ body {
     #mobile-download-btn {
         display: none !important;
     }
+
 }
