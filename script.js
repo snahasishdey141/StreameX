@@ -1073,6 +1073,24 @@ function restoreLastState() {
     }
 }
 
+// --- SIDEBAR TOGGLE LOGIC ---
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('toggle-icon');
+    
+    // Toggle the 'collapsed' class
+    sidebar.classList.toggle('collapsed');
+    
+    // Change the arrow icon direction
+    if (sidebar.classList.contains('collapsed')) {
+        icon.classList.remove('fa-chevron-left');
+        icon.classList.add('fa-chevron-right');
+    } else {
+        icon.classList.remove('fa-chevron-right');
+        icon.classList.add('fa-chevron-left');
+    }
+}
+
 // --- EXPOSE TO HTML ---
 window.router = router;
 window.openPlayer = openPlayer;
@@ -1090,5 +1108,5 @@ window.loadVideo = loadVideo;
 window.toggleMobileMenu = toggleMobileMenu;
 window.showToast = showToast;
 window.handleSmartSearch = handleSmartSearch;
-
 window.downloadContent = downloadContent;
+window.toggleSidebar = toggleSidebar;
