@@ -27,33 +27,38 @@
 
 <body oncontextmenu="return false;">
 
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
+        <!-- New Toggle Button -->
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggle-icon"></i>
+        </div>
+
         <div class="logo">
-            <i class="fas fa-play-circle" style="color: var(--accent);"></i> StreameX
+            <i class="fas fa-play-circle" style="color: var(--accent);"></i> <span class="nav-text">StreameX</span>
         </div>
 
         <div class="nav-group">
-            <div class="nav-label">Browse</div>
-            <div class="nav-item active" onclick="router('home')"><i class="fas fa-home"></i> Home</div>
-            <div class="nav-item" onclick="router('movies')"><i class="fas fa-film"></i> Movies</div>
-            <div class="nav-item" onclick="router('tv')"><i class="fas fa-tv"></i> TV Shows</div>
-            <div class="nav-item" onclick="router('anime')"><i class="fas fa-dragon"></i> Anime</div>
+            <div class="nav-label nav-text">Browse</div>
+            <div class="nav-item active" onclick="router('home')"><i class="fas fa-home"></i> <span class="nav-text">Home</span></div>
+            <div class="nav-item" onclick="router('movies')"><i class="fas fa-film"></i> <span class="nav-text">Movies</span></div>
+            <div class="nav-item" onclick="router('tv')"><i class="fas fa-tv"></i> <span class="nav-text">TV Shows</span></div>
+            <div class="nav-item" onclick="router('anime')"><i class="fas fa-dragon"></i> <span class="nav-text">Anime</span></div>
         </div>
 
         <div class="nav-group">
-            <div class="nav-label">Library</div>
-            <div class="nav-item" onclick="router('watchlist')"><i class="far fa-heart"></i> Watchlist</div>
-            <div class="nav-item" onclick="router('history')"><i class="fas fa-history"></i> History</div>
+            <div class="nav-label nav-text">Library</div>
+            <div class="nav-item" onclick="router('watchlist')"><i class="far fa-heart"></i> <span class="nav-text">Watchlist</span></div>
+            <div class="nav-item" onclick="router('history')"><i class="fas fa-history"></i> <span class="nav-text">History</span></div>
         </div>
 
         <div class="nav-group">
-            <div class="nav-label">More</div>
+            <div class="nav-label nav-text">More</div>
             <div class="nav-item" onclick="router('legal')">
-                <i class="fas fa-file-contract"></i> Legal/DMCA
+                <i class="fas fa-file-contract"></i> <span class="nav-text">Legal/DMCA</span>
             </div>
-            <div class="nav-item" onclick="router('settings')"><i class="fas fa-cog"></i> Settings</div>
+            <div class="nav-item" onclick="router('settings')"><i class="fas fa-cog"></i> <span class="nav-text">Settings</span></div>
             <a href="https://rebrand.ly/StreameX" target="_blank" class="nav-item" id="desktop-download-btn">
-                <i class="fas fa-download" style="color: #4caf50;"></i> Download App
+                <i class="fas fa-download" style="color: #4caf50;"></i> <span class="nav-text">Download App</span>
             </a>
         </div>
     </div>

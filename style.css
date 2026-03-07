@@ -490,32 +490,23 @@ body {
 }
 
 .server-list {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    /* Forces exactly 3 equal columns */
+    display: flex;
     gap: 10px;
-    /* Space between buttons */
-    width: 100%;
-    /* Ensure it spans full width */
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
 .server-btn {
     background: var(--input-bg);
     color: var(--text-main);
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
+    padding: 10px 20px;
     border-radius: 6px;
-    text-overflow: ellipsis;
-    padding: 12px 5px;
-    margin: 0;
-    box-sizing: border-box;
     cursor: pointer;
     border: 1px solid var(--border-color);
     font-size: 13px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .server-btn:hover {
@@ -932,9 +923,7 @@ body {
 
 .server-controls {
     background: var(--input-bg);
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 15px 10px;
+    padding: 15px;
     border-radius: 12px;
     margin-top: 15px;
     border: 1px solid var(--border-color);
@@ -1670,13 +1659,11 @@ body {
 
 /* FORCE DOWNLOAD BUTTON VISIBILITY */
 .btn-download {
-    background-color: #28a745 !important;
-    /* Bright Green */
+    background-color: #28a745 !important; /* Bright Green */
     color: white !important;
     padding: 12px 24px !important;
     border-radius: 8px !important;
-    display: inline-flex !important;
-    /* Ensures it takes up space */
+    display: inline-flex !important; /* Ensures it takes up space */
     align-items: center !important;
     gap: 10px !important;
     font-weight: bold !important;
@@ -1700,12 +1687,9 @@ body {
     #mobile-download-btn {
         display: flex;
         position: absolute;
-        top: 25px;
-        /* Aligned with the profile pic */
-        left: 20px;
-        /* Left side */
-        z-index: 20;
-        /* Above slider */
+        top: 25px; /* Aligned with the profile pic */
+        left: 20px; /* Left side */
+        z-index: 20; /* Above slider */
     }
 
     #mobile-download-btn a {
@@ -1713,7 +1697,7 @@ body {
         height: 40px;
         border-radius: 50%;
         /* Glassmorphism Effect */
-        background: rgba(20, 20, 20, 0.6);
+        background: rgba(20, 20, 20, 0.6); 
         backdrop-filter: blur(5px);
         border: 2px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -1721,8 +1705,7 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #4caf50;
-        /* Green Icon */
+        color: #4caf50; /* Green Icon */
         text-decoration: none;
         font-size: 16px;
         transition: transform 0.2s;
@@ -1733,14 +1716,100 @@ body {
     }
 }
 
-
 /* 3. THE LOGIC: Hide Download Buttons if App is Installed (PWA Mode) */
 @media all and (display-mode: standalone) {
-
     #desktop-download-btn,
     #mobile-download-btn {
         display: none !important;
     }
-
 }
 
+/* --- MASTER COLLAPSIBLE SIDEBAR STYLES --- */
+
+.sidebar {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; 
+    height: 100vh;
+    z-index: 50; /* Keeps sidebar above main-content so clicks aren't blocked */
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Toggle Button Styling */
+.sidebar-toggle {
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background-color: var(--sidebar-bg); 
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100; /* Keeps button on the very top layer */
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+}
+
+/* Hover State */
+.sidebar-toggle:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-50%) scale(1.15); 
+    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4); 
+}
+
+.sidebar-toggle i {
+    font-size: 13px;
+    margin-right: 2px; 
+    transition: transform 0.3s ease;
+    pointer-events: none; /* Prevents the icon itself from blocking the click */
+}
+
+.sidebar.collapsed .sidebar-toggle i {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+/* --- COLLAPSED STATE STYLES --- */
+.sidebar.collapsed {
+    width: 80px; 
+    padding: 20px 10px; 
+}
+
+.sidebar.collapsed .nav-text {
+    display: none;
+}
+
+.sidebar.collapsed .logo {
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.sidebar.collapsed .logo i {
+    font-size: 28px;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.sidebar.collapsed .nav-item i {
+    font-size: 18px;
+    margin: 0;
+}
+
+.sidebar.collapsed #desktop-download-btn {
+    justify-content: center;
+    padding: 12px 0;
+}
