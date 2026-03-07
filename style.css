@@ -1744,3 +1744,92 @@ body {
 
 }
 
+/* --- MASTER COLLAPSIBLE SIDEBAR STYLES --- */
+
+.sidebar {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; 
+    height: 100vh;
+    z-index: 50; /* Keeps sidebar above main-content so clicks aren't blocked */
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Toggle Button Styling */
+.sidebar-toggle {
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background-color: var(--sidebar-bg); 
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100; /* Keeps button on the very top layer */
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+}
+
+/* Hover State */
+.sidebar-toggle:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-50%) scale(1.15); 
+    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4); 
+}
+
+.sidebar-toggle i {
+    font-size: 13px;
+    margin-right: 2px; 
+    transition: transform 0.3s ease;
+    pointer-events: none; /* Prevents the icon itself from blocking the click */
+}
+
+.sidebar.collapsed .sidebar-toggle i {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+/* --- COLLAPSED STATE STYLES --- */
+.sidebar.collapsed {
+    width: 80px; 
+    padding: 20px 10px; 
+}
+
+.sidebar.collapsed .nav-text {
+    display: none;
+}
+
+.sidebar.collapsed .logo {
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.sidebar.collapsed .logo i {
+    font-size: 28px;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.sidebar.collapsed .nav-item i {
+    font-size: 18px;
+    margin: 0;
+}
+
+.sidebar.collapsed #desktop-download-btn {
+    justify-content: center;
+    padding: 12px 0;
+}
