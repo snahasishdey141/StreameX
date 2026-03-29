@@ -48,6 +48,9 @@ const servers = [
     { name: "pro", key: "vidlink_standard" },
     { name: "nest", key: "vidnest_standard" },
     { name: "letest", key: "nontongo" },
+    { name: "Api1", key: "Multi_server" },
+    { name: "Multilang", key: "Multi_lang" },
+    { name: "Premium", key: "Premium" },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
@@ -822,44 +825,84 @@ function renderServers(activeIdx = -1) {
     if (!list) return;
     list.innerHTML = '';
 
+    let primaryServers = [];
+    let fallbackServers = [];
     let firstVisibleIndex = -1;
 
+    // 1. Group the servers based on what is currently playing
     servers.forEach((srv, idx) => {
-        // --- STRICT FILTERING LOGIC ---
-
-        // 1. If content is Regular (Not Anime), HIDE Anime servers
-        if (!playerState.isAnime && srv.isAnime) return;
-
-        // 2. If content IS Anime, HIDE Regular servers
-        // (This was missing before!)
-        if (playerState.isAnime && !srv.isAnime) return;
-
-        // ------------------------------
-
-        // Capture the index of the first valid server to make it active by default
-        if (firstVisibleIndex === -1) firstVisibleIndex = idx;
-
-        const btn = document.createElement('div');
-        // Check if this is the currently active server (or the first valid one if none active)
-        const isActive = (activeIdx !== -1) ? (idx === activeIdx) : (idx === firstVisibleIndex);
-
-        btn.className = `server-btn ${isActive ? 'active' : ''}`;
-        btn.innerHTML = `<i class="fas fa-play"></i> ${srv.name}`;
-
-        btn.onclick = () => {
-            document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            loadVideo(idx);
+        if (!playerState.isAnime) {
+            // If watching Movie/TV: Only load non-anime servers
+            if (!srv.isAnime) primaryServers.push({ srv, idx });
+        } else {
+            // If watching Anime: Separate Anime servers and Fallback Movie servers
+            if (srv.isAnime) {
+                primaryServers.push({ srv, idx });
+            } else {
+                fallbackServers.push({ srv, idx });
+            }
         }
-        list.appendChild(btn);
     });
 
-    // If we found a valid server, make sure the video loads for it
-    if (firstVisibleIndex !== -1) {
-        // Optional: Auto-load the first valid server if nothing is playing
-        // loadVideo(firstVisibleIndex); 
+    // 2. Determine the default active server (First primary, or first fallback)
+    if (primaryServers.length > 0) {
+        firstVisibleIndex = primaryServers[0].idx;
+    } else if (fallbackServers.length > 0) {
+        firstVisibleIndex = fallbackServers[0].idx;
+    }
+
+    // Helper function to render a block of servers
+    function renderServerBlock(group, titleText) {
+        if (group.length === 0) return;
+
+        // If a title is provided (for Anime mode), create a full-width header
+        if (titleText) {
+            const title = document.createElement('div');
+            title.innerHTML = titleText;
+            // CSS to make it span all 3 columns and look like a mini-header
+            title.style.gridColumn = '1 / -1'; 
+            title.style.color = 'var(--text-muted)';
+            title.style.fontSize = '12px';
+            title.style.fontWeight = '600';
+            title.style.textTransform = 'uppercase';
+            title.style.marginTop = '10px';
+            title.style.marginBottom = '5px';
+            title.style.borderBottom = '1px solid var(--border-color)';
+            title.style.paddingBottom = '5px';
+            list.appendChild(title);
+        }
+
+        // Render the actual buttons
+        group.forEach(item => {
+            const { srv, idx } = item;
+            const btn = document.createElement('div');
+            const isActive = (activeIdx !== -1) ? (idx === activeIdx) : (idx === firstVisibleIndex);
+
+            btn.className = `server-btn ${isActive ? 'active' : ''}`;
+            btn.innerHTML = `<i class="fas fa-play"></i> ${srv.name}`;
+
+            btn.onclick = () => {
+                document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadVideo(idx);
+            }
+            list.appendChild(btn);
+        });
+    }
+
+    // 3. Render the blocks to the screen
+    if (!playerState.isAnime) {
+        // Just render regular servers normally without extra labels
+        renderServerBlock(primaryServers, null); 
     } else {
-        list.innerHTML = '<div style="color:#fff; padding:10px;">No compatible servers found.</div>';
+        // Render two distinct blocks with labels for Anime
+        renderServerBlock(primaryServers, '<i class="fas fa-dragon"></i> Dedicated Anime Servers');
+        renderServerBlock(fallbackServers, '<i class="fas fa-film"></i> Fallback Movie Servers');
+    }
+
+    // 4. Fallback if absolutely no servers match
+    if (primaryServers.length === 0 && fallbackServers.length === 0) {
+        list.innerHTML = '<div style="color:#fff; padding:10px; grid-column: 1 / -1;">No compatible servers found.</div>';
     }
 }
 
