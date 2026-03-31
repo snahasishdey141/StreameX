@@ -29,28 +29,28 @@ async function prefetchEndpoint(endpoint) {
 // --- SERVERS (UPDATED FOR WORKER) ---
 const servers = [
     // --- ANIME SERVERS (Require Anilist ID) ---
-    { name: "VidNest (Sub)", isAnime: true, key: "vidnest_anime_sub" },
-    { name: "VidNest (Dub)", isAnime: true, key: "vidnest_anime_dub" },
-    { name: "Anime (Sub)", isAnime: true, key: "animepahe_sub" },
-    { name: "Anime (Dub)", isAnime: true, key: "animepahe_dub" },
-    { name: "VidLink (Sub)", isAnime: true, key: "vidlink_anime_sub" },
-    { name: "VidLink (Dub)", isAnime: true, key: "vidlink_anime_dub" },
+    { name: "VidNest (Sub)", isAnime: true, key: "vidnest_anime_sub", useSandbox: true },
+    { name: "VidNest (Dub)", isAnime: true, key: "vidnest_anime_dub", useSandbox: true },
+    { name: "Anime (Sub)", isAnime: true, key: "animepahe_sub", useSandbox: true },
+    { name: "Anime (Dub)", isAnime: true, key: "animepahe_dub", useSandbox: true },
+    { name: "VidLink (Sub)", isAnime: true, key: "vidlink_anime_sub", useSandbox: true },
+    { name: "VidLink (Dub)", isAnime: true, key: "vidlink_anime_dub", useSandbox: true },
 
     // --- MOVIE/TV SERVERS (Use TMDB ID) ---
-    { name: "StreameX", key: "streamex" },
-    { name: "Server1", key: "fastserver" },
-    { name: "Server2", key: "multiserver" },
-    { name: "VidSrc", key: "vidsrc" },
-    { name: "Server4", key: "server5" },       // Maps to PrimeSrc in worker
-    { name: "Vidpro", key: "vidpro" },        // Maps to VidKing in worker
-    { name: "Stream", key: "cstream" },
-    { name: "king", key: "vidking_direct" }, // Maps to VidRock in worker
-    { name: "pro", key: "vidlink_standard" },
-    { name: "nest", key: "vidnest_standard" },
-    { name: "letest", key: "nontongo" },
-    { name: "Api1", key: "Multi_server" },
-    { name: "Multilang", key: "Multi_lang" },
-    { name: "Premium", key: "Premium" },
+    { name: "StreameX", key: "streamex", useSandbox: false },
+    { name: "Server1", key: "fastserver", useSandbox: true },
+    { name: "Server2", key: "multiserver", useSandbox: true },
+    { name: "VidSrc", key: "vidsrc", useSandbox: true },
+    { name: "Server4", key: "server5", useSandbox: true },       // Maps to PrimeSrc in worker
+    { name: "Vidpro", key: "vidpro", useSandbox: true },        // Maps to VidKing in worker
+    { name: "Stream", key: "cstream", useSandbox: true },
+    { name: "king", key: "vidking_direct", useSandbox: true }, // Maps to VidRock in worker
+    { name: "pro", key: "vidlink_standard", useSandbox: true },
+    { name: "nest", key: "vidnest_standard", useSandbox: true },
+    { name: "letest", key: "nontongo", useSandbox: true },
+    { name: "Api1", key: "Multi_server", useSandbox: true },
+    { name: "Multilang", key: "Multi_lang", useSandbox: true },
+    { name: "Premium", key: "Premium", useSandbox: true },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
@@ -967,9 +967,15 @@ async function loadVideo(serverIdx) {
         if (playerState.season) playUrl.searchParams.set('season', playerState.season);
         if (playerState.episode) playUrl.searchParams.set('episode', playerState.episode);
 
+        // Check if the current server supports sandboxing based on our array
+        let sandboxAttr = "";
+        if (srv.useSandbox === true) {
+            sandboxAttr = `sandbox="allow-scripts allow-same-origin allow-presentation"`;
+        }
+
         // 5. LOAD THE IFRAME
         // We use the Worker URL as the source. The browser will never see the real video source URL.
-        iframeBox.innerHTML = `<iframe src="${playUrl.toString()}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" style="width:100%; height:100%;"></iframe>`;
+        iframeBox.innerHTML = `<iframe src="${playUrl.toString()}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" ${sandboxAttr} style="width:100%; height:100%;"></iframe>`;
 
     } catch (error) {
         console.error("Video Load Error:", error);
