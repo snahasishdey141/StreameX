@@ -61,6 +61,9 @@
             <a href="https://rebrand.ly/StreameX" target="_blank" class="nav-item" id="desktop-download-btn">
                 <i class="fas fa-download" style="color: #4caf50;"></i> <span class="nav-text">Download App</span>
             </a>
+            <div class="nav-item" onclick="router('adblock')">
+                <i class="fas fa-shield-alt" style="color: #ff9800;"></i> <span class="nav-text" style="color: #ff9800; font-weight: 600;">Block Ads</span>
+            </div>
         </div>
     </div>
 
@@ -220,6 +223,39 @@
 
                 <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 20px;"
                     onclick="saveSettings()">Save & Reload</button>
+            </div>
+        </div>
+
+        <div id="view-adblock" class="page-view">
+            <div class="legal-header" style="text-align: center; padding: 50px 20px;">
+                <i class="fas fa-shield-alt" style="font-size: 60px; color: #ff9800; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.4));"></i>
+                <h1 style="color: #ff9800;">Get an Ad-Free Experience</h1>
+                <p style="margin: 0 auto; max-width: 600px; font-size: 16px;">
+                    Streaming servers rely on popup ads to cover their server costs. Because StreameX does not host the videos directly, we cannot disable these external ads for you. 
+                    <br><br>
+                    For the ultimate, uninterrupted streaming experience, we highly recommend installing a free Ad Blocker extension on your browser.
+                </p>
+                <br>
+                <a href="https://chromewebstore.google.com/detail/bgnkhhnnamicmpeenaelnjfhikgbkllg" target="_blank" class="btn" style="background-color: #ff9800; color: #000; font-size: 16px; margin-top: 15px; padding: 14px 30px;">
+                    <i class="fab fa-chrome"></i> Install AdGuard AdBlocker
+                </a>
+            </div>
+
+            <div class="legal-grid" style="margin-top: 30px;">
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-ban" style="color: #ff4444;"></i> Block Popups</div>
+                    <div class="legal-text">Never see another annoying redirect or popup ad when you click play, pause, or skip forward.</div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-bolt" style="color: #ffeb3b;"></i> Faster Loading</div>
+                    <div class="legal-text">Without loading heavy ad-tracking scripts, the website and video players will buffer and load significantly faster.</div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-user-shield" style="color: #4caf50;"></i> Enhanced Privacy</div>
+                    <div class="legal-text">Ad blockers stop third-party trackers from following your activity across the web, keeping your data safe.</div>
+                </div>
             </div>
         </div>
 
