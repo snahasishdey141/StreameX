@@ -51,6 +51,8 @@ const servers = [
     { name: "Api1", key: "Multi_server", useSandbox: false },
     { name: "Multilang", key: "Multi_lang", useSandbox: false },
     { name: "Premium", key: "Premium", useSandbox: false },
+    { name: "MovieApi", key: "MoviesApi", useSandbox: false },
+    { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
