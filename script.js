@@ -281,14 +281,35 @@ function router(viewName) {
 
 // --- API HELPER ---
 async function fetchAPI(endpoint) {
+    // 1. Check local memory first (Fastest)
     if (prefetchedData[endpoint]) {
         return prefetchedData[endpoint];
     }
 
+    // 2. Check Browser Session Storage (Survives page reloads)
+    const cacheKey = 'tmdb_' + endpoint;
+    const cachedStr = sessionStorage.getItem(cacheKey);
+    if (cachedStr) {
+        const cachedData = JSON.parse(cachedStr);
+        prefetchedData[endpoint] = cachedData; // Put back in memory
+        return cachedData;
+    }
+
+    // 3. If not cached, fetch from your Cloudflare Worker
     const res = await fetch(
         `https://streamex-proxy.snahasishdey141.workers.dev/?endpoint=${encodeURIComponent(endpoint)}`
     );
-    return await res.json();
+    const data = await res.json();
+
+    // 4. Save the result so we don't hit the worker again this session
+    prefetchedData[endpoint] = data;
+    try {
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+    } catch(e) {
+        console.warn("Session storage full");
+    }
+    
+    return data;
 }
 
 
