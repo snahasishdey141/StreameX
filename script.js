@@ -52,7 +52,7 @@ const servers = [
     { name: "Multilang", key: "Multi_lang", useSandbox: false },
     { name: "Premium", key: "Premium", useSandbox: false },
     { name: "MovieApi", key: "MoviesApi", useSandbox: false },
-    { name: "EmbedApi", key: "EmbedApi", useSandbox: true },
+    { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
     { name: "Vidapi", key: "Vidapi", useSandbox: true },
     
 ];
