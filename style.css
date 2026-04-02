@@ -1,31 +1,24 @@
 :root {
     --bg-color: #0f0f0f;
-    /* Glassy semi-transparent backgrounds */
-    --sidebar-bg: rgba(22, 22, 22, 0.65);
-    --card-bg: rgba(31, 31, 31, 0.5);
-    --input-bg: rgba(42, 42, 42, 0.5);
-    /* Softer borders to catch the light */
-    --border-color: rgba(255, 255, 255, 0.08);
-    
+    --sidebar-bg: #161616;
+    --card-bg: #1f1f1f;
     --text-main: #ffffff;
     --text-muted: #a0a0a0;
-    --accent: #e50914; /* Kept your exact red */
+    --accent: #e50914;
     --nav-width: 240px;
-    
-    /* Premium deep shadow */
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --input-bg: #2a2a2a;
+    --border-color: #333;
 }
 
 /* Light Mode Variables */
 body.light-mode {
     --bg-color: #f5f5f5;
-    --sidebar-bg: rgba(255, 255, 255, 0.7);
-    --card-bg: rgba(255, 255, 255, 0.5);
-    --input-bg: rgba(229, 229, 229, 0.6);
-    --border-color: rgba(0, 0, 0, 0.08);
+    --sidebar-bg: #ffffff;
+    --card-bg: #e0e0e0;
     --text-main: #1a1a1a;
     --text-muted: #666666;
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    --input-bg: #e5e5e5;
+    --border-color: #ddd;
 }
 
 * {
@@ -41,43 +34,41 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
-    transition: background-color 0.3s ease;
+    transition: 0.3s;
     user-select: none;
     overflow-x: hidden;
+    /* This prevents horizontal scrollbar jumps */
     width: 100%;
 }
 
-/* Modernized Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--bg-color);
 }
+
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-    transition: background 0.3s ease;
+    background: var(--border-color);
+    border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(229, 9, 20, 0.5); /* Subtle red glow on scrollbar hover */
+    background: #555;
 }
 
 /* Sidebar */
 .sidebar {
     width: var(--nav-width);
     background-color: var(--sidebar-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex-shrink: 0;
     border-right: 1px solid var(--border-color);
-    box-shadow: var(--glass-shadow);
-    z-index: 50;
-    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .logo {
@@ -109,24 +100,19 @@ body {
     border-radius: 8px;
     color: var(--text-muted);
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: 0.2s;
     cursor: pointer;
     font-size: 14px;
-    border: 1px solid transparent;
 }
 
-/* Slide slightly to the right on hover for a premium feel */
 .nav-item:hover,
 .nav-item.active {
     background-color: var(--input-bg);
     color: var(--text-main);
-    transform: translateX(4px);
 }
 
 .nav-item.active {
     border-left: 3px solid var(--accent);
-    background: linear-gradient(90deg, rgba(229,9,20,0.1) 0%, transparent 100%);
-    border-color: rgba(255,255,255,0.05);
 }
 
 /* Main Content */
@@ -135,7 +121,6 @@ body {
     overflow-y: auto;
     padding: 20px 40px;
     position: relative;
-    scroll-behavior: smooth;
 }
 
 /* Search */
@@ -148,23 +133,17 @@ body {
 .search-input {
     width: 100%;
     background: var(--input-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
-    padding: 14px 20px 14px 45px;
+    padding: 12px 20px 12px 45px;
     border-radius: 50px;
     color: var(--text-main);
     font-size: 14px;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
 .search-input:focus {
     border-color: var(--accent);
-    background: rgba(30, 30, 30, 0.8);
-    box-shadow: 0 0 20px rgba(229, 9, 20, 0.2), inset 0 2px 5px rgba(0,0,0,0.2);
-    transform: translateY(-2px);
 }
 
 .search-icon {
@@ -173,11 +152,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
-    transition: color 0.3s ease;
-}
-
-.search-input:focus + .search-icon {
-    color: var(--accent);
 }
 
 /* Slider */
@@ -188,8 +162,7 @@ body {
     position: relative;
     overflow: hidden;
     margin-bottom: 40px;
-    box-shadow: var(--glass-shadow);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .slide {
@@ -201,7 +174,7 @@ body {
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out, transform 8s ease-out; /* Slight zoom effect */
+    transition: opacity 0.8s ease-in-out;
     display: flex;
     align-items: flex-end;
 }
@@ -209,7 +182,6 @@ body {
 .slide.active {
     opacity: 1;
     z-index: 1;
-    transform: scale(1.05); /* Ken Burns effect */
 }
 
 .slide::before {
@@ -219,7 +191,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(0deg, var(--bg-color) 0%, rgba(15, 15, 15, 0.6) 40%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(0deg, var(--bg-color) 0%, rgba(15, 15, 15, 0.6) 30%, rgba(0, 0, 0, 0) 100%);
 }
 
 .hero-content {
@@ -236,7 +208,7 @@ body {
     margin-bottom: 15px;
     line-height: 1.1;
     color: #fff;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-desc {
@@ -247,132 +219,85 @@ body {
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 /* Buttons */
 .btn {
     padding: 12px 28px;
     border-radius: 50px;
-    border: 1px solid transparent;
+    border: none;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: 0.2s;
 }
 
 .btn-primary {
-    background-color: var(--accent);
+    background-color: red;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
 
 .btn-primary:hover {
     background-color: #b20710;
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
-    transform: translateY(-3px);
 }
 
 .btn-glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(21, 179, 21);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     color: var(--text-main);
     margin-left: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: green;
 }
 
-/* --- UNIVERSAL GLASS CARDS (Settings, Legal, Player Panels, Mobile Menu) --- */
-.settings-card, 
-.legal-header, 
-.legal-card, 
-.contact-box, 
-.server-controls, 
-.player-right,
-.m-menu-item {
-    background: var(--sidebar-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--glass-shadow);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Settings Specific */
-.settings-card {
-    padding: 30px;
-    max-width: 600px;
-}
-.setting-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-.setting-title {
-    font-weight: 600;
-    font-size: 15px;
-}
-.setting-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
-}
-.setting-select {
-    background: var(--input-bg);
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
-    padding: 10px;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
-.setting-select:focus {
-    border-color: var(--accent);
-}
-
-/* Legal Pages Specific */
+/* --- LEGAL PAGE STYLES --- */
 .legal-header {
     margin-bottom: 40px;
+    background: var(--sidebar-bg);
+    /* Matches dark theme */
     padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
 }
+
 .legal-header h1 {
     font-size: 36px;
     margin-bottom: 15px;
     font-weight: 700;
     color: #fff;
 }
+
 .legal-header p {
     color: var(--text-muted);
     line-height: 1.6;
     max-width: 800px;
     font-size: 15px;
 }
+
 .legal-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 25px;
     margin-bottom: 25px;
 }
+
 .legal-card {
+    background: var(--sidebar-bg);
     padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, border-color 0.2s;
 }
+
 .legal-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    border-color: #555;
 }
+
 .legal-title {
     font-size: 20px;
     font-weight: 700;
@@ -382,30 +307,49 @@ body {
     gap: 12px;
     color: #fff;
 }
+
+.legal-title i {
+    font-size: 22px;
+    color: #fff;
+}
+
+/* Icon color */
+
 .legal-text {
     color: var(--text-muted);
     font-size: 15px;
     line-height: 1.7;
 }
+
+/* --- CONTACT BOX STYLES --- */
 .contact-box {
+    background: var(--sidebar-bg);
+    /* Dark background */
     padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
     margin-top: 30px;
     margin-bottom: 50px;
 }
+
 .contact-text {
     font-size: 16px;
     color: var(--text-muted);
     margin-bottom: 25px;
 }
+
 .contact-subtext {
     font-size: 14px;
     color: #888;
+    /* Slightly darker/muted than main text */
     line-height: 1.6;
     margin-bottom: 15px;
 }
+
 .contact-subtext strong {
     color: #ccc;
 }
+
 .legal-footer {
     margin-top: 50px;
     text-align: center;
@@ -414,96 +358,89 @@ body {
     font-size: 14px;
 }
 
-/* Grid Headers */
+/* Grid */
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 30px 0 20px;
 }
+
 .section-title {
     font-size: 22px;
     font-weight: 600;
     border-left: 4px solid var(--accent);
     padding-left: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
+
 .media-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
 }
 
-/* Media Cards */
 .media-card {
     cursor: pointer;
+    transition: 0.2s;
     position: relative;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
+
 .media-card:hover {
-    transform: translateY(-8px) scale(1.03);
-    z-index: 2;
+    transform: translateY(-5px);
 }
-.media-card:hover .poster {
-    box-shadow: 0 15px 35px rgba(229, 9, 20, 0.25);
-    border: 1px solid rgba(229, 9, 20, 0.3);
-}
+
 .poster {
     width: 100%;
     aspect-ratio: 2/3;
-    border-radius: 14px; 
+    border-radius: 12px;
     overflow: hidden;
     background-color: var(--input-bg);
     position: relative;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    transition: box-shadow 0.4s ease, border 0.4s ease;
-    border: 1px solid transparent;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .poster img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .hover-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px); 
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: 0.2s;
 }
+
 .media-card:hover .hover-overlay {
     opacity: 1;
 }
+
 .play-icon {
-    font-size: 45px;
+    font-size: 40px;
     color: #fff;
-    filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.8)); 
-    transform: scale(0.8);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
-.media-card:hover .play-icon {
-    transform: scale(1);
-}
+
 .card-rating {
     position: absolute;
     top: 10px;
     right: 10px;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
     color: #ffb400;
     font-size: 11px;
     padding: 3px 6px;
-    border-radius: 6px;
+    border-radius: 4px;
     font-weight: bold;
-    border: 1px solid rgba(255,180,0,0.3);
 }
+
 .media-title {
     font-size: 14px;
     font-weight: 600;
@@ -512,48 +449,27 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .media-year {
     font-size: 12px;
     color: var(--text-muted);
 }
 
-/* Views */
+/* Views & Player */
 .page-view {
     display: none;
     animation: fadeIn 0.4s;
 }
+
 .page-view.active {
     display: block;
 }
+
 .player-container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- PLAYER PAGE REDESIGN --- */
-.back-btn-player {
-    cursor: pointer;
-    margin-bottom: 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: var(--text-muted);
-    transition: all 0.3s ease;
-}
-.back-btn-player:hover {
-    color: #fff;
-    transform: translateX(-4px);
-}
-.player-layout {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 25px;
-    align-items: start;
-}
-.player-left {
-    min-width: 0;
-}
 .video-wrapper {
     position: relative;
     padding-bottom: 56.25%;
@@ -562,8 +478,8 @@ body {
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--border-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
+
 .video-wrapper iframe {
     position: absolute;
     top: 0;
@@ -573,81 +489,488 @@ body {
     border: 0;
 }
 
-/* Server Controls Upgrades */
-.server-controls {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 20px;
-    margin-top: 15px;
-}
-.server-label {
-    font-size: 12px;
-    color: var(--accent);
-    font-weight: 700;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
 .server-list {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    /* Forces exactly 3 equal columns */
+    gap: 10px;
+    /* Space between buttons */
     width: 100%;
+    /* Ensure it spans full width */
+    margin-top: 20px;
 }
+
 .server-btn {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--input-bg);
     color: var(--text-main);
     width: 100%;
     justify-content: center;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 6px;
     text-overflow: ellipsis;
     padding: 12px 5px;
+    margin: 0;
+    box-sizing: border-box;
     cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid var(--border-color);
     font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
 .server-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
+    background: var(--border-color);
 }
+
 .server-btn.active {
     background: var(--accent);
     border-color: var(--accent);
     color: white;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
-    transform: translateY(-2px);
 }
 
-/* Media Details in Player */
+/* Settings */
+.settings-card {
+    background: var(--sidebar-bg);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    border: 1px solid var(--border-color);
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-title {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.setting-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.setting-select {
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- MOBILE RESPONSIVE OVERRIDES --- */
+
+/* Default: Hide Mobile Elements on Desktop */
+.bottom-nav,
+.mobile-menu {
+    display: none;
+}
+
+/* TABLET & MOBILE (Max Width 768px) */
+@media (max-width: 768px) {
+
+    /* 1. Hide Desktop Sidebar */
+    .sidebar {
+        display: none;
+    }
+
+    /* 2. Adjust Main Content */
+    .main-content {
+        padding: 15px 15px 100px 15px;
+        /* Extra bottom padding for nav bar */
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* 3. Mobile Navigation Bar (Fixed Bottom) */
+    .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background: rgba(15, 15, 15, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--border-color);
+        z-index: 1000;
+        padding-bottom: 10px;
+        /* Safe area for modern phones */
+    }
+
+    .b-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-muted);
+        font-size: 11px;
+        cursor: pointer;
+        width: 60px;
+    }
+
+    .b-nav-item i {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    .b-nav-item.active {
+        color: var(--accent);
+    }
+
+    /* 4. Adjust Hero Slider */
+    .slider-container {
+        height: 55vh;
+        margin-bottom: 25px;
+    }
+
+    .hero-content {
+        padding: 20px;
+        padding-bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .hero-desc {
+        font-size: 13px;
+        line-clamp: 2;
+        margin-bottom: 15px;
+    }
+
+    /* 5. Adjust Grids (2 Columns for Mobile) */
+    .media-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Force 2 columns */
+        gap: 15px;
+    }
+
+    /* 6. Legal & Settings Adjustment */
+    .legal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-box {
+        padding: 20px;
+    }
+
+    /* 7. Mobile Menu Overlay ("More" Page) */
+    .mobile-menu {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-color);
+        z-index: 2000;
+        padding: 20px;
+        flex-direction: column;
+        overflow-y: auto;
+        animation: slideUp 0.3s ease;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 20px;
+    }
+
+    .mobile-grid-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .m-menu-item {
+        background: var(--input-bg);
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        border: 1px solid var(--border-color);
+    }
+
+    .m-menu-item i {
+        font-size: 24px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* --- MOBILE SPECIFIC STYLES --- */
+@media (max-width: 768px) {
+
+    /* 1. HIDE DESKTOP SEARCH (Show only in specific view) */
+    .search-container {
+        display: none;
+    }
+
+    #view-mobile-search .search-container {
+        display: block;
+    }
+
+    /* 2. HOME PAGE: HORIZONTAL SCROLLING ROWS */
+    #view-home .media-grid {
+        display: flex;
+        /* Switch from Grid to Flex */
+        overflow-x: auto;
+        /* Allow side scrolling */
+        gap: 12px;
+        /* Smaller gap */
+        padding-bottom: 20px;
+        /* Space for scroll gesture */
+        scroll-snap-type: x mandatory;
+        /* Snap effect */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll iOS */
+    }
+
+    /* Hide scrollbar but keep functionality */
+    #view-home .media-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 3. RESIZE POSTERS FOR MOBILE SCROLL */
+    #view-home .media-card {
+        min-width: 110px;
+        /* Fixed width for scroll items */
+        width: 110px;
+        /* Prevent shrinking */
+        scroll-snap-align: start;
+        /* Snap to start */
+    }
+
+    /* 4. GENERAL MOBILE CARD STYLING */
+    .poster {
+        border-radius: 8px;
+        /* Slightly smaller radius */
+        box-shadow: none;
+        /* Remove heavy shadow for performance */
+    }
+
+    .media-title {
+        font-size: 11px;
+        /* Smaller text */
+        margin-top: 6px;
+        white-space: normal;
+        /* Allow text wrapping */
+        line-height: 1.3;
+        max-height: 2.6em;
+        /* Limit to 2 lines */
+        overflow: hidden;
+    }
+
+    .media-year {
+        display: none;
+    }
+
+    /* Hide year to save space */
+    .card-rating {
+        font-size: 9px;
+        padding: 2px 4px;
+        top: 5px;
+        right: 5px;
+    }
+
+    /* 5. HERO SLIDER COMPACT */
+    .slider-container {
+        height: 220px;
+        /* Much shorter for mobile */
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .hero-content {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+    }
+
+    .hero-title {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    .hero-desc {
+        display: none;
+    }
+
+    /* Hide description */
+    .btn {
+        padding: 6px 14px;
+        font-size: 11px;
+    }
+
+    /* 6. SECTION HEADERS */
+    .section-title {
+        font-size: 16px;
+        border-left-width: 3px;
+    }
+
+    .section-header {
+        margin: 15px 0 10px;
+    }
+
+    /* 7. GRID LAYOUT FOR LIST PAGES (Search, Movies, TV) */
+    /* Only Home scrolls horizontally. Others stay as vertical grids */
+    #view-mobile-search .media-grid,
+    #view-movies .media-grid,
+    #view-tv .media-grid,
+    #view-anime .media-grid,
+    #view-watchlist .media-grid,
+    #view-history .media-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 items per row */
+        gap: 10px;
+        overflow-x: visible;
+    }
+
+    /* Reset width for grid items so they fit the columns */
+    #view-mobile-search .media-card,
+    #view-movies .media-card,
+    #view-tv .media-card,
+    #view-anime .media-card,
+    #view-watchlist .media-card,
+    #view-history .media-card {
+        min-width: 0;
+        width: auto;
+    }
+}
+
+/* --- PLAYER PAGE REDESIGN --- */
+
+.back-btn-player {
+    cursor: pointer;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #ccc;
+    transition: 0.2s;
+}
+
+.back-btn-player:hover {
+    color: #fff;
+}
+
+/* Desktop Layout: Grid */
+.player-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    /* Video takes remaining space, Episodes take 350px */
+    gap: 25px;
+    align-items: start;
+}
+
+/* LEFT COLUMN */
+.player-left {
+    min-width: 0;
+}
+
+/* Prevents grid blowout */
+
+.server-controls {
+    background: var(--input-bg);
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 15px 10px;
+    border-radius: 12px;
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.server-label {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* DETAILS BOX */
 .media-details-box {
     margin-top: 25px;
 }
+
 .details-header {
     display: flex;
     gap: 20px;
 }
+
 .details-poster-img {
-    width: 110px;
-    border-radius: 12px;
+    width: 100px;
+    border-radius: 8px;
     object-fit: cover;
     aspect-ratio: 2/3;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    border: 1px solid var(--border-color);
 }
+
 .details-text h1 {
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1.2;
-    margin-bottom: 12px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    margin-bottom: 10px;
 }
+
 .meta-tags {
     font-size: 13px;
     color: var(--text-muted);
@@ -656,15 +979,14 @@ body {
     gap: 10px;
     flex-wrap: wrap;
 }
+
 .tag-pill {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-    padding: 4px 10px;
-    border-radius: 6px;
+    background: #333;
+    padding: 2px 8px;
+    border-radius: 4px;
     color: #fff;
-    font-weight: 500;
 }
+
 #p-desc {
     font-size: 14px;
     color: #ccc;
@@ -672,57 +994,84 @@ body {
     margin-bottom: 15px;
 }
 
-/* Player Right (Episodes) */
+/* RIGHT COLUMN: EPISODES */
 .player-right {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     height: calc(100vh - 150px);
+    /* Fit to screen height */
     position: sticky;
     top: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
+
 .ep-header {
     padding: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: rgba(0, 0, 0, 0.2);
 }
+
+#season-select {
+    background: var(--input-bg);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.view-toggles i {
+    padding: 8px;
+    cursor: pointer;
+    color: #666;
+    transition: 0.2s;
+}
+
+.view-toggles i.active {
+    color: #fff;
+}
+
 .ep-container {
     flex: 1;
     overflow-y: auto;
     padding: 10px;
 }
+
+/* LIST VIEW STYLE */
 .ep-item {
     display: flex;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 10px;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.2s;
     align-items: center;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .ep-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.05);
 }
+
 .ep-item.active {
-    background: rgba(229, 9, 20, 0.15); /* Soft red background */
+    background: var(--input-bg);
     border-left: 3px solid var(--accent);
-    border-radius: 4px 10px 10px 4px;
 }
 
 .ep-number {
     font-size: 14px;
-    color: var(--text-muted);
+    color: #666;
     font-weight: bold;
     width: 25px;
-}
-
-.ep-item.active .ep-number {
-    color: var(--accent);
 }
 
 .ep-info {
@@ -736,57 +1085,210 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #fff;
 }
 
-/* Grid View Episode Thumbnails */
+/* --- UPDATED GRID VIEW (Thumbnail List Style) --- */
+
+/* 1. Change Container to Vertical Stack (1 per row) */
 .ep-container.grid-view {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-bottom: 20px;
+    /* Space at bottom for scrolling */
 }
+
+/* 2. Style Individual Items (Side-by-Side: Image Left, Text Right) */
 .ep-container.grid-view .ep-item {
+    display: flex;
     flex-direction: row;
+    /* Side-by-side layout */
+    align-items: center;
+    /* Center vertically */
     gap: 15px;
+    /* Space between image and text */
+    padding: 10px;
+    border-radius: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     background: transparent;
+    transition: 0.2s;
 }
+
+/* Hover Effect */
+.ep-container.grid-view .ep-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Active Episode Highlight */
+.ep-container.grid-view .ep-item.active {
+    background: var(--input-bg);
+    border-left: 3px solid var(--accent);
+}
+
+/* 3. Make Posters/Thumbnails Small */
 .ep-container.grid-view .ep-thumb {
     width: 120px;
+    /* Fixed small width */
     aspect-ratio: 16/9;
-    border-radius: 8px;
+    /* Standard video ratio */
+    border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
+    /* Prevent shrinking */
     background: #000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
+
 .ep-container.grid-view .ep-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.7;
-    transition: all 0.4s ease;
-}
-.ep-container.grid-view .ep-item:hover .ep-thumb img {
-    opacity: 1;
-    transform: scale(1.05);
-}
-.ep-container.grid-view .ep-title {
-    white-space: normal;
-    line-height: 1.4;
+    opacity: 0.8;
+    transition: 0.3s;
 }
 
-/* Action Buttons Grid */
+/* Hover Image Brightness */
+.ep-container.grid-view .ep-item:hover .ep-thumb img {
+    opacity: 1;
+}
+
+/* 4. Adjust Text Styling */
+.ep-container.grid-view .ep-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ep-container.grid-view .ep-title {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: normal;
+    /* Allow text to wrap if long */
+    margin-top: 0;
+    /* Reset margins */
+}
+
+/* --- BUTTON GROUP STYLING --- */
 .action-buttons {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    /* Space between Watchlist and Share */
     margin-top: 25px;
+    /* FIX: Adds space above buttons (was too close) */
     margin-bottom: 20px;
     width: 100%;
 }
+
+/* Ensure buttons take equal width in the sidebar */
 .action-buttons .btn {
     flex: 1;
     justify-content: center;
+}
+
+/* --- MOBILE RESPONSIVE OVERRIDES --- */
+@media (max-width: 1000px) {
+
+    /* 1. Layout: Vertical Stack */
+    .player-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 2. Fix Video Player Height (The bug caused it to vanish) */
+    .player-left {
+        display: contents;
+        /* Unbox contents to reorder them */
+    }
+
+    /* FIX: Force aspect ratio so video doesn't collapse */
+    .video-wrapper {
+        order: 1;
+        width: 100%;
+        aspect-ratio: 16/9;
+        height: auto;
+        padding-bottom: 0;
+    }
+
+    /* 3. Reorder Elements */
+    .server-controls {
+        order: 2;
+        margin-top: 10px;
+    }
+
+    /* Episodes (Right Panel) moves to 3rd spot */
+    .player-right {
+        order: 3;
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        margin-top: 15px;
+        position: static;
+        background: transparent;
+        border: none;
+    }
+
+    /* Details moves to bottom */
+    .media-details-box,
+    .movie-details-card {
+        order: 4;
+    }
+
+    /* 4. FIX: COMPACT MOVIE DETAILS (Side-by-Side) */
+    .movie-details-card {
+        flex-direction: row !important;
+        /* Image Left, Text Right */
+        align-items: flex-start !important;
+        gap: 15px !important;
+        padding: 15px 0 !important;
+        background: transparent !important;
+        border: none !important;
+        height: auto !important;
+    }
+
+    .movie-poster-large {
+        width: 110px !important;
+        /* FIXED SMALL WIDTH */
+        height: auto !important;
+        aspect-ratio: 2/3 !important;
+        margin-bottom: 0 !important;
+        flex-shrink: 0 !important;
+        /* Don't squash */
+    }
+
+    .movie-info-block {
+        flex: 1;
+        /* Take remaining space */
+        min-width: 0;
+    }
+
+    .movie-info-block h1 {
+        font-size: 20px;
+    }
+
+    .movie-desc {
+        font-size: 13px;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* 5. FIX: RECOMMENDATIONS GRID (Make them small) */
+    #player-recommendations {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* Force 3 columns */
+        gap: 10px;
+    }
+
+    #player-recommendations .media-card {
+        min-width: 0;
+        /* Prevent overflow */
+        width: auto;
+    }
+
+    #player-recommendations .media-title {
+        font-size: 11px;
+    }
 }
 
 /* --- NEW MOVIE SIDEBAR DESIGN (Desktop) --- */
@@ -798,119 +1300,132 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+
+/* 1. Header: Poster + Meta Info (Status/Studio) */
 .movie-sidebar-header {
     display: flex;
     gap: 15px;
     align-items: flex-start;
 }
+
 .sidebar-poster {
     width: 100px;
     aspect-ratio: 2/3;
-    border-radius: 10px;
+    border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
+
 .sidebar-meta-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
 .meta-item {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
+
 .meta-label {
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: #666;
     text-transform: uppercase;
 }
+
 .meta-value {
     font-size: 13px;
     font-weight: 600;
     color: #fff;
 }
+
+/* 2. Title & Ratings */
 .movie-sidebar-body h1 {
     font-size: 22px;
     line-height: 1.3;
     margin-bottom: 10px;
     color: #fff;
 }
+
 .sidebar-badges {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     align-items: center;
 }
+
 .badge-year {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #333;
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 12px;
     color: #fff;
 }
+
 .badge-rating {
     background: var(--accent);
+    /* RED COLOR */
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 12px;
     color: #fff;
     font-weight: bold;
-    box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4);
 }
+
+/* 3. Action Buttons (Red & Gray) */
 .sidebar-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-bottom: 20px;
 }
+
 .s-btn {
-    border: 1px solid transparent;
+    border: none;
     padding: 12px;
     border-radius: 30px;
-    font-size: 13px;
+    /* Pill shape */
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: 0.2s;
 }
+
 .s-btn-red {
-    background: var(--accent);
+    background: #ea0b16;
     color: white;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
+
 .s-btn-red:hover {
-    background: #b20710;
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
-    transform: translateY(-2px);
+    background: #da5259;
 }
+
 .s-btn-gray {
-    background: rgba(255,255,255,0.1);
+    background: #333;
     color: white;
-    border-color: rgba(255,255,255,0.1);
 }
-.s-btn-gray:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.3);
-    transform: translateY(-2px);
-}
+
 .s-btn-green {
     background: #28a745;
     color: white;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
+
 .s-btn-green:hover {
-    background: #218838;
-    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
-    transform: translateY(-2px);
+    background: #1e7e34;
 }
+
+.s-btn-gray:hover {
+    background: #444;
+}
+
+/* 4. Description */
 .sidebar-desc {
     font-size: 14px;
     line-height: 1.6;
@@ -919,96 +1434,249 @@ body {
     padding-top: 15px;
 }
 
-/* Animations & Loaders */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/* --- SKELETON LOADING ANIMATION --- */
 .skeleton {
-    background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+    background: #1f1f1f;
+    background: linear-gradient(90deg, #1f1f1f 25%, #2a2a2a 50%, #1f1f1f 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border-radius: 8px;
 }
-.skeleton-card { height: 250px; width: 100%; border-radius: 12px; }
-.skeleton-text { height: 15px; margin-top: 10px; width: 80%; border-radius: 4px; }
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+
+.skeleton-card {
+    height: 250px;
+    width: 100%;
+    border-radius: 8px;
 }
 
-/* --- TOAST NOTIFICATION (Glass Effect) --- */
+.skeleton-text {
+    height: 15px;
+    margin-top: 10px;
+    width: 80%;
+    border-radius: 4px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* --- TOAST NOTIFICATION (Top Position - No Sink) --- */
 .toast-container {
     position: fixed;
     top: 70px;
+    /* 90px from top (Below the Navbar) */
     right: 20px;
+    /* Right side */
     z-index: 10000;
+    /* On top of everything */
     display: flex;
     flex-direction: column;
     gap: 10px;
     pointer-events: none;
+    /* Lets you click things behind it */
 }
+
 .toast {
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(20, 20, 20, 0.95);
     color: #fff;
-    padding: 14px 22px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 20px;
+    border-radius: 8px;
     border-left: 4px solid var(--accent);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     font-size: 14px;
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     min-width: 250px;
     pointer-events: auto;
-    animation: slideDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), fadeOut 0.5s ease 2.5s forwards;
+    /* Re-enable clicks on the toast itself */
+
+    /* ANIMATION: Slide Down from Top */
+    animation: slideDown 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+    backdrop-filter: blur(5px);
 }
+
+/* Slide Down Animation (Vertical movement prevents screen width jumping) */
 @keyframes slideDown {
-    from { transform: translateY(-20px) scale(0.95); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
+
 @keyframes fadeOut {
-    from { opacity: 1; transform: scale(1); }
-    to { opacity: 0; transform: scale(0.95); visibility: hidden; }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
-/* --- MOBILE & AUTH STYLES --- */
-.bottom-nav {
-    display: none;
-    justify-content: space-around;
+/* --- USER AUTH STYLES --- */
+.user-profile {
+    display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: rgba(15, 15, 15, 0.85); 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border-color);
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-    z-index: 1000;
-    padding-bottom: env(safe-area-inset-bottom, 10px); /* iPhone notch fix */
-}
-.mobile-menu {
-    display: none;
+    gap: 10px;
+    padding: 10px 15px;
+    background: var(--input-bg);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid transparent;
 }
 
-/* Force download buttons */
+.user-profile:hover {
+    border-color: var(--accent);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #555;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.login-btn {
+    width: 100%;
+    background: #4285F4;
+    /* Google Blue */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background: #357ae8;
+}
+
+/* --- MOBILE AUTH OVERLAY (Top Right) --- */
+#mobile-auth-container {
+    display: none;
+    /* Hidden on Desktop */
+}
+
+@media (max-width: 1000px) {
+    #mobile-auth-container {
+        display: flex;
+        position: absolute;
+        top: 25px;
+        /* Spacing from top */
+        right: 20px;
+        /* Spacing from right */
+        z-index: 20;
+        /* Sit on top of the Slider */
+    }
+
+    /* 1. Mobile Login Button Style */
+    #mobile-auth-container .login-btn {
+        width: auto;
+        padding: 8px 16px;
+        border-radius: 30px;
+        /* Pill shape */
+        background: rgba(229, 9, 20, 0.9);
+        /* Red semi-transparent */
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        font-size: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* 2. Mobile Profile Circle Style */
+    #mobile-auth-container .user-profile {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+
+    #mobile-auth-container .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* --- LOGIN LOCK SCREEN --- */
+.lock-screen {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.lock-icon {
+    font-size: 50px;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.lock-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.lock-desc {
+    color: #aaa;
+    margin-bottom: 25px;
+    font-size: 14px;
+    max-width: 80%;
+}
+
+/* FORCE DOWNLOAD BUTTON VISIBILITY */
 .btn-download {
     background-color: #28a745 !important;
+    /* Bright Green */
     color: white !important;
     padding: 12px 24px !important;
     border-radius: 8px !important;
     display: inline-flex !important;
+    /* Ensures it takes up space */
     align-items: center !important;
     gap: 10px !important;
     font-weight: bold !important;
@@ -1017,155 +1685,78 @@ body {
     margin-top: 15px !important;
     visibility: visible !important;
     opacity: 1 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(40,167,69,0.3) !important;
 }
-.btn-download:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(40,167,69,0.5) !important;
+
+.btn-download i {
+    font-size: 1.2rem !important;
 }
-.btn-download i { font-size: 1.2rem !important; }
 
-#mobile-download-btn { display: none; }
+#mobile-download-btn {
+    display: none;
+}
 
-/* --- RESPONSIVE MOBILE SETTINGS --- */
+/* 2. Mobile View Implementation */
 @media (max-width: 1000px) {
     #mobile-download-btn {
         display: flex;
         position: absolute;
         top: 25px;
+        /* Aligned with the profile pic */
         left: 20px;
+        /* Left side */
         z-index: 20;
+        /* Above slider */
     }
+
     #mobile-download-btn a {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        background: rgba(20, 20, 20, 0.65);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        /* Glassmorphism Effect */
+        background: rgba(20, 20, 20, 0.6);
+        backdrop-filter: blur(5px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        /* Icon centering */
         display: flex;
         align-items: center;
         justify-content: center;
         color: #4caf50;
+        /* Green Icon */
         text-decoration: none;
-        font-size: 18px;
-        transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        font-size: 16px;
+        transition: transform 0.2s;
     }
+
     #mobile-download-btn a:active {
         transform: scale(0.9);
     }
-
-    /* Player fixes for mobile */
-    .player-layout { display: flex; flex-direction: column; }
-    .player-left { display: contents; }
-    .video-wrapper { order: 1; width: 100%; aspect-ratio: 16/9; height: auto; padding-bottom: 0; }
-    .server-controls { order: 2; margin-top: 15px; }
-    .player-right { order: 3; width: 100%; height: auto; max-height: 500px; margin-top: 15px; position: static; }
-    .media-details-box, .movie-sidebar { order: 4; }
-    
-    .movie-sidebar {
-        flex-direction: row !important;
-        align-items: flex-start !important;
-        gap: 15px !important;
-        padding: 15px 0 !important;
-        height: auto !important;
-    }
-    .sidebar-poster {
-        width: 110px !important;
-        height: auto !important;
-        flex-shrink: 0 !important;
-    }
-    .sidebar-meta-info { min-width: 0; }
-    #player-recommendations {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-    }
-    #player-recommendations .media-card { min-width: 0; width: auto; }
 }
 
-@media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main-content { padding: 15px 15px 100px 15px; margin-left: 0; width: 100%; }
-    .bottom-nav { display: flex; }
-    .b-nav-item {
-        display: flex; flex-direction: column; align-items: center; gap: 5px;
-        color: var(--text-muted); font-size: 11px; cursor: pointer; width: 60px;
-        transition: color 0.3s ease;
-    }
-    .b-nav-item i { font-size: 20px; margin-bottom: 2px; }
-    .b-nav-item.active { color: var(--accent); }
 
-    .slider-container { height: 55vh; margin-bottom: 25px; }
-    .hero-content { padding: 20px; padding-bottom: 40px; }
-    .hero-title { font-size: 32px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-    .hero-desc { font-size: 13px; line-clamp: 2; margin-bottom: 15px; }
-    
-    .media-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .legal-grid { grid-template-columns: 1fr; }
-    .contact-box { padding: 20px; }
-
-    /* Mobile Glass Menu */
-    .mobile-menu {
-        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-        z-index: 2000; padding: 20px; flex-direction: column; overflow-y: auto;
-        animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-    .mobile-menu.active { display: flex; }
-    .mobile-header {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;
-    }
-    .mobile-grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .m-menu-item {
-        padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 10px; font-weight: 600; font-size: 14px;
-    }
-    .m-menu-item i { font-size: 24px; transition: transform 0.3s ease; }
-    .m-menu-item:hover i { transform: scale(1.1); }
-
-    .search-container { display: none; }
-    #view-mobile-search .search-container { display: block; }
-    
-    #view-home .media-grid {
-        display: flex; overflow-x: auto; gap: 12px; padding-bottom: 20px;
-        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    }
-    #view-home .media-grid::-webkit-scrollbar { display: none; }
-    #view-home .media-card { min-width: 120px; width: 120px; scroll-snap-align: start; }
-    .media-title { font-size: 12px; margin-top: 8px; white-space: normal; line-height: 1.3; max-height: 2.6em; }
-    .media-year { display: none; }
-    .card-rating { font-size: 9px; padding: 2px 5px; top: 6px; right: 6px; }
-    .section-title { font-size: 18px; border-left-width: 3px; }
-    .section-header { margin: 15px 0 10px; }
-
-    #view-mobile-search .media-grid, #view-movies .media-grid, #view-tv .media-grid, 
-    #view-anime .media-grid, #view-watchlist .media-grid, #view-history .media-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; overflow-x: visible;
-    }
-    #view-mobile-search .media-card, #view-movies .media-card, #view-tv .media-card, 
-    #view-anime .media-card, #view-watchlist .media-card, #view-history .media-card {
-        min-width: 0; width: auto;
-    }
-}
-@keyframes slideUp {
-    from { transform: translateY(100%); opacity: 0;}
-    to { transform: translateY(0); opacity: 1;}
-}
-
+/* 3. THE LOGIC: Hide Download Buttons if App is Installed (PWA Mode) */
 @media all and (display-mode: standalone) {
-    #desktop-download-btn, #mobile-download-btn { display: none !important; }
+
+    #desktop-download-btn,
+    #mobile-download-btn {
+        display: none !important;
+    }
+
 }
 
 /* --- MASTER COLLAPSIBLE SIDEBAR STYLES --- */
+
 .sidebar {
-    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative; 
     height: 100vh;
-    z-index: 50; 
+    z-index: 50; /* Keeps sidebar above main-content so clicks aren't blocked */
 }
-.nav-item i { width: 20px; text-align: center; }
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
 
 /* Toggle Button Styling */
 .sidebar-toggle {
@@ -1175,40 +1766,70 @@ body {
     transform: translateY(-50%);
     width: 32px;
     height: 32px;
-    background-color: var(--sidebar-bg);
-    backdrop-filter: blur(10px); 
-    border: 1px solid rgba(255,255,255,0.2);
+    background-color: var(--sidebar-bg); 
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 100;
-    color: var(--text-main);
+    z-index: 100; /* Keeps button on the very top layer */
+    color: var(--text-muted);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
 }
+
+/* Hover State */
 .sidebar-toggle:hover {
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
     transform: translateY(-50%) scale(1.15); 
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5); 
+    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4); 
 }
+
 .sidebar-toggle i {
     font-size: 13px;
     margin-right: 2px; 
     transition: transform 0.3s ease;
-    pointer-events: none; 
+    pointer-events: none; /* Prevents the icon itself from blocking the click */
 }
-.sidebar.collapsed .sidebar-toggle i { margin-right: 0; margin-left: 2px; }
 
-/* Collapsed State Styles */
-.sidebar.collapsed { width: 80px; padding: 20px 10px; }
-.sidebar.collapsed .nav-text { display: none; }
-.sidebar.collapsed .logo { justify-content: center; margin-bottom: 30px; }
-.sidebar.collapsed .logo i { font-size: 28px; }
-.sidebar.collapsed .nav-item { justify-content: center; padding: 12px 0; }
-.sidebar.collapsed .nav-item:hover { transform: translateX(0) scale(1.1); } /* Stop X sliding when collapsed */
-.sidebar.collapsed .nav-item i { font-size: 18px; margin: 0; }
-.sidebar.collapsed #desktop-download-btn { justify-content: center; padding: 12px 0; }
+.sidebar.collapsed .sidebar-toggle i {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+/* --- COLLAPSED STATE STYLES --- */
+.sidebar.collapsed {
+    width: 80px; 
+    padding: 20px 10px; 
+}
+
+.sidebar.collapsed .nav-text {
+    display: none;
+}
+
+.sidebar.collapsed .logo {
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.sidebar.collapsed .logo i {
+    font-size: 28px;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.sidebar.collapsed .nav-item i {
+    font-size: 18px;
+    margin: 0;
+}
+
+.sidebar.collapsed #desktop-download-btn {
+    justify-content: center;
+    padding: 12px 0;
+}
