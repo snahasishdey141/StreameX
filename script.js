@@ -274,7 +274,7 @@ function router(viewName) {
         document.querySelectorAll('.b-nav-item')[1]?.classList.add('active');
     } else {
         document.querySelectorAll('.b-nav-item')[2]?.classList.add('active');
-        window.scrollTo(0, 0);
+        document.querySelector('.main-content').scrollTop = 0;
         if (viewName === 'movies') loadMoviesPage();
         if (viewName === 'tv') loadTVPage();
         if (viewName === 'anime') loadAnimePage();
@@ -542,7 +542,7 @@ async function openPlayer(id, type, skipPush = false) {
 
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
     document.getElementById('view-player').classList.add('active');
-    window.scrollTo(0, 0);
+    document.querySelector('.main-content').scrollTop = 0;
 
     if (!skipPush) {
         const newUrl = `?type=${type}&id=${id}`;
