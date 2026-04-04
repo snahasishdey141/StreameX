@@ -607,6 +607,11 @@ body {
     outline: none;
 }
 
+.setting-select option {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
 /* Animation */
 @keyframes fadeIn {
     from {

@@ -232,26 +232,36 @@ function applyTheme() {
 }
 
 // --- ROUTING ---
+// --- ROUTING ---
 function router(viewName) {
     // 1. Clean URL (remove ?id=...)
     if (window.location.search.length > 0) {
         window.history.pushState({}, '', window.location.pathname);
     }
 
-    // 2. TRACK HISTORY (The Fix)
-    // Only save the view if we are NOT going to the player
+    // 2. TRACK HISTORY 
     if (viewName !== 'player') {
         navState.view = viewName;
-        // If we are navigating to a main page (like clicking "Home" or "Movies" in menu), 
-        // we assume the user wants a fresh start, so we clear the search query.
-        // (The search functions will put the query back if needed).
-        if (viewName !== 'movies' && viewName !== 'mobile-search') {
+        if (viewName !== 'movies' && viewName !== 'mobile-search' && viewName !== 'search') {
             navState.query = null;
         }
     }
 
-    // 3. Update UI (Existing Code)
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    // Clear desktop search box when navigating to another page
+    if (viewName !== 'search' && viewName !== 'mobile-search' && viewName !== 'player') {
+        const desktopSearch = document.querySelector('.search-input:not(#mobile-search-input)');
+        if (desktopSearch) desktopSearch.value = '';
+    }
+
+    // 3. Update UI & HIGHLIGHT ACTIVE MENU
+    document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.remove('active');
+        // Check if this sidebar item matches the current view
+        if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(`router('${viewName}')`)) {
+            el.classList.add('active');
+        }
+    });
+
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
 
     const target = document.getElementById(`view-${viewName}`);
@@ -1057,6 +1067,7 @@ function handleSmartSearch(query) {
     if (query.length < 2) return;
     searchTimer = setTimeout(() => { performLiveSearch(query); }, 500);
 }
+
 function performLiveSearch(query) {
     // 1. Save the query to history
     navState.query = query;
@@ -1066,18 +1077,15 @@ function performLiveSearch(query) {
 
     if (mobileView && mobileView.classList.contains('active')) {
         resultContainerId = 'mobile-search-results';
-        // Ensure history knows we are in mobile search
         navState.view = 'mobile-search';
     } else {
-        router('movies');
-        // Restore query because router('movies') might have cleared it
-        navState.query = query;
-
-        const container = document.getElementById('view-movies');
-        container.innerHTML = `
-            <h1>Results for: "<span style="color:var(--accent)">${query}</span>"</h1>
-            <div class="media-grid" id="search-res"></div>
-        `;
+        // USE THE NEW SEARCH VIEW INSTEAD OF DESTROYING THE MOVIES PAGE
+        router('search'); 
+        navState.query = query; // Ensure query persists
+        const searchTitle = document.getElementById('search-title');
+        if (searchTitle) {
+            searchTitle.innerHTML = `Results for: "<span style="color:var(--accent)">${query}</span>"`;
+        }
     }
 
     showSkeletons(resultContainerId, 6);
