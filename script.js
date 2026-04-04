@@ -25,6 +25,8 @@ async function prefetchEndpoint(endpoint) {
     } catch (e) { }
 }
 
+const activeScrollHandlers = {};
+
 
 // --- SERVERS (UPDATED FOR WORKER) ---
 const servers = [
@@ -114,14 +116,6 @@ window.onload = async () => {
     } else {
         router('home');
     }
-
-    // Anti-DevTools
-    document.addEventListener('keydown', function (e) {
-        if (e.keyCode == 123) { e.preventDefault(); }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { e.preventDefault(); }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { e.preventDefault(); }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { e.preventDefault(); }
-    });
 
     // Browser Back Button
     // --- BROWSER BACK BUTTON LISTENER ---
@@ -494,17 +488,27 @@ function renderGrid(items, containerId, forceType) {
 
     renderBatch();
 
-    // Scroll on window instead of container (important)
-    window.addEventListener("scroll", handleScroll);
+    // Remove the old listener for this specific container if it exists
+    if (activeScrollHandlers[containerId]) {
+        window.removeEventListener("scroll", activeScrollHandlers[containerId]);
+    }
 
     function handleScroll() {
-        if (
-            window.innerHeight + window.scrollY >=
-            document.body.offsetHeight - 400
-        ) {
-            renderBatch();
+        // Only trigger if this view is actually active, and we are near the bottom
+        if (container.closest('.page-view')?.classList.contains('active') || containerId === 'search-res' || containerId === 'mobile-search-results') {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
+                // If we've shown all items, stop listening to save performance
+                if (currentIndex >= items.length) {
+                    window.removeEventListener("scroll", handleScroll);
+                    delete activeScrollHandlers[containerId];
+                    return;
+                }
+                renderBatch();
+            }
         }
     }
+    activeScrollHandlers[containerId] = handleScroll;
+    window.addEventListener("scroll", handleScroll, { passive: true });
 }
 
 // --- player---
@@ -749,7 +753,7 @@ function setupWatchlistBtn(id, btnId, type, title, poster) {
     updateWatchlistBtnStyles(id, btnId);
     btn.onclick = () => {
         toggleLib('watchlist', id, type, title, poster);
-        setTimeout(() => updateWatchlistBtnStyles(id, btnId), 500);
+        setTimeout(() => updateWatchlistBtnStyles(id, btnId), 200);
     };
 }
 
