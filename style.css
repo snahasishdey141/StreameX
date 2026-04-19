@@ -1066,7 +1066,7 @@ body {
 
 #season-select {
     background: var(--input-bg);
-    color: #fff;
+    color: var(--text-main);
     border: 1px solid var(--border-color);
     padding: 6px 10px;
     border-radius: 6px;
@@ -1074,6 +1074,11 @@ body {
     outline: none;
     flex: 1;
     margin-right: 10px;
+}
+
+#season-select option {
+    background-color: var(--bg-color);
+    color: var(--text-main);
 }
 
 .view-toggles i {
