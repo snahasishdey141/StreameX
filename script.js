@@ -56,6 +56,7 @@ const servers = [
     { name: "MovieApi", key: "MoviesApi", useSandbox: false },
     { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
     { name: "Vidapi", key: "Vidapi", useSandbox: true },
+    { name: "NextGen", key: "NextGen", useSandbox: true },
     
 ];
 
