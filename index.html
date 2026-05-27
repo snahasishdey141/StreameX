@@ -54,6 +54,9 @@
 
         <div class="nav-group">
             <div class="nav-label nav-text">More</div>
+            <div class="nav-item" onclick="openRandomPicker()">
+                <i class="fas fa-dice" style="color: #ffb400;"></i> <span class="nav-text">Surprise Me</span>
+            </div>
             <div class="nav-item" onclick="router('legal')">
                 <i class="fas fa-file-contract"></i> <span class="nav-text">Legal/DMCA</span>
             </div>
@@ -87,7 +90,10 @@
         </div>
 
         <div id="view-home" class="page-view active">
-            <div class="slider-container" id="hero-slider"></div>
+            <div class="slider-container" id="hero-slider">
+                <div class="slider-progress" id="slider-progress"></div>
+            </div>
+            <div class="slider-dots" id="slider-dots"></div>
 
             <div id="continue-watching-section" style="display:none;">
                 <div class="section-header">
@@ -335,8 +341,12 @@
         </div>
 
         <div id="view-player" class="page-view">
-            <div onclick="closePlayer()" class="back-btn-player">
-                <i class="fas fa-arrow-left"></i> Back to Home
+            <div class="player-nav">
+                <div onclick="closePlayer()" class="back-btn-player">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="nav-breadcrumb" id="player-breadcrumb">Home</span>
+                </div>
+                <div class="player-title-bar" id="player-title-bar"></div>
             </div>
 
             <div class="player-layout">
@@ -356,19 +366,6 @@
                     <div id="mobile-episode-insert"></div>
 
                     <div class="media-details-box">
-                        <div class="details-header">
-                            <img id="p-poster" src="" alt="" class="details-poster-img">
-                            <div class="details-text">
-                                <h1 id="p-title">Loading...</h1>
-                                <div class="meta-tags" id="p-meta"></div>
-                                <p id="p-desc">Description...</p>
-                                <!-- <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 15px;">
-                                    <button id="watchlist-btn-player" class="btn btn-primary"><i class="far fa-heart"></i> Add to Watchlist</button>
-                                    <button class="btn btn-glass" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
-                                    <button onclick="shareContent(document.getElementById('p-title').innerText)" class="btn btn-glass"><i class="fas fa-share-alt"></i> Share</button>
-                                </div> -->
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -380,7 +377,9 @@
                             <i class="fas fa-th-large" onclick="setEpView('grid')" title="Grid View"></i>
                         </div>
                     </div>
-
+                    <div class="ep-search-box">
+                        <input type="text" class="ep-search" placeholder="Search episodes..." oninput="filterEpisodes(this.value)">
+                    </div>
                     <div id="episode-list-box" class="ep-container list-view">
                     </div>
                 </div>
@@ -434,6 +433,9 @@
                 <i class="fas fa-history" style="color: #ff9800;"></i> History
             </div>
 
+            <div class="m-menu-item" onclick="openRandomPicker(); toggleMobileMenu()">
+                <i class="fas fa-dice" style="color: #ffb400;"></i> Surprise Me
+            </div>
             <div class="m-menu-item" onclick="router('settings'); toggleMobileMenu()">
                 <i class="fas fa-cog" style="color: #aaa;"></i> Settings
             </div>
@@ -444,6 +446,31 @@
 
         <div style="text-align:center; color:#555; margin-top:auto; padding:20px; font-size:12px;">
             v3.0 StreameX
+        </div>
+    </div>
+
+    <!-- Random Movie Picker Modal -->
+    <div id="random-picker-modal" class="picker-modal">
+        <button class="picker-close" onclick="closeRandomPicker()"><i class="fas fa-times"></i></button>
+        <div class="picker-content">
+            <div class="picker-header">
+                <h2><i class="fas fa-dice" style="color: #ffb400; margin-right: 10px;"></i>Surprise Me</h2>
+                <p>Let fate pick your next binge!</p>
+            </div>
+            <div class="picker-filters" id="picker-filters">
+                <button class="picker-filter-btn active" onclick="setPickerFilter('all')">All</button>
+                <button class="picker-filter-btn" onclick="setPickerFilter('movie')">Movies</button>
+                <button class="picker-filter-btn" onclick="setPickerFilter('tv')">TV Shows</button>
+                <button class="picker-filter-btn" onclick="setPickerFilter('anime')">Anime</button>
+            </div>
+            <div class="picker-reel-container">
+                <div class="picker-spotlight"></div>
+                <div class="picker-reel" id="picker-reel"></div>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="spinPicker()" id="spin-btn"><i class="fas fa-dice"></i> Spin!</button>
+            </div>
+            <div class="picker-result" id="picker-result"></div>
         </div>
     </div>
 
