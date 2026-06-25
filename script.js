@@ -1131,10 +1131,35 @@ function updateHistory(serverIdx) {
     saveLib('history', history);
 }
 
-function downloadContent() {
-    const { id, type, season, episode } = playerState;
-    let downloadUrl = type === 'movie' ? `https://dl.vidsrc.vip/movie/${id}` : `https://dl.vidsrc.vip/tv/${id}/${season}/${episode}`;
-    window.open(downloadUrl, '_blank');
+async function downloadContent() {
+    const { id, type } = playerState;
+    
+    // Define both URLs
+    const primaryUrl = `https://zxcstream.xyz/download/${type}/${id}`;
+    const fallbackUrl = `https://media.trendingpie.com/?id=${id}`;
+
+    showToast("Preparing download link...", "info");
+
+    try {
+        // Attempt to ping the primary server to check if the website is online/reachable
+        // 'no-cors' is used so the browser allows the ping without throwing security errors
+        await fetch(primaryUrl, { method: 'HEAD', mode: 'no-cors' });
+        
+        // If the ping succeeds (no network crash), open the primary link
+        window.open(primaryUrl, '_blank');
+        
+        // Show a smart toast: If the site opened but gave a 404 error, they can click the fallback directly
+        setTimeout(() => {
+            showToast(`Not working? <a href="${fallbackUrl}" target="_blank" style="color: #ffeb3b; font-weight: bold; text-decoration: underline;">Try Server 2</a>`, 'info');
+        }, 1000);
+        
+    } catch (error) {
+        // If the fetch fails completely (site is dead, DNS error, or blocked by adblocker)
+        console.warn("Primary download server is unreachable, switching to fallback.", error);
+        
+        showToast("Primary server down. Opening Fallback...", "success");
+        window.open(fallbackUrl, '_blank');
+    }
 }
 
 function restoreLastState() {
