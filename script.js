@@ -1132,29 +1132,39 @@ function updateHistory(serverIdx) {
 }
 
 async function downloadContent() {
-    const { id, type } = playerState;
+    // Extract season and episode alongside id and type
+    const { id, type, season, episode } = playerState;
     
-    // Define both URLs
+    // Define primary URL
     const primaryUrl = `https://zxcstream.xyz/download/${type}/${id}`;
-    const fallbackUrl = `https://media.trendingpie.com/?id=${id}`;
+    
+    // Define fallback URL
+    let fallbackUrl = `https://media.trendingpie.com/?id=${id}`;
+    
+    // Check if it's a TV show to append season and episode
+    if (type === 'tv') {
+        // Use the selected season/episode, or default to 1 if undefined
+        const s = season || 1;
+        const e = episode || 1;
+        fallbackUrl += `&s=${s}&e=${e}`;
+    }
 
     showToast("Preparing download link...", "info");
 
     try {
-        // Attempt to ping the primary server to check if the website is online/reachable
-        // 'no-cors' is used so the browser allows the ping without throwing security errors
+        // Attempt to ping the primary server
         await fetch(primaryUrl, { method: 'HEAD', mode: 'no-cors' });
         
-        // If the ping succeeds (no network crash), open the primary link
+        // If the ping succeeds, open the primary link
         window.open(primaryUrl, '_blank');
         
-        // Show a smart toast: If the site opened but gave a 404 error, they can click the fallback directly
+        // Show the manual fallback toast in case of a 404
         setTimeout(() => {
             showToast(`Not working? <a href="${fallbackUrl}" target="_blank" style="color: #ffeb3b; font-weight: bold; text-decoration: underline;">Try Server 2</a>`, 'info');
         }, 1000);
         
     } catch (error) {
-        // If the fetch fails completely (site is dead, DNS error, or blocked by adblocker)
+        // If the ping fails completely, open the fallback automatically
         console.warn("Primary download server is unreachable, switching to fallback.", error);
         
         showToast("Primary server down. Opening Fallback...", "success");
