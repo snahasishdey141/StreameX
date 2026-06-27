@@ -1744,3 +1744,8 @@ body {
     justify-content: center;
     padding: 12px 0;
 }
+
+.section-row, .grid-container {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 350px; /* Tells browser expected height before loading */
+}

@@ -397,8 +397,18 @@ function renderSlider(items) {
         const activeClass = index === 0 ? 'active' : '';
         let bg = '';
         if (item.backdrop_path) {
-            // Strip 'https://' and use wsrv.nl to force WebP conversion for heavy slider images
             bg = `https://wsrv.nl/?url=image.tmdb.org/t/p/w1280${item.backdrop_path}&output=webp`;
+            
+            // Preload the very first slider image as ultra-high priority
+            if (index === 0) {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'image';
+                link.href = bg;
+                link.imageSrcset = `${bg}`;
+                link.setAttribute('fetchpriority', 'high');
+                document.head.appendChild(link);
+            }
         }
         const slide = document.createElement('div');
         slide.className = `slide ${activeClass}`;
