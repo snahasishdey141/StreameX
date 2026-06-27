@@ -493,8 +493,8 @@ function renderGrid(items, containerId, forceType) {
             const isExternal = posterPath.startsWith("http");
 
             // Wrap TMDB URLs in the wsrv.nl proxy to force WebP conversion
-            const imgUrlSmall = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w185${posterPath}&output=webp`;
-            const imgUrlMedium = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w342${posterPath}&output=webp`;
+            const imgUrlSmall = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w185${posterPath}&output=webp&q=70`;
+            const imgUrlMedium = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w342${posterPath}&output=webp&q=70`;
 
             card.innerHTML = `
         <div class="poster">
