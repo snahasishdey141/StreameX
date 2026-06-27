@@ -3,7 +3,6 @@ const WORKER_URL = 'https://streamex-server.snahasishdey141.workers.dev';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w342';
 const IMG_ORIG = 'https://image.tmdb.org/t/p/original';
-const IMG_SLIDER = 'https://image.tmdb.org/t/p/w1280';
 
 // --- GLOBAL VARIABLES ---
 let currentUser = null;
@@ -58,7 +57,7 @@ const servers = [
     { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
     { name: "Vidapi", key: "Vidapi", useSandbox: true },
     { name: "NextGen", key: "NextGen", useSandbox: true },
-    
+
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
@@ -116,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2. Fetch settings in the background WITHOUT 'await' blocking the UI
-    populateSettingsAPI().catch(error => { 
-        console.error("Settings API Error:", error); 
-        addFallbackSettings(); 
+    populateSettingsAPI().catch(error => {
+        console.error("Settings API Error:", error);
+        addFallbackSettings();
     });
 });
 
@@ -311,10 +310,10 @@ async function fetchAPI(endpoint) {
     prefetchedData[endpoint] = data;
     try {
         sessionStorage.setItem(cacheKey, JSON.stringify(data));
-    } catch(e) {
+    } catch (e) {
         console.warn("Session storage full");
     }
-    
+
     return data;
 }
 
@@ -398,8 +397,8 @@ function renderSlider(items) {
         const activeClass = index === 0 ? 'active' : '';
         let bg = '';
         if (item.backdrop_path) {
-            // Use the smaller optimized image size
-            bg = `${IMG_SLIDER}${item.backdrop_path}`;
+            // Strip 'https://' and use wsrv.nl to force WebP conversion for heavy slider images
+            bg = `https://wsrv.nl/?url=image.tmdb.org/t/p/w1280${item.backdrop_path}&output=webp`;
         }
         const slide = document.createElement('div');
         slide.className = `slide ${activeClass}`;
@@ -463,14 +462,22 @@ function renderGrid(items, containerId, forceType) {
                 ? `<div class="card-rating">${item.vote_average.toFixed(1)}</div>`
                 : "";
 
-            // Optimized image size
-            const imageUrl = posterPath.startsWith("http")
-                ? posterPath
-                : `https://image.tmdb.org/t/p/w342${posterPath}`;
+            // Smart Responsive & Next-Gen WebP Sizing
+            const isExternal = posterPath.startsWith("http");
+
+            // Wrap TMDB URLs in the wsrv.nl proxy to force WebP conversion
+            const imgUrlSmall = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w185${posterPath}&output=webp`;
+            const imgUrlMedium = isExternal ? posterPath : `https://wsrv.nl/?url=image.tmdb.org/t/p/w342${posterPath}&output=webp`;
 
             card.innerHTML = `
         <div class="poster">
-          <img src="${imageUrl}" loading="lazy" alt="${title}" onerror="this.style.display='none'">
+          <img 
+            src="${imgUrlSmall}" 
+            srcset="${imgUrlSmall} 185w, ${imgUrlMedium} 342w"
+            sizes="(max-width: 768px) 110px, 150px"
+            loading="lazy" 
+            alt="${title}" 
+            onerror="this.style.display='none'">
           ${ratingTag}
           <div class="hover-overlay">
             <i class="fas fa-play-circle play-icon"></i>
@@ -848,7 +855,8 @@ function renderEpisodeList() {
             const serverIdx = currentServerBtn ? parseInt(currentServerBtn.dataset.index) : (fallbackIdx !== -1 ? fallbackIdx : 0);
             loadVideo(serverIdx);
         };
-        const imgUrl = ep.still_path ? `https://image.tmdb.org/t/p/w300${ep.still_path}` : '';
+        // Force WebP for episode thumbnails
+        const imgUrl = ep.still_path ? `https://wsrv.nl/?url=image.tmdb.org/t/p/w185${ep.still_path}&output=webp` : '';
         if (episodeView === 'list') {
             div.innerHTML = `<div class="ep-number">${ep.episode_number}</div><div class="ep-info"><div class="ep-title">${ep.name}</div></div>`;
         } else {
@@ -902,7 +910,7 @@ function renderServers(activeIdx = -1) {
             const title = document.createElement('div');
             title.innerHTML = titleText;
             // CSS to make it span all 3 columns and look like a mini-header
-            title.style.gridColumn = '1 / -1'; 
+            title.style.gridColumn = '1 / -1';
             title.style.color = 'var(--text-muted)';
             title.style.fontSize = '12px';
             title.style.fontWeight = '600';
@@ -936,7 +944,7 @@ function renderServers(activeIdx = -1) {
     // 3. Render the blocks to the screen
     if (!playerState.isAnime) {
         // Just render regular servers normally without extra labels
-        renderServerBlock(primaryServers, null); 
+        renderServerBlock(primaryServers, null);
     } else {
         // Render two distinct blocks with labels for Anime
         renderServerBlock(primaryServers, '<i class="fas fa-dragon"></i> Dedicated Anime Servers');
@@ -1088,7 +1096,7 @@ function performLiveSearch(query) {
         navState.view = 'mobile-search';
     } else {
         // USE THE NEW SEARCH VIEW INSTEAD OF DESTROYING THE MOVIES PAGE
-        router('search'); 
+        router('search');
         navState.query = query; // Ensure query persists
         const searchTitle = document.getElementById('search-title');
         if (searchTitle) {
@@ -1137,13 +1145,13 @@ function updateHistory(serverIdx) {
 async function downloadContent() {
     // Extract season and episode alongside id and type
     const { id, type, season, episode } = playerState;
-    
+
     // Define primary URL
     const primaryUrl = `https://zxcstream.xyz/download/${type}/${id}`;
-    
+
     // Define fallback URL
     let fallbackUrl = `https://media.trendingpie.com/?id=${id}`;
-    
+
     // Check if it's a TV show to append season and episode
     if (type === 'tv') {
         // Use the selected season/episode, or default to 1 if undefined
@@ -1157,19 +1165,19 @@ async function downloadContent() {
     try {
         // Attempt to ping the primary server
         await fetch(primaryUrl, { method: 'HEAD', mode: 'no-cors' });
-        
+
         // If the ping succeeds, open the primary link
         window.open(primaryUrl, '_blank');
-        
+
         // Show the manual fallback toast in case of a 404
         setTimeout(() => {
             showToast(`Not working? <a href="${fallbackUrl}" target="_blank" style="color: #ffeb3b; font-weight: bold; text-decoration: underline;">Try Server 2</a>`, 'info');
         }, 1000);
-        
+
     } catch (error) {
         // If the ping fails completely, open the fallback automatically
         console.warn("Primary download server is unreachable, switching to fallback.", error);
-        
+
         showToast("Primary server down. Opening Fallback...", "success");
         window.open(fallbackUrl, '_blank');
     }
@@ -1202,10 +1210,10 @@ function restoreLastState() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const icon = document.getElementById('toggle-icon');
-    
+
     // Toggle the 'collapsed' class
     sidebar.classList.toggle('collapsed');
-    
+
     // Change the arrow icon direction
     if (sidebar.classList.contains('collapsed')) {
         icon.classList.remove('fa-chevron-left');

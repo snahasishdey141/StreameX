@@ -4,8 +4,7 @@
 <head>
     <meta name="google-site-verification" content="E58HshX__LEhPIUm9GKCaedC_SIOk6wwgOZm4j15_0g" /> 
     <meta charset="UTF-8">
-    <link rel="preconnect" href="https://api.themoviedb.org">
-    <link rel="preconnect" href="https://image.tmdb.org">
+    <link rel="dns-prefetch" href="https://wsrv.nl">
     <link rel="preconnect" href="https://streamex-proxy.snahasishdey141.workers.dev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -22,9 +21,16 @@
     <meta property="og:image" content="https://streamex.pages.dev/assets/logo.png">
     <meta name="referrer" content="origin" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
+
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="icon" type="image/png" href="favicon.png">
 
 </head>
@@ -70,7 +76,7 @@
         </div>
     </div>
 
-    <div class="main-content">
+    <main class="main-content">
 
         <div id="mobile-download-btn">
         <a href="https://rebrand.ly/StreameX" target="_blank" rel="noopener noreferrer">
@@ -396,7 +402,7 @@
             <div class="media-grid" id="player-recommendations"></div>
         </div>
 
-    </div>
+    </main>
 
     <div class="bottom-nav">
         <div class="b-nav-item active" onclick="router('home')">
