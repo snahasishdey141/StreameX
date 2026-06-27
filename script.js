@@ -359,10 +359,31 @@ async function loadHome() {
         localQuery = `/discover/movie?with_origin_country=${currentRegion}&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5`;
     }
     const hollyQuery = currentRegion !== 'US' ? `/discover/movie?with_origin_country=US&primary_release_date.lte=${today}&sort_by=primary_release_date.desc&vote_count.gte=5` : '/movie/trending/week';
+    // 1. FETCH AND RENDER THE SLIDER FIRST (Crucial for LCP)
     try {
-        const [trending, localMovies, hollyData, tvShows] = await Promise.all([
-            fetchAPI('/trending/all/week'), fetchAPI(localQuery), fetchAPI(hollyQuery), fetchAPI('/trending/tv/week')
+        const trending = await fetchAPI('/trending/all/week');
+        let slides = [];
+        if (trending && trending.results) {
+            slides = trending.results.filter(item => item.backdrop_path).slice(0, 5);
+        }
+        renderSlider(slides); // Paint the slider to the screen instantly!
+    } catch (error) { 
+        console.error("Slider Load Error:", error); 
+    }
+
+    // 2. FETCH THE REST OF THE GRIDS AFTERWARD
+    try {
+        const [localMovies, hollyData, tvShows] = await Promise.all([
+            fetchAPI(localQuery), 
+            fetchAPI(hollyQuery), 
+            fetchAPI('/trending/tv/week')
         ]);
+        
+        renderGrid(localMovies ? localMovies.results : [], 'home-bollywood');
+        renderGrid(hollyData ? hollyData.results : [], 'home-hollywood');
+        renderGrid(tvShows ? tvShows.results : [], 'home-tv', 'tv');
+
+        // Background Prefetching for other pages
         if ('requestIdleCallback' in window) {
             requestIdleCallback(() => {
                 prefetchEndpoint('/movie/popular');
@@ -376,13 +397,9 @@ async function loadHome() {
                 prefetchEndpoint('/discover/tv?with_genres=16&with_origin_country=JP');
             }, 2000);
         }
-        let slides = [];
-        if (trending && trending.results) slides = trending.results.filter(item => item.backdrop_path).slice(0, 5);
-        renderSlider(slides);
-        renderGrid(localMovies ? localMovies.results : [], 'home-bollywood');
-        renderGrid(hollyData ? hollyData.results : [], 'home-hollywood');
-        renderGrid(tvShows ? tvShows.results : [], 'home-tv', 'tv');
-    } catch (error) { console.error("Home Data Load Error:", error); }
+    } catch (error) { 
+        console.error("Home Data Load Error:", error); 
+    }
     await refreshHomeHistory();
 }
 
