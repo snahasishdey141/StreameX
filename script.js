@@ -3,6 +3,7 @@ const WORKER_URL = 'https://streamex-server.snahasishdey141.workers.dev';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w342';
 const IMG_ORIG = 'https://image.tmdb.org/t/p/original';
+const IMG_SLIDER = 'https://image.tmdb.org/t/p/w1280';
 
 // --- GLOBAL VARIABLES ---
 let currentUser = null;
@@ -98,16 +99,12 @@ async function fetchAnilistId(title, season = 1) {
     return null;
 }
 
-// --- INITIALIZATION ---
-window.onload = async () => {
-
+// Use DOMContentLoaded instead of window.onload so it runs instantly
+document.addEventListener('DOMContentLoaded', () => {
     loadSettings();
     applyTheme();
 
-    // 2. Settings API
-    try { await populateSettingsAPI(); } catch (error) { console.error("Settings API Error:", error); addFallbackSettings(); }
-
-    // 3. Deep Links
+    // 1. ROUTE IMMEDIATELY - Don't wait for anything else!
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
     const id = params.get('id');
@@ -118,22 +115,26 @@ window.onload = async () => {
         router('home');
     }
 
-    // Browser Back Button
-    // --- BROWSER BACK BUTTON LISTENER ---
-    window.addEventListener('popstate', (event) => {
-        const params = new URLSearchParams(window.location.search);
-        const type = params.get('type');
-        const id = params.get('id');
-
-        if (type && id) {
-            openPlayer(id, type, true);
-        } else {
-            // If no ID in URL, we are going BACK from the player
-            // Instead of forcing 'home', use our restore function
-            restoreLastState();
-        }
+    // 2. Fetch settings in the background WITHOUT 'await' blocking the UI
+    populateSettingsAPI().catch(error => { 
+        console.error("Settings API Error:", error); 
+        addFallbackSettings(); 
     });
-};
+});
+
+// --- BROWSER BACK BUTTON LISTENER ---
+// Move this outside to run immediately
+window.addEventListener('popstate', (event) => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    const id = params.get('id');
+
+    if (type && id) {
+        openPlayer(id, type, true);
+    } else {
+        restoreLastState();
+    }
+});
 
 // --- DATABASE LOGIC ---
 function toggleLib(key, id, type, title, poster) {
@@ -397,9 +398,8 @@ function renderSlider(items) {
         const activeClass = index === 0 ? 'active' : '';
         let bg = '';
         if (item.backdrop_path) {
-            bg = `${IMG_ORIG}${item.backdrop_path}`;
-            const img = new Image();
-            img.src = bg;
+            // Use the smaller optimized image size
+            bg = `${IMG_SLIDER}${item.backdrop_path}`;
         }
         const slide = document.createElement('div');
         slide.className = `slide ${activeClass}`;
@@ -808,7 +808,8 @@ async function loadSeason(seasonNum) {
             const iframeBox = document.getElementById('iframe-box');
             if (iframeBox && iframeBox.innerHTML.includes('iframe')) {
                 const currentServerBtn = document.querySelector('.server-btn.active');
-                const serverIdx = currentServerBtn ? Array.from(currentServerBtn.parentNode.children).indexOf(currentServerBtn) : 0;
+                const fallbackIdx = servers.findIndex(s => !!s.isAnime === playerState.isAnime);
+                const serverIdx = currentServerBtn ? parseInt(currentServerBtn.dataset.index) : (fallbackIdx !== -1 ? fallbackIdx : 0);
                 // Only reload if using an Anime server
                 if (servers[serverIdx].isAnime) loadVideo(serverIdx);
             }
@@ -841,9 +842,10 @@ function renderEpisodeList() {
         div.onclick = () => {
             playerState.episode = ep.episode_number;
             renderEpisodeList();
-            // Determine active server
+            // Determine active server using the saved dataset index
             const currentServerBtn = document.querySelector('.server-btn.active');
-            const serverIdx = currentServerBtn ? Array.from(currentServerBtn.parentNode.children).indexOf(currentServerBtn) : 0;
+            const fallbackIdx = servers.findIndex(s => !!s.isAnime === playerState.isAnime);
+            const serverIdx = currentServerBtn ? parseInt(currentServerBtn.dataset.index) : (fallbackIdx !== -1 ? fallbackIdx : 0);
             loadVideo(serverIdx);
         };
         const imgUrl = ep.still_path ? `https://image.tmdb.org/t/p/w300${ep.still_path}` : '';
@@ -919,6 +921,7 @@ function renderServers(activeIdx = -1) {
             const isActive = (activeIdx !== -1) ? (idx === activeIdx) : (idx === firstVisibleIndex);
 
             btn.className = `server-btn ${isActive ? 'active' : ''}`;
+            btn.dataset.index = idx; // Saves the true backend index to the HTML
             btn.innerHTML = `<i class="fas fa-play"></i> ${srv.name}`;
 
             btn.onclick = () => {
