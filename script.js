@@ -45,7 +45,7 @@ const servers = [
     { name: "VidSrc", key: "vidsrc", useSandbox: false },
     { name: "Server4", key: "server5", useSandbox: false },       // Maps to PrimeSrc in worker
     { name: "Vidpro", key: "vidpro", useSandbox: false },        // Maps to VidKing in worker
-    { name: "Stream", key: "cstream", useSandbox: true },
+    { name: "Stream", key: "cstream", useSandbox: false },
     { name: "king", key: "vidking_direct", useSandbox: false }, // Maps to VidRock in worker
     { name: "pro", key: "vidlink_standard", useSandbox: false },
     { name: "nest", key: "vidnest_standard", useSandbox: false },
