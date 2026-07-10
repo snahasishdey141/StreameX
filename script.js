@@ -231,7 +231,6 @@ function applyTheme() {
 }
 
 // --- ROUTING ---
-// --- ROUTING ---
 function router(viewName) {
     // 1. Clean URL (remove ?id=...)
     if (window.location.search.length > 0) {
@@ -1057,7 +1056,37 @@ async function loadVideo(serverIdx) {
 
         // 5. LOAD THE IFRAME
         // We use the Worker URL as the source. The browser will never see the real video source URL.
-        iframeBox.innerHTML = `<iframe src="${playUrl.toString()}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" ${sandboxAttr} style="width:100%; height:100%;"></iframe>`;
+        iframeBox.innerHTML = `
+            <div style="position: relative; width: 100%; height: 100%;">
+                <iframe src="${playUrl.toString()}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" ${sandboxAttr} style="width:100%; height:100%;"></iframe>
+                
+                <!-- The Invisible Click Catcher -->
+                <div id="click-catcher" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background: transparent; cursor: pointer;"></div>
+            </div>
+        `;
+
+        // 6. ATTACH THE RECURRING SHIELD LOGIC
+        const catcher = document.getElementById('click-catcher');
+        if (catcher) {
+            let shieldTimer;
+
+            catcher.addEventListener('click', function(e) {
+                // Intercept the click (Absorbs the clickjacking ad)
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Hide the shield instantly so the NEXT click goes to the video player
+                catcher.style.display = 'none';
+                
+                // Reset the timer
+                clearTimeout(shieldTimer);
+                
+                // Bring the invisible shield back after 3 seconds to block new ads
+                shieldTimer = setTimeout(() => {
+                    if (catcher) catcher.style.display = 'block';
+                }, 6000); 
+            });
+        }
 
     } catch (error) {
         console.error("Video Load Error:", error);
