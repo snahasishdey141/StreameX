@@ -31,8 +31,8 @@ const activeScrollHandlers = {};
 // --- SERVERS (UPDATED FOR WORKER) ---
 const servers = [
     // --- ANIME SERVERS (Require Anilist ID) ---
-    { name: "StreameX Anime", isAnime: true, key: "Streamrip", useSandbox: true },
-    { name: "FilmU", isAnime: true, key: "FilmU", useSandbox: true },
+    { name: "StreameX Anime", isAnime: true, key: "Streamrip", useSandbox: false },
+    { name: "FilmU", isAnime: true, key: "FilmU", useSandbox: false },
     { name: "VidNest (Sub)", isAnime: true, key: "vidnest_anime_sub", useSandbox: false },
     { name: "VidNest (Dub)", isAnime: true, key: "vidnest_anime_dub", useSandbox: false },
     { name: "Anime (Sub)", isAnime: true, key: "animepahe_sub", useSandbox: false },
@@ -59,8 +59,8 @@ const servers = [
     { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
     { name: "Vidapi", key: "Vidapi", useSandbox: true },
     { name: "NextGen", key: "NextGen", useSandbox: true },
-    { name: "Streamrip", key: "Streamrip", useSandbox: true },
-    { name: "FilmU", key: "FilmU", useSandbox: true },
+    { name: "Streamrip", key: "Streamrip", useSandbox: false },
+    { name: "FilmU", key: "FilmU", useSandbox: false },
 
 ];
 
