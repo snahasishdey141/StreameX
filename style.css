@@ -1343,25 +1343,19 @@ body {
     }
 
     .movie-info-block {
-    flex: 1;
-    min-width: 0;         /* This prevents the text from pushing the container wide */
-    max-width: calc(100vw - 150px); /* Forces it to fit within screen minus image width */
-    overflow: hidden;
-}
+        flex: 1;
+        min-width: 0;
+ }
 
     .movie-info-block h1 {
         font-size: 20px;
     }
 
     .movie-desc {
-    font-size: 13px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-word; /* This forces long words to wrap */
-    overflow-wrap: break-word; /* This is the modern standard for breaking text */
-    max-width: 100%;
+    white-space: normal !important; /* Forces text to wrap */
+    word-break: break-word !important; /* Breaks long words if necessary */
+    overflow-wrap: break-word !important; /* Standard property for wrapping */
+    max-width: 100% !important; /* Ensures it never exceeds the block */
 }
 
     /* 5. FIX: RECOMMENDATIONS GRID (Make them small) */
