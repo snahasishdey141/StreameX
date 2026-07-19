@@ -1352,11 +1352,12 @@ body {
     }
 
     .movie-desc {
-    white-space: normal !important; /* Forces text to wrap */
-    word-break: break-word !important; /* Breaks long words if necessary */
-    overflow-wrap: break-word !important; /* Standard property for wrapping */
-    max-width: 100% !important; /* Ensures it never exceeds the block */
-}
+        font-size: 13px;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 
     /* 5. FIX: RECOMMENDATIONS GRID (Make them small) */
     #player-recommendations {
