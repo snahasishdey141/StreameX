@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "dev.pages.streamex.twa",
-        "sha256_cert_fingerprints": ["AA:2C:37:63:B4:51:55:39:46:E0:8A:EF:3D:39:23:52:AF:13:C3:27:2C:59:C4:2C:EC:A2:06:44:73:81:EA:43"]
+        "package_name": "com.streamex.dev",
+        "sha256_cert_fingerprints": ["59:48:85:52:18:C5:4B:24:55:BF:53:60:D1:1C:3D:C4:A4:1F:45:D2:5F:13:1F:B6:E9:BB:AA:A8:38:FF:D2:84"]
       }
     }]
