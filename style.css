@@ -1343,22 +1343,26 @@ body {
     }
 
     .movie-info-block {
-        flex: 1;
-        /* Take remaining space */
-        min-width: 0;
-    }
+    flex: 1;
+    min-width: 0;         /* This prevents the text from pushing the container wide */
+    max-width: calc(100vw - 150px); /* Forces it to fit within screen minus image width */
+    overflow: hidden;
+}
 
     .movie-info-block h1 {
         font-size: 20px;
     }
 
     .movie-desc {
-        font-size: 13px;
-        display: -webkit-box;
-        line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
+    font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word; /* This forces long words to wrap */
+    overflow-wrap: break-word; /* This is the modern standard for breaking text */
+    max-width: 100%;
+}
 
     /* 5. FIX: RECOMMENDATIONS GRID (Make them small) */
     #player-recommendations {
