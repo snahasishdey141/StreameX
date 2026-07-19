@@ -70,22 +70,38 @@ self.addEventListener('fetch', event => {
 });
 
 self.addEventListener('push', function(event) {
-  // Check if the push message has data
-  const payload = event.data ? event.data.text() : 'New movies are available on StreameX!';
+  // Set default fallback values just in case
+  let notificationTitle = 'StreameX';
+  let notificationBody = 'New movies are available!';
+
+  if (event.data) {
+    try {
+      // Parse the incoming Firebase data as JSON
+      const payload = event.data.json();
+      
+      // Extract the exact title and body you typed in Firebase
+      if (payload.notification) {
+        notificationTitle = payload.notification.title || notificationTitle;
+        notificationBody = payload.notification.body || notificationBody;
+      }
+    } catch (e) {
+      // If parsing fails, fall back to whatever text came through
+      notificationBody = event.data.text();
+    }
+  }
 
   const options = {
-    body: payload,
-    icon: '/assets/icon-192.png', // Your app icon
-    badge: '/favicon.png', // A small monochrome icon for the Android status bar
+    body: notificationBody,
+    icon: '/assets/icon-192.png',
+    badge: '/favicon.png', 
     vibrate: [200, 100, 200],
     data: {
-      url: 'https://streamex.pages.dev/' // Where to take them when they click it
+      url: 'https://streamex.pages.dev/' 
     }
   };
 
-  // Show the notification
   event.waitUntil(
-    self.registration.showNotification('StreameX', options)
+    self.registration.showNotification(notificationTitle, options)
   );
 });
 
