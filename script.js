@@ -371,18 +371,18 @@ async function loadHome() {
             slides = trending.results.filter(item => item.backdrop_path).slice(0, 5);
         }
         renderSlider(slides); // Paint the slider to the screen instantly!
-    } catch (error) { 
-        console.error("Slider Load Error:", error); 
+    } catch (error) {
+        console.error("Slider Load Error:", error);
     }
 
     // 2. FETCH THE REST OF THE GRIDS AFTERWARD
     try {
         const [localMovies, hollyData, tvShows] = await Promise.all([
-            fetchAPI(localQuery), 
-            fetchAPI(hollyQuery), 
+            fetchAPI(localQuery),
+            fetchAPI(hollyQuery),
             fetchAPI('/trending/tv/week')
         ]);
-        
+
         renderGrid(localMovies ? localMovies.results : [], 'home-bollywood');
         renderGrid(hollyData ? hollyData.results : [], 'home-hollywood');
         renderGrid(tvShows ? tvShows.results : [], 'home-tv', 'tv');
@@ -401,8 +401,8 @@ async function loadHome() {
                 prefetchEndpoint('/discover/tv?with_genres=16&with_origin_country=JP');
             }, 2000);
         }
-    } catch (error) { 
-        console.error("Home Data Load Error:", error); 
+    } catch (error) {
+        console.error("Home Data Load Error:", error);
     }
     await refreshHomeHistory();
 }
@@ -419,7 +419,7 @@ function renderSlider(items) {
         let bg = '';
         if (item.backdrop_path) {
             bg = `https://wsrv.nl/?url=image.tmdb.org/t/p/w1280${item.backdrop_path}&output=webp`;
-            
+
             // Preload the very first slider image as ultra-high priority
             if (index === 0) {
                 const link = document.createElement('link');
@@ -1256,43 +1256,75 @@ function toggleSidebar() {
 }
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch(err => {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
 }
 
 // Online/Offline Detection Logic
 const statusToast = document.getElementById('connection-status');
 
 function showConnectionStatus(message, isOnline) {
-  if (!statusToast) return;
-  
-  // Set the text and update classes
-  statusToast.textContent = message;
-  statusToast.className = `connection-toast show ${isOnline ? 'toast-online' : 'toast-offline'}`;
+    if (!statusToast) return;
 
-  // If we are back online, hide the message after 3 seconds
-  if (isOnline) {
-    setTimeout(() => {
-      statusToast.classList.remove('show');
-    }, 3000);
-  }
+    // Set the text and update classes
+    statusToast.textContent = message;
+    statusToast.className = `connection-toast show ${isOnline ? 'toast-online' : 'toast-offline'}`;
+
+    // If we are back online, hide the message after 3 seconds
+    if (isOnline) {
+        setTimeout(() => {
+            statusToast.classList.remove('show');
+        }, 3000);
+    }
 }
 
 // Listen for the browser losing internet connection
 window.addEventListener('offline', () => {
-  showConnectionStatus('You are offline. Showing cached movies.', false);
+    showConnectionStatus('You are offline. Showing cached movies.', false);
 });
 
 // Listen for the browser regaining internet connection
 window.addEventListener('online', () => {
-  showConnectionStatus('Back online! Ready to stream new movies.', true);
+    showConnectionStatus('Back online! Ready to stream new movies.', true);
+});
+
+// Notification Modal Logic
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById('notification-modal');
+    const btnLater = document.getElementById('btn-later');
+    const btnEnable = document.getElementById('btn-enable');
+
+    // Only show the prompt if the browser supports notifications
+    // and the user hasn't already granted or denied permission
+    if ('Notification' in window && Notification.permission === 'default') {
+        // Wait 3 seconds so we don't interrupt the user immediately
+        setTimeout(() => {
+            modal.classList.remove('hidden');
+        }, 3000);
+    }
+
+    // Handle "Maybe Later" click
+    btnLater.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    // Handle "Allow Notifications" click
+    btnEnable.addEventListener('click', () => {
+        // Hide the modal immediately for a responsive feel
+        modal.classList.add('hidden');
+
+        // Call the Firebase function we set up in index.html
+        if (typeof window.enableNotifications === 'function') {
+            window.enableNotifications();
+        }
+    });
 });
 
 // --- EXPOSE TO HTML ---

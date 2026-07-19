@@ -74,7 +74,7 @@ body {
     gap: 10px;
     flex-shrink: 0;
     border-right: 1px solid var(--border-color);
-    box-shadow: 2px 0 20px rgba(0,0,0,0.2);
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
@@ -149,7 +149,7 @@ body {
     font-size: 14px;
     outline: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .search-input:focus {
@@ -169,36 +169,38 @@ body {
 
 /* Offline/Online Notification Styles */
 .connection-toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(50px);
-  padding: 12px 24px;
-  border-radius: 8px;
-  color: #fff;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  z-index: 9999;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(50px);
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    z-index: 9999;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .connection-toast.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
 }
 
 .toast-offline {
-  background-color: #e74c3c; /* Professional Red */
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    background-color: #e74c3c;
+    /* Professional Red */
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .toast-online {
-  background-color: #2ecc71; /* Professional Green */
-  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    background-color: #2ecc71;
+    /* Professional Green */
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
 }
 
 /* Slider */
@@ -288,7 +290,7 @@ body {
     align-items: center;
     gap: 8px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary {
@@ -480,7 +482,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0, 0, 0, 0.2) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1693,9 +1695,10 @@ body {
 
 .sidebar {
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative; 
+    position: relative;
     height: 100vh;
-    z-index: 50; /* Keeps sidebar above main-content so clicks aren't blocked */
+    z-index: 50;
+    /* Keeps sidebar above main-content so clicks aren't blocked */
 }
 
 .nav-item i {
@@ -1711,17 +1714,18 @@ body {
     transform: translateY(-50%);
     width: 32px;
     height: 32px;
-    background-color: var(--sidebar-bg); 
+    background-color: var(--sidebar-bg);
     border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 100; /* Keeps button on the very top layer */
+    z-index: 100;
+    /* Keeps button on the very top layer */
     color: var(--text-muted);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Hover State */
@@ -1729,15 +1733,16 @@ body {
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
-    transform: translateY(-50%) scale(1.15); 
-    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4); 
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4);
 }
 
 .sidebar-toggle i {
     font-size: 13px;
-    margin-right: 2px; 
+    margin-right: 2px;
     transition: transform 0.3s ease;
-    pointer-events: none; /* Prevents the icon itself from blocking the click */
+    pointer-events: none;
+    /* Prevents the icon itself from blocking the click */
 }
 
 .sidebar.collapsed .sidebar-toggle i {
@@ -1747,8 +1752,8 @@ body {
 
 /* --- COLLAPSED STATE STYLES --- */
 .sidebar.collapsed {
-    width: 80px; 
-    padding: 20px 10px; 
+    width: 80px;
+    padding: 20px 10px;
 }
 
 .sidebar.collapsed .nav-text {
@@ -1779,7 +1784,114 @@ body {
     padding: 12px 0;
 }
 
-.section-row, .grid-container {
+.section-row,
+.grid-container {
     content-visibility: auto;
-    contain-intrinsic-size: 0 350px; /* Tells browser expected height before loading */
+    contain-intrinsic-size: 0 350px;
+    /* Tells browser expected height before loading */
+}
+
+/* Notification Modal Styles */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    font-family: 'Outfit', sans-serif;
+}
+
+.notification-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.notification-box {
+    background-color: #141414;
+    /* Deep cinematic black */
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notification-overlay.hidden .notification-box {
+    transform: translateY(50px);
+}
+
+.notification-icon {
+    background: rgba(229, 9, 20, 0.1);
+    color: #e50914;
+    /* Streaming Red */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 auto 15px auto;
+}
+
+.notification-box h3 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.notification-box p {
+    color: #a3a3a3;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.notification-actions button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #a3a3a3;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #e50914;
+    /* Streaming Red */
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #f40612;
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
 }

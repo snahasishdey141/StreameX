@@ -3,7 +3,7 @@
 
 <head>
     <link rel="manifest" href="/manifest.json">
-    <meta name="google-site-verification" content="E58HshX__LEhPIUm9GKCaedC_SIOk6wwgOZm4j15_0g" /> 
+    <meta name="google-site-verification" content="E58HshX__LEhPIUm9GKCaedC_SIOk6wwgOZm4j15_0g" />
     <meta charset="UTF-8">
     <link rel="dns-prefetch" href="https://wsrv.nl">
     <link rel="preconnect" href="https://streamex-proxy.snahasishdey141.workers.dev">
@@ -27,11 +27,19 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap">
+    </noscript>
 
-    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
     <link rel="icon" type="image/png" href="favicon.png">
 
 </head>
@@ -50,16 +58,22 @@
 
         <div class="nav-group">
             <div class="nav-label nav-text">Browse</div>
-            <div class="nav-item active" onclick="router('home')"><i class="fas fa-home"></i> <span class="nav-text">Home</span></div>
-            <div class="nav-item" onclick="router('movies')"><i class="fas fa-film"></i> <span class="nav-text">Movies</span></div>
-            <div class="nav-item" onclick="router('tv')"><i class="fas fa-tv"></i> <span class="nav-text">TV Shows</span></div>
-            <div class="nav-item" onclick="router('anime')"><i class="fas fa-dragon"></i> <span class="nav-text">Anime</span></div>
+            <div class="nav-item active" onclick="router('home')"><i class="fas fa-home"></i> <span
+                    class="nav-text">Home</span></div>
+            <div class="nav-item" onclick="router('movies')"><i class="fas fa-film"></i> <span
+                    class="nav-text">Movies</span></div>
+            <div class="nav-item" onclick="router('tv')"><i class="fas fa-tv"></i> <span class="nav-text">TV
+                    Shows</span></div>
+            <div class="nav-item" onclick="router('anime')"><i class="fas fa-dragon"></i> <span
+                    class="nav-text">Anime</span></div>
         </div>
 
         <div class="nav-group">
             <div class="nav-label nav-text">Library</div>
-            <div class="nav-item" onclick="router('watchlist')"><i class="far fa-heart"></i> <span class="nav-text">Watchlist</span></div>
-            <div class="nav-item" onclick="router('history')"><i class="fas fa-history"></i> <span class="nav-text">History</span></div>
+            <div class="nav-item" onclick="router('watchlist')"><i class="far fa-heart"></i> <span
+                    class="nav-text">Watchlist</span></div>
+            <div class="nav-item" onclick="router('history')"><i class="fas fa-history"></i> <span
+                    class="nav-text">History</span></div>
         </div>
 
         <div class="nav-group">
@@ -67,12 +81,15 @@
             <div class="nav-item" onclick="router('legal')">
                 <i class="fas fa-file-contract"></i> <span class="nav-text">Legal/DMCA</span>
             </div>
-            <div class="nav-item" onclick="router('settings')"><i class="fas fa-cog"></i> <span class="nav-text">Settings</span></div>
-            <a href="https://rebrand.ly/StreameX" target="_blank" rel="noopener noreferrer" class="nav-item" id="desktop-download-btn">
+            <div class="nav-item" onclick="router('settings')"><i class="fas fa-cog"></i> <span
+                    class="nav-text">Settings</span></div>
+            <a href="https://rebrand.ly/StreameX" target="_blank" rel="noopener noreferrer" class="nav-item"
+                id="desktop-download-btn">
                 <i class="fas fa-download" style="color: #4caf50;"></i> <span class="nav-text">Download App</span>
             </a>
             <div class="nav-item" onclick="router('adblock')">
-                <i class="fas fa-shield-alt" style="color: #ff9800;"></i> <span class="nav-text" style="color: #ff9800; font-weight: 600;">Block Ads</span>
+                <i class="fas fa-shield-alt" style="color: #ff9800;"></i> <span class="nav-text"
+                    style="color: #ff9800; font-weight: 600;">Block Ads</span>
             </div>
         </div>
     </div>
@@ -80,10 +97,10 @@
     <main class="main-content">
 
         <div id="mobile-download-btn">
-        <a href="https://rebrand.ly/StreameX" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-download"></i>
-        </a>
-    </div>
+            <a href="https://rebrand.ly/StreameX" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-download"></i>
+            </a>
+        </div>
 
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
@@ -243,15 +260,20 @@
 
         <div id="view-adblock" class="page-view">
             <div class="legal-header" style="text-align: center; padding: 50px 20px;">
-                <i class="fas fa-shield-alt" style="font-size: 60px; color: #ff9800; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.4));"></i>
+                <i class="fas fa-shield-alt"
+                    style="font-size: 60px; color: #ff9800; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.4));"></i>
                 <h1 style="color: #ff9800;">Get an Ad-Free Experience</h1>
                 <p style="margin: 0 auto; max-width: 600px; font-size: 16px;">
-                    Streaming servers rely on popup ads to cover their server costs. Because StreameX does not host the videos directly, we cannot disable these external ads for you. 
+                    Streaming servers rely on popup ads to cover their server costs. Because StreameX does not host the
+                    videos directly, we cannot disable these external ads for you.
                     <br><br>
-                    For the ultimate, uninterrupted streaming experience, we highly recommend installing a free Ad Blocker extension on your browser.
+                    For the ultimate, uninterrupted streaming experience, we highly recommend installing a free Ad
+                    Blocker extension on your browser.
                 </p>
                 <br>
-                <a href="https://chromewebstore.google.com/detail/bgnkhhnnamicmpeenaelnjfhikgbkllg" target="_blank" rel="noopener noreferrer" class="btn" style="background-color: #ff9800; color: #000; font-size: 16px; margin-top: 15px; padding: 14px 30px;">
+                <a href="https://chromewebstore.google.com/detail/bgnkhhnnamicmpeenaelnjfhikgbkllg" target="_blank"
+                    rel="noopener noreferrer" class="btn"
+                    style="background-color: #ff9800; color: #000; font-size: 16px; margin-top: 15px; padding: 14px 30px;">
                     <i class="fab fa-chrome"></i> Install AdGuard AdBlocker
                 </a>
             </div>
@@ -259,17 +281,21 @@
             <div class="legal-grid" style="margin-top: 30px;">
                 <div class="legal-card">
                     <div class="legal-title"><i class="fas fa-ban" style="color: #ff4444;"></i> Block Popups</div>
-                    <div class="legal-text">Never see another annoying redirect or popup ad when you click play, pause, or skip forward.</div>
+                    <div class="legal-text">Never see another annoying redirect or popup ad when you click play, pause,
+                        or skip forward.</div>
                 </div>
 
                 <div class="legal-card">
                     <div class="legal-title"><i class="fas fa-bolt" style="color: #ffeb3b;"></i> Faster Loading</div>
-                    <div class="legal-text">Without loading heavy ad-tracking scripts, the website and video players will buffer and load significantly faster.</div>
+                    <div class="legal-text">Without loading heavy ad-tracking scripts, the website and video players
+                        will buffer and load significantly faster.</div>
                 </div>
 
                 <div class="legal-card">
-                    <div class="legal-title"><i class="fas fa-user-shield" style="color: #4caf50;"></i> Enhanced Privacy</div>
-                    <div class="legal-text">Ad blockers stop third-party trackers from following your activity across the web, keeping your data safe.</div>
+                    <div class="legal-title"><i class="fas fa-user-shield" style="color: #4caf50;"></i> Enhanced Privacy
+                    </div>
+                    <div class="legal-text">Ad blockers stop third-party trackers from following your activity across
+                        the web, keeping your data safe.</div>
                 </div>
             </div>
         </div>
@@ -457,8 +483,62 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
+            authDomain: "streamex-v1.firebaseapp.com",
+            projectId: "streamex-v1",
+            storageBucket: "streamex-v1.firebasestorage.app",
+            messagingSenderId: "87040295346",
+            appId: "1:87040295346:web:4369ebb00242756e5f24ab"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        // Ask for permission when a user clicks a button
+        window.enableNotifications = () => {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Permission granted!');
+
+                    // Pass your existing service worker registration to Firebase
+                    navigator.serviceWorker.ready.then((registration) => {
+                        getToken(messaging, {
+                            vapidKey: 'BOe9LMQ44UN1YUe_cd-lN1bz5rEfXceWWYEVKnzgjL7PD3mqOpXRMAn8H6WHkY1tpScfhFIcapNX7QXhaeuQWaA',
+                            serviceWorkerRegistration: registration
+                        }).then((currentToken) => {
+                            if (currentToken) {
+                                console.log('Your Device Token:', currentToken);
+                                // Save this token to your database later!
+                            }
+                        });
+                    });
+                }
+            });
+        };
+    </script>
+
     <script src="script.js" type="module"></script>
     <div id="connection-status" class="connection-toast"></div>
+    <!-- Push Notification Prompt Modal -->
+    <div id="notification-modal" class="notification-overlay hidden">
+        <div class="notification-box">
+            <div class="notification-icon">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <h3>Never Miss a Premiere</h3>
+            <p>Get instant alerts when we drop new HD movies and TV shows on StreameX.</p>
+            <div class="notification-actions">
+                <button id="btn-later" class="btn-secondary">Maybe Later</button>
+                <button id="btn-enable" class="btn-primary">Allow Notifications</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 
