@@ -1255,6 +1255,46 @@ function toggleSidebar() {
     }
 }
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+}
+
+// Online/Offline Detection Logic
+const statusToast = document.getElementById('connection-status');
+
+function showConnectionStatus(message, isOnline) {
+  if (!statusToast) return;
+  
+  // Set the text and update classes
+  statusToast.textContent = message;
+  statusToast.className = `connection-toast show ${isOnline ? 'toast-online' : 'toast-offline'}`;
+
+  // If we are back online, hide the message after 3 seconds
+  if (isOnline) {
+    setTimeout(() => {
+      statusToast.classList.remove('show');
+    }, 3000);
+  }
+}
+
+// Listen for the browser losing internet connection
+window.addEventListener('offline', () => {
+  showConnectionStatus('You are offline. Showing cached movies.', false);
+});
+
+// Listen for the browser regaining internet connection
+window.addEventListener('online', () => {
+  showConnectionStatus('Back online! Ready to stream new movies.', true);
+});
+
 // --- EXPOSE TO HTML ---
 window.router = router;
 window.openPlayer = openPlayer;

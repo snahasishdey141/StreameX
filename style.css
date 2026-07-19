@@ -167,6 +167,40 @@ body {
     z-index: 10;
 }
 
+/* Offline/Online Notification Styles */
+.connection-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(50px);
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 9999;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.connection-toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-offline {
+  background-color: #e74c3c; /* Professional Red */
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.toast-online {
+  background-color: #2ecc71; /* Professional Green */
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
 /* Slider */
 .slider-container {
     width: 100%;
