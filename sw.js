@@ -21,24 +21,23 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       
-      // 1. Create a background network request to fetch the newest data
       const fetchPromise = fetch(event.request).then(networkResponse => {
         
-        // 2. Open the cache and silently update it with the fresh data
+        // 1. CLONE THE RESPONSE IMMEDIATELY before doing anything else
+        const responseToCache = networkResponse.clone();
+        
+        // 2. Now open the cache and save the clone
         caches.open(CACHE_NAME).then(cache => {
-          // We clone the response because it can only be consumed once
-          cache.put(event.request, networkResponse.clone());
+          cache.put(event.request, responseToCache);
         });
         
+        // 3. Return the original to the browser
         return networkResponse;
+        
       }).catch(err => {
-        // If the network completely fails, do nothing. 
-        // The user will just continue using the cached version.
         console.log('Network request failed, relying completely on cache.', err);
       });
 
-      // 3. IMMEDIATELY return the cached response so the site loads instantly.
-      // If there is no cached response (first time visit), wait for the network fetch.
       return cachedResponse || fetchPromise;
     })
   );
