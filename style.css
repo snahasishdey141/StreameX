@@ -1139,6 +1139,7 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 10px;
+    position: relative;
 }
 
 /* LIST VIEW STYLE */

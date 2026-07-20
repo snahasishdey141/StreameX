@@ -581,7 +581,9 @@ async function openPlayer(id, type, skipPush = false) {
 
     document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
     document.getElementById('view-player').classList.add('active');
-    document.querySelector('.main-content').scrollTop = 0;
+    window.scrollTo(0, 0);
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) mainContent.scrollTop = 0;
 
     if (!skipPush) {
         const newUrl = `?type=${type}&id=${id}`;
@@ -741,16 +743,16 @@ async function openPlayer(id, type, skipPush = false) {
         await loadSeason(playerState.season);
         setTimeout(() => {
             const activeEp = document.querySelector('.ep-item.active');
-            if (activeEp) {
-                const box = document.getElementById('episode-list-box');
-                if (box) {
-                    box.scrollTo({
-                        top: activeEp.offsetTop - (box.clientHeight / 2) + (activeEp.clientHeight / 2),
-                        behavior: 'smooth'
-                    });
-                }
+            const box = document.getElementById('episode-list-box');
+            if (activeEp && box) {
+                const epTop = activeEp.getBoundingClientRect().top;
+                const boxTop = box.getBoundingClientRect().top;
+                box.scrollTo({
+                    top: box.scrollTop + (epTop - boxTop) - (box.clientHeight / 2) + (activeEp.clientHeight / 2),
+                    behavior: 'smooth'
+                });
             }
-        }, 500);
+        }, 300);
     }
 
     renderServers(preferredServer);
@@ -791,6 +793,10 @@ async function openPlayer(id, type, skipPush = false) {
     } catch (e) {
         console.error("Recommendations Error:", e);
     }
+
+    window.scrollTo(0, 0);
+    const finalMainContent = document.querySelector('.main-content');
+    if (finalMainContent) finalMainContent.scrollTop = 0;
 
 }
 
