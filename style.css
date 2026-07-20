@@ -1292,6 +1292,13 @@ body {
     gap: 20px;
 }
 
+.tv-details-card {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 /* 1. Header: Poster + Meta Info (Status/Studio) */
 .movie-sidebar-header {
     display: flex;

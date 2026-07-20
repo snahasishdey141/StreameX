@@ -710,7 +710,7 @@ async function openPlayer(id, type, skipPush = false) {
             const tvDate = data.first_air_date || "N/A";
 
             bottomDetails.innerHTML = `
-                <div class="movie-sidebar" style="padding: 0;">
+                <div class="movie-sidebar tv-details-card">
                     <div class="movie-sidebar-header">
                         <img src="${poster}" class="sidebar-poster" alt="${title}">
                         <div class="sidebar-meta-info">
