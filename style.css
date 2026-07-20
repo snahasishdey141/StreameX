@@ -1297,7 +1297,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 /* 1. Header: Poster + Meta Info (Status/Studio) */
