@@ -86,6 +86,12 @@ body {
     gap: 10px;
 }
 
+.brand-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+}
+
 .nav-label {
     font-size: 12px;
     font-weight: 700;
