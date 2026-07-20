@@ -741,7 +741,15 @@ async function openPlayer(id, type, skipPush = false) {
         await loadSeason(playerState.season);
         setTimeout(() => {
             const activeEp = document.querySelector('.ep-item.active');
-            if (activeEp) activeEp.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            if (activeEp) {
+                const box = document.getElementById('episode-list-box');
+                if (box) {
+                    box.scrollTo({
+                        top: activeEp.offsetTop - (box.clientHeight / 2) + (activeEp.clientHeight / 2),
+                        behavior: 'smooth'
+                    });
+                }
+            }
         }, 500);
     }
 

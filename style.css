@@ -35,12 +35,11 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     display: flex;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     transition: 0.3s;
     user-select: none;
     overflow-x: hidden;
-    /* This prevents horizontal scrollbar jumps */
     width: 100%;
 }
 
@@ -1075,6 +1074,8 @@ body {
     color: #ccc;
     line-height: 1.6;
     margin-bottom: 15px;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 /* RIGHT COLUMN: EPISODES */
@@ -1345,7 +1346,7 @@ body {
     .movie-info-block {
         flex: 1;
         min-width: 0;
- }
+    }
 
     .movie-info-block h1 {
         font-size: 20px;
@@ -1519,6 +1520,8 @@ body {
     color: #aaa;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 15px;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 /* --- SKELETON LOADING ANIMATION --- */
