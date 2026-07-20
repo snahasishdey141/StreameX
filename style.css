@@ -1036,54 +1036,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* DETAILS BOX */
-.media-details-box {
-    margin-top: 25px;
-}
-
-.details-header {
-    display: flex;
-    gap: 20px;
-}
-
-.details-poster-img {
-    width: 100px;
-    border-radius: 8px;
-    object-fit: cover;
-    aspect-ratio: 2/3;
-}
-
-.details-text h1 {
-    font-size: 24px;
-    line-height: 1.2;
-    margin-bottom: 10px;
-}
-
-.meta-tags {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 15px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.tag-pill {
-    background: #333;
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: #fff;
-}
-
-#p-desc {
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
 /* RIGHT COLUMN: EPISODES */
 .player-right {
     background: var(--sidebar-bg);
@@ -1263,23 +1215,6 @@ body {
     /* Reset margins */
 }
 
-/* --- BUTTON GROUP STYLING --- */
-.action-buttons {
-    display: flex;
-    gap: 10px;
-    /* Space between Watchlist and Share */
-    margin-top: 25px;
-    /* FIX: Adds space above buttons (was too close) */
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-/* Ensure buttons take equal width in the sidebar */
-.action-buttons .btn {
-    flex: 1;
-    justify-content: center;
-}
-
 /* --- MOBILE RESPONSIVE OVERRIDES --- */
 @media (max-width: 1000px) {
 
@@ -1326,45 +1261,6 @@ body {
     .media-details-box,
     .movie-details-card {
         order: 4;
-    }
-
-    /* 4. FIX: COMPACT MOVIE DETAILS (Side-by-Side) */
-    .movie-details-card {
-        flex-direction: row !important;
-        /* Image Left, Text Right */
-        align-items: flex-start !important;
-        gap: 15px !important;
-        padding: 15px 0 !important;
-        background: transparent !important;
-        border: none !important;
-        height: auto !important;
-    }
-
-    .movie-poster-large {
-        width: 110px !important;
-        /* FIXED SMALL WIDTH */
-        height: auto !important;
-        aspect-ratio: 2/3 !important;
-        margin-bottom: 0 !important;
-        flex-shrink: 0 !important;
-        /* Don't squash */
-    }
-
-    .movie-info-block {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .movie-info-block h1 {
-        font-size: 20px;
-    }
-
-    .movie-desc {
-        font-size: 13px;
-        display: -webkit-box;
-        line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
     }
 
     /* 5. FIX: RECOMMENDATIONS GRID (Make them small) */

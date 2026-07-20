@@ -704,22 +704,34 @@ async function openPlayer(id, type, skipPush = false) {
             `;
         }
         if (bottomDetails) {
+            // Extract TV specific data for the meta info box
+            const tvStatus = data.status || "Airing";
+            const tvNetwork = (data.networks && data.networks.length > 0) ? data.networks[0].name : "Unknown";
+            const tvDate = data.first_air_date || "N/A";
+
             bottomDetails.innerHTML = `
-                <div class="details-header">
-                    <img src="${poster}" class="details-poster-img" alt="${title}">
-                    <div class="details-text">
-                        <h1>${title}</h1>
-                        <div class="meta-tags">
-                            <span class="tag-pill">${year}</span>
-                            <span class="tag-pill" style="background:var(--accent)">${rating}</span>
-                            <span>${genres}</span>
+                <div class="movie-sidebar" style="padding: 0;">
+                    <div class="movie-sidebar-header">
+                        <img src="${poster}" class="sidebar-poster" alt="${title}">
+                        <div class="sidebar-meta-info">
+                            <div class="meta-item"><span class="meta-label">Status</span><span class="meta-value">${tvStatus}</span></div>
+                            <div class="meta-item"><span class="meta-label">Network</span><span class="meta-value">${tvNetwork}</span></div>
+                            <div class="meta-item"><span class="meta-label">Aired</span><span class="meta-value">${tvDate}</span></div>
                         </div>
-                        <p>${desc}</p>
-                        <div class="action-buttons">
-                             <button id="watchlist-btn-tv" class="btn btn-primary"><i class="far fa-heart"></i> Add</button>
-                             <button class="btn btn-glass" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
-                             <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="btn s-btn-gray"><i class="fas fa-share-alt"></i> Share</button>
+                    </div>
+                    <div class="movie-sidebar-body">
+                        <h1 style="margin-top: 15px;">${title}</h1>
+                        <div class="sidebar-badges">
+                            <span class="badge-year">${year}</span>
+                            <span class="badge-rating">${rating}</span>
+                            <span style="font-size: 13px; color: var(--text-muted); margin-left: 5px;">${genres}</span>
                         </div>
+                        <div class="sidebar-buttons">
+                            <button class="s-btn s-btn-red" id="watchlist-btn-tv"><i class="far fa-heart"></i> Watchlist </button>
+                            <button class="s-btn s-btn-green" onclick="downloadContent()"><i class="fas fa-download"></i> Download</button>
+                            <button onclick="shareContent('${title.replace(/'/g, "\\'")}')" class="s-btn s-btn-gray"><i class="fas fa-share-alt"></i> Share</button>
+                        </div>
+                        <div class="sidebar-desc">${desc}</div>
                     </div>
                 </div>
             `;
