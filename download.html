@@ -124,162 +124,155 @@
         </div>
 
         <!-- Review Submission Card -->
-<div class="glass-card">
-    <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> Rate StreameX</h3>
-    <div style="margin-top: 1rem;">
-        <!-- Stars -->
-        <div id="star-selector" style="font-size: 1.8rem; color: var(--text-muted); cursor: pointer; margin-bottom: 1rem; display: flex; gap: 0.5rem;">
-            <i class="fa-solid fa-star star" data-value="1"></i>
-            <i class="fa-solid fa-star star" data-value="2"></i>
-            <i class="fa-solid fa-star star" data-value="3"></i>
-            <i class="fa-solid fa-star star" data-value="4"></i>
-            <i class="fa-solid fa-star star" data-value="5"></i>
+<!-- Review Submission Card -->
+        <div class="glass-card">
+            <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> Rate StreameX</h3>
+            <div style="margin-top: 1rem;">
+                <!-- Stars -->
+                <div id="star-selector" style="font-size: 1.8rem; color: var(--text-muted); cursor: pointer; margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+                    <i class="fa-solid fa-star star" data-value="1"></i>
+                    <i class="fa-solid fa-star star" data-value="2"></i>
+                    <i class="fa-solid fa-star star" data-value="3"></i>
+                    <i class="fa-solid fa-star star" data-value="4"></i>
+                    <i class="fa-solid fa-star star" data-value="5"></i>
+                </div>
+                
+                <!-- Mandatory Inputs -->
+                <input type="text" id="reviewer-name" placeholder="Your Name (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;">
+                
+                <textarea id="review-text" rows="3" placeholder="Describe your experience... (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;"></textarea>
+                
+                <button id="submit-review" class="btn-download" style="width: 100%; justify-content: center; border: none; cursor: pointer;">Post Review</button>
+                <div id="review-error" style="color: #ef4444; margin-top: 1rem; text-align: center; display: none;">Please fill out all fields and select a star rating.</div>
+            </div>
         </div>
-        
-        <!-- Mandatory Inputs -->
-        <input type="text" id="reviewer-name" placeholder="Your Name (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;">
-        
-        <textarea id="review-text" rows="3" placeholder="Describe your experience... (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;"></textarea>
-        
-        <button id="submit-review" class="btn-download" style="width: 100%; justify-content: center; border: none; cursor: pointer;">Post Review</button>
-        <div id="review-error" style="color: #ef4444; margin-top: 1rem; text-align: center; display: none;">Please fill out all fields and select a star rating.</div>
-    </div>
-</div>
+
+        <!-- Display Reviews Card (MOVED ABOVE SCRIPT) -->
+        <div class="glass-card">
+            <h3><i class="fa-solid fa-comments"></i> User Reviews</h3>
+            <div id="reviews-container" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <p style="color: var(--text-muted);">Loading reviews...</p>
+            </div>
+        </div>
 
         <script type="module">
-    // Import Firebase tools
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            // Import Firebase tools (ADDED 'limit' HERE)
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getFirestore, collection, addDoc, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // ⚠️ REPLACE THIS WITH YOUR FIREBASE CONFIG
-    const firebaseConfig = {
-        apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
-        authDomain: "streamex-v1.firebaseapp.com",
-        projectId: "streamex-v1",
-        storageBucket: "streamex-v1.firebasestorage.app",
-        messagingSenderId: "87040295346",
-        appId: "1:87040295346:web:4369ebb00242756e5f24ab"
-    };
+            const firebaseConfig = {
+                apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
+                authDomain: "streamex-v1.firebaseapp.com",
+                projectId: "streamex-v1",
+                storageBucket: "streamex-v1.firebasestorage.app",
+                messagingSenderId: "87040295346",
+                appId: "1:87040295346:web:4369ebb00242756e5f24ab"
+            };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
 
-    // Star Selection Logic
-    let selectedRating = 0;
-    const stars = document.querySelectorAll('.star');
+            // Star Selection Logic
+            let selectedRating = 0;
+            const stars = document.querySelectorAll('.star');
 
-    stars.forEach(star => {
-        star.addEventListener('click', (e) => {
-            selectedRating = e.target.getAttribute('data-value');
-            stars.forEach(s => {
-                if (s.getAttribute('data-value') <= selectedRating) {
-                    s.style.color = '#f59e0b'; // Highlight selected stars
-                } else {
-                    s.style.color = 'var(--text-muted)'; // Reset others
+            stars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    selectedRating = e.target.getAttribute('data-value');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-value') <= selectedRating) {
+                            s.style.color = '#f59e0b';
+                        } else {
+                            s.style.color = 'var(--text-muted)';
+                        }
+                    });
+                });
+            });
+
+            // Post Review Logic
+            document.getElementById('submit-review').addEventListener('click', async () => {
+                const nameInput = document.getElementById('reviewer-name').value.trim();
+                const textInput = document.getElementById('review-text').value.trim();
+                const errorMsg = document.getElementById('review-error');
+                const btn = document.getElementById('submit-review');
+
+                if (selectedRating === 0 || nameInput === '' || textInput === '') {
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                errorMsg.style.display = 'none';
+                btn.textContent = "Posting...";
+                btn.disabled = true;
+
+                try {
+                    await addDoc(collection(db, "reviews"), {
+                        name: nameInput,
+                        text: textInput,
+                        rating: Number(selectedRating),
+                        timestamp: new Date()
+                    });
+                    
+                    document.getElementById('reviewer-name').value = '';
+                    document.getElementById('review-text').value = '';
+                    selectedRating = 0;
+                    stars.forEach(s => s.style.color = 'var(--text-muted)');
+                    
+                    btn.textContent = "Post Review";
+                    btn.disabled = false;
+                    
+                    loadReviews(); 
+                } catch (error) {
+                    console.error("Error adding review: ", error);
+                    errorMsg.textContent = "Failed to post review. Please try again.";
+                    errorMsg.style.display = 'block';
+                    btn.textContent = "Post Review";
+                    btn.disabled = false;
                 }
             });
-        });
-    });
 
-    // Post Review Logic with Mandatory Checks
-    document.getElementById('submit-review').addEventListener('click', async () => {
-        const nameInput = document.getElementById('reviewer-name').value.trim();
-        const textInput = document.getElementById('review-text').value.trim();
-        const errorMsg = document.getElementById('review-error');
-        const btn = document.getElementById('submit-review');
+            // Fetch and Display Reviews
+            async function loadReviews() {
+                const container = document.getElementById('reviews-container');
+                // ADDED limit(10) TO THIS QUERY
+                const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"), limit(10));
+                
+                try {
+                    const querySnapshot = await getDocs(q);
+                    container.innerHTML = ''; 
+                    
+                    if(querySnapshot.empty) {
+                        container.innerHTML = '<p style="color: var(--text-muted);">No reviews yet. Be the first to review StreameX!</p>';
+                        return;
+                    }
 
-        // Validation: Ensure everything is filled out
-        if (selectedRating === 0 || nameInput === '' || textInput === '') {
-            errorMsg.style.display = 'block';
-            return;
-        }
+                    querySnapshot.forEach((doc) => {
+                        const review = doc.data();
+                        let starsHtml = '';
+                        for(let i = 0; i < 5; i++) {
+                            starsHtml += `<i class="fa-solid fa-star" style="color: ${i < review.rating ? '#f59e0b' : 'rgba(255,255,255,0.1)'}; font-size: 0.9rem;"></i>`;
+                        }
 
-        errorMsg.style.display = 'none';
-        btn.textContent = "Posting...";
-        btn.disabled = true;
-
-        try {
-            // Save to Firebase
-            await addDoc(collection(db, "reviews"), {
-                name: nameInput,
-                text: textInput,
-                rating: Number(selectedRating),
-                timestamp: new Date()
-            });
-            
-            // Clear the form after successful post
-            document.getElementById('reviewer-name').value = '';
-            document.getElementById('review-text').value = '';
-            selectedRating = 0;
-            stars.forEach(s => s.style.color = 'var(--text-muted)');
-            
-            btn.textContent = "Post Review";
-            btn.disabled = false;
-            
-            // Refresh the review list immediately
-            loadReviews(); 
-        } catch (error) {
-            console.error("Error adding review: ", error);
-            errorMsg.textContent = "Failed to post review. Please try again.";
-            errorMsg.style.display = 'block';
-            btn.textContent = "Post Review";
-            btn.disabled = false;
-        }
-    });
-
-    // Fetch and Display Reviews
-    async function loadReviews() {
-        const container = document.getElementById('reviews-container');
-        const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"));
-        
-        try {
-            const querySnapshot = await getDocs(q);
-            container.innerHTML = ''; // Clear loading message
-            
-            if(querySnapshot.empty) {
-                container.innerHTML = '<p style="color: var(--text-muted);">No reviews yet. Be the first to review StreameX!</p>';
-                return;
+                        const reviewElement = document.createElement('div');
+                        reviewElement.style.cssText = "background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);";
+                        reviewElement.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                                <strong style="font-size: 1.1rem; color: white;">${review.name}</strong>
+                                <div style="display: flex; gap: 2px;">${starsHtml}</div>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">${review.text}</p>
+                        `;
+                        container.appendChild(reviewElement);
+                    });
+                } catch (error) {
+                    console.error("Error loading reviews: ", error);
+                    container.innerHTML = '<p style="color: #ef4444;">Failed to load reviews. Check console for details.</p>';
+                }
             }
 
-            // Build HTML for each review
-            querySnapshot.forEach((doc) => {
-                const review = doc.data();
-                
-                // Generate the right amount of gold stars
-                let starsHtml = '';
-                for(let i = 0; i < 5; i++) {
-                    starsHtml += `<i class="fa-solid fa-star" style="color: ${i < review.rating ? '#f59e0b' : 'rgba(255,255,255,0.1)'}; font-size: 0.9rem;"></i>`;
-                }
-
-                const reviewElement = document.createElement('div');
-                reviewElement.style.cssText = "background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);";
-                reviewElement.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <strong style="font-size: 1.1rem; color: white;">${review.name}</strong>
-                        <div style="display: flex; gap: 2px;">${starsHtml}</div>
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">${review.text}</p>
-                `;
-                container.appendChild(reviewElement);
-            });
-        } catch (error) {
-            console.error("Error loading reviews: ", error);
-            container.innerHTML = '<p style="color: #ef4444;">Failed to load reviews. Check console for details.</p>';
-        }
-    }
-
-    // Load reviews as soon as the page opens
-    loadReviews();
-</script>
-
-<!-- Display Reviews Card -->
-<div class="glass-card">
-    <h3><i class="fa-solid fa-comments"></i> User Reviews</h3>
-    <div id="reviews-container" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <p style="color: var(--text-muted);">Loading reviews...</p>
-    </div>
-</div>
+            loadReviews();
+        </script>
 
         <!-- QR Code Download Section -->
         <div class="glass-card" style="text-align: center;">
