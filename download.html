@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download StreameX - Official APK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 1.5rem; min-height: 100vh; display: flex; justify-content: center; }
+
+        .container { max-width: 900px; width: 100%; }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* App Header */
+        .app-header { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+        .app-icon { width: 100px; height: 100px; border-radius: 22px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); object-fit: cover; }
+        .app-info h1 { font-size: 2rem; margin-bottom: 0.2rem; }
+        .developer { color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; }
+        .meta-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Download Section */
+        .download-bar { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; align-items: center; }
+        .btn-download {
+            background: var(--accent); color: white; text-decoration: none; padding: 0.9rem 2rem;
+            border-radius: 50px; font-weight: 700; font-size: 1.1rem; display: inline-flex;
+            align-items: center; gap: 0.6rem; transition: all 0.3s ease;
+        }
+        .btn-download:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4); }
+
+        /* Info Grid */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .info-box { background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 16px; border: 1px solid var(--border); }
+        .info-box span { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.2rem; }
+        .info-box strong { font-size: 0.95rem; word-break: break-all; }
+
+        /* Screenshots Scroll */
+        .screenshots { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; margin-top: 1rem; }
+        .screenshots img { height: 320px; border-radius: 16px; border: 1px solid var(--border); }
+
+        /* Toast Notification */
+        .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; }
+        .toast.show { bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Main Card -->
+        <div class="glass-card">
+            <div class="app-header">
+                <!-- Replace with your icon URL -->
+                <img src="https://i.ibb.co/HTksY8s6/icon-512.png" alt="App Icon" class="app-icon">
+                <div class="app-info">
+                    <h1>StreameX Beta-v1 – Initial Release</h1>
+                    <div class="developer"><i class="fa-solid fa-circle-check"></i> Official Developer</div>
+                    <div class="meta-tags">
+                        <span class="tag"><i class="fa-solid fa-star" style="color: #f59e0b;"></i> 4.5</span>
+                        <span class="tag">Tools</span>
+                        <span class="tag">Contains no ads</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-bar">
+                <!-- PASTE YOUR GITHUB RELEASE DIRECT APK LINK BELOW -->
+                <a href="https://github.com/snahasishdey141/StreameX/releases/download/Beta-v1/StreameX-vBeta.apk" class="btn-download">
+                    <i class="fa-solid fa-download"></i> Download APK
+                </a>
+                <button onclick="copyHash('a1b2c3d4e5f67890987654321fedcba0123456789abcdef0123456789abcdef0')" class="btn-download" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border);">
+                    <i class="fa-solid fa-copy"></i> SHA256 Hash
+                </button>
+            </div>
+
+            <!-- App Details Grid -->
+            <div class="info-grid">
+                <div class="info-box"><span>Version</span><strong>Beta-v1</strong></div>
+                <div class="info-box"><span>File Size</span><strong>2.9 MB</strong></div>
+                <div class="info-box"><span>Requires Android</span><strong>7.0+</strong></div>
+                <div class="info-box"><span>Package Name</span><strong>com.movie.streamex</strong></div>
+            </div>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="glass-card">
+            <h3><i class="fa-solid fa-image"></i> Screenshots</h3>
+            <div class="screenshots">
+                <img src="https://i.ibb.co/bMNTCm00/Whats-App-Image-2026-07-23-at-10-12-19-AM.jpg" alt="Screenshot 1">
+                <img src="https://i.ibb.co/xSpBVSrY/Whats-App-Image-2026-07-23-at-10-12-20-AM.jpg" alt="Screenshot 2">
+                <img src="https://i.ibb.co/7JrfGkNz/Whats-App-Image-2026-07-23-at-10-12-20-AM-1.jpg" alt="Screenshot 3">
+            </div>
+        </div>
+
+        <!-- What's New & Description -->
+        <div class="glass-card">
+            <h3><i class="fa-solid fa-sparkles"></i> What's New in Beta-v1</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; line-height: 1.6;">
+                • Initial public release.<br>
+                • Ultra-fast performance and clean UI.<br>
+                • Bug fixes and battery optimization.
+            </p>
+        </div>
+
+        <!-- Review Submission Card -->
+<div class="glass-card">
+    <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> Rate StreameX</h3>
+    <div style="margin-top: 1rem;">
+        <!-- Stars -->
+        <div id="star-selector" style="font-size: 1.8rem; color: var(--text-muted); cursor: pointer; margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+            <i class="fa-solid fa-star star" data-value="1"></i>
+            <i class="fa-solid fa-star star" data-value="2"></i>
+            <i class="fa-solid fa-star star" data-value="3"></i>
+            <i class="fa-solid fa-star star" data-value="4"></i>
+            <i class="fa-solid fa-star star" data-value="5"></i>
+        </div>
+        
+        <!-- Mandatory Inputs -->
+        <input type="text" id="reviewer-name" placeholder="Your Name (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;">
+        
+        <textarea id="review-text" rows="3" placeholder="Describe your experience... (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;"></textarea>
+        
+        <button id="submit-review" class="btn-download" style="width: 100%; justify-content: center; border: none; cursor: pointer;">Post Review</button>
+        <div id="review-error" style="color: #ef4444; margin-top: 1rem; text-align: center; display: none;">Please fill out all fields and select a star rating.</div>
+    </div>
+</div>
+
+        <script type="module">
+    // Import Firebase tools
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // ⚠️ REPLACE THIS WITH YOUR FIREBASE CONFIG
+    const firebaseConfig = {
+        apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
+        authDomain: "streamex-v1.firebaseapp.com",
+        projectId: "streamex-v1",
+        storageBucket: "streamex-v1.firebasestorage.app",
+        messagingSenderId: "87040295346",
+        appId: "1:87040295346:web:4369ebb00242756e5f24ab"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Star Selection Logic
+    let selectedRating = 0;
+    const stars = document.querySelectorAll('.star');
+
+    stars.forEach(star => {
+        star.addEventListener('click', (e) => {
+            selectedRating = e.target.getAttribute('data-value');
+            stars.forEach(s => {
+                if (s.getAttribute('data-value') <= selectedRating) {
+                    s.style.color = '#f59e0b'; // Highlight selected stars
+                } else {
+                    s.style.color = 'var(--text-muted)'; // Reset others
+                }
+            });
+        });
+    });
+
+    // Post Review Logic with Mandatory Checks
+    document.getElementById('submit-review').addEventListener('click', async () => {
+        const nameInput = document.getElementById('reviewer-name').value.trim();
+        const textInput = document.getElementById('review-text').value.trim();
+        const errorMsg = document.getElementById('review-error');
+        const btn = document.getElementById('submit-review');
+
+        // Validation: Ensure everything is filled out
+        if (selectedRating === 0 || nameInput === '' || textInput === '') {
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        errorMsg.style.display = 'none';
+        btn.textContent = "Posting...";
+        btn.disabled = true;
+
+        try {
+            // Save to Firebase
+            await addDoc(collection(db, "reviews"), {
+                name: nameInput,
+                text: textInput,
+                rating: Number(selectedRating),
+                timestamp: new Date()
+            });
+            
+            // Clear the form after successful post
+            document.getElementById('reviewer-name').value = '';
+            document.getElementById('review-text').value = '';
+            selectedRating = 0;
+            stars.forEach(s => s.style.color = 'var(--text-muted)');
+            
+            btn.textContent = "Post Review";
+            btn.disabled = false;
+            
+            // Refresh the review list immediately
+            loadReviews(); 
+        } catch (error) {
+            console.error("Error adding review: ", error);
+            errorMsg.textContent = "Failed to post review. Please try again.";
+            errorMsg.style.display = 'block';
+            btn.textContent = "Post Review";
+            btn.disabled = false;
+        }
+    });
+
+    // Fetch and Display Reviews
+    async function loadReviews() {
+        const container = document.getElementById('reviews-container');
+        const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"));
+        
+        try {
+            const querySnapshot = await getDocs(q);
+            container.innerHTML = ''; // Clear loading message
+            
+            if(querySnapshot.empty) {
+                container.innerHTML = '<p style="color: var(--text-muted);">No reviews yet. Be the first to review StreameX!</p>';
+                return;
+            }
+
+            // Build HTML for each review
+            querySnapshot.forEach((doc) => {
+                const review = doc.data();
+                
+                // Generate the right amount of gold stars
+                let starsHtml = '';
+                for(let i = 0; i < 5; i++) {
+                    starsHtml += `<i class="fa-solid fa-star" style="color: ${i < review.rating ? '#f59e0b' : 'rgba(255,255,255,0.1)'}; font-size: 0.9rem;"></i>`;
+                }
+
+                const reviewElement = document.createElement('div');
+                reviewElement.style.cssText = "background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);";
+                reviewElement.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <strong style="font-size: 1.1rem; color: white;">${review.name}</strong>
+                        <div style="display: flex; gap: 2px;">${starsHtml}</div>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">${review.text}</p>
+                `;
+                container.appendChild(reviewElement);
+            });
+        } catch (error) {
+            console.error("Error loading reviews: ", error);
+            container.innerHTML = '<p style="color: #ef4444;">Failed to load reviews. Check console for details.</p>';
+        }
+    }
+
+    // Load reviews as soon as the page opens
+    loadReviews();
+</script>
+
+<!-- Display Reviews Card -->
+<div class="glass-card">
+    <h3><i class="fa-solid fa-comments"></i> User Reviews</h3>
+    <div id="reviews-container" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+        <p style="color: var(--text-muted);">Loading reviews...</p>
+    </div>
+</div>
+
+        <!-- QR Code Download Section -->
+        <div class="glass-card" style="text-align: center;">
+            <h3>Scan to Download on Phone</h3>
+            <img id="qrcode" style="margin-top: 1rem; border-radius: 12px; border: 4px solid white;" src="" alt="QR Code">
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Copied to clipboard!</div>
+
+    <script>
+        // Generate QR code dynamically for the page URL
+        document.getElementById('qrcode').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)}`;
+
+        function copyHash(hash) {
+            navigator.clipboard.writeText(hash);
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
