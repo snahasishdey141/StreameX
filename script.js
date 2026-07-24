@@ -50,6 +50,11 @@ const servers = [
     { name: "Stream", key: "cstream", useSandbox: false },
     { name: "king", key: "vidking_direct", useSandbox: false }, // Maps to VidRock in worker
     { name: "pro", key: "vidlink_standard", useSandbox: false },
+    { name: "New", key: "Nhd", useSandbox: false },
+    { name: "Modern", key: "modern", useSandbox: false },
+    { name: "Scape", key: "screenscape", useSandbox: false },
+    { name: "Modiplay", key: "modiplay", useSandbox: false },
+    { name: "Smart", key: "smart", useSandbox: false },
     { name: "nest", key: "vidnest_standard", useSandbox: false },
     { name: "letest", key: "nontongo", useSandbox: false },
     { name: "Api1", key: "Multi_server", useSandbox: false },
