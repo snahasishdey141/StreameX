@@ -1241,7 +1241,7 @@
             const latest = state.latestRelease;
             const apkAsset = latest.assets.find(a => a.name.endsWith('.apk')) || latest.assets[0];
 
-            document.getElementById('app-name').textContent = state.repoInfo ? state.repoInfo.name.replace(/-/g, ' ') : CONFIG.githubRepo;
+            // document.getElementById('app-name').textContent = state.repoInfo ? state.repoInfo.name.replace(/-/g, ' ') : CONFIG.githubRepo;
             document.getElementById('badge-version').textContent = latest.tag_name;
             document.getElementById('stat-size').textContent = apkAsset ? formatBytes(apkAsset.size) : 'Unknown';
             document.getElementById('stat-downloads').textContent = apkAsset ? apkAsset.download_count.toLocaleString() : '0';
