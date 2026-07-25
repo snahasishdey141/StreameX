@@ -1,317 +1,1555 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Download StreameX - Official APK</title>
-    <!-- Standard Meta Tags -->
-    <meta name="title" content="Download StreameX - Official APK">
-    <meta name="description" content="Ultra-fast performance, clean UI, and no ads. Get the StreameX Beta-v1 release today!">
-
-    <!-- Open Graph / Facebook / Discord / WhatsApp -->
+    <meta name="description" content="Ultra-fast performance, clean UI, and no ads. Get the StreameX release today!">
+    <meta name="keywords" content="APK, Download, Android, StreameX, Premium, Latest Version, Update">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://streamex.pages.dev/download">
     <meta property="og:title" content="Download StreameX - Official APK">
-    <meta property="og:description" content="Ultra-fast performance, clean UI, and no ads. Get the StreameX Beta-v1 release today!">
+    <meta property="og:description" content="Ultra-fast performance, clean UI, and no ads. Get the StreameX release today!">
     <meta property="og:image" content="https://i.ibb.co/HTksY8s6/icon-512.png">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary">
+    <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://streamex.pages.dev/download">
     <meta property="twitter:title" content="Download StreameX - Official APK">
-    <meta property="twitter:description" content="Ultra-fast performance, clean UI, and no ads. Get the StreameX Beta-v1 release today!">
+    <meta property="twitter:description" content="Ultra-fast performance, clean UI, and no ads.">
     <meta property="twitter:image" content="https://i.ibb.co/HTksY8s6/icon-512.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- Preconnect & DNS Prefetch -->
+    <link rel="preconnect" href="https://api.github.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="dns-prefetch" href="https://api.github.com">
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js" integrity="sha512-BbpOigZ/F5O8/q/h5jZ45x5b+yZ8JRs90qB/N5jVf3hD8S9z9Q6U3zRk/8c1O0L+Q+u2P2R/C+8n+A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WU1yM/RVIL/V8Fp2Zysw4uC8U5n3YkQ9cKivB+aJ/6/3k==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+
+    <!-- JSON-LD App Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "StreameX",
+      "operatingSystem": "ANDROID",
+      "applicationCategory": "EntertainmentApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <style>
+        /* CSS Variables & Theme */
         :root {
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --accent: #10b981;
-            --accent-hover: #059669;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
+            --color-bg: #0f172a;
+            --color-bg-glass: rgba(15, 23, 42, 0.7);
+            --color-surface: rgba(30, 41, 59, 0.6);
+            --color-surface-hover: rgba(30, 41, 59, 0.9);
+            --color-border: rgba(255, 255, 255, 0.08);
+            --color-primary: #10b981;
+            --color-primary-hover: #059669;
+            --color-secondary: #3b82f6;
+            --color-text: #f8fafc;
+            --color-text-muted: #94a3b8;
+            --color-danger: #ef4444;
+            --color-warning: #f59e0b;
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            --glass-blur: blur(16px);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-        body { background: var(--bg); color: var(--text); padding: 1.5rem; min-height: 100vh; display: flex; justify-content: center; }
+        /* Reset & Base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        .container { max-width: 900px; width: 100%; }
+        html {
+            scroll-behavior: smooth;
+        }
 
-        /* Glassmorphism Card */
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem;
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--color-primary-hover);
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Layout */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--color-bg-glass);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand i {
+            color: var(--color-primary);
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Glass Cards */
+        .card {
+            background: var(--color-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--glass-shadow);
             margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
         }
 
-        /* App Header */
-        .app-header { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
-        .app-icon { width: 100px; height: 100px; border-radius: 22px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); object-fit: cover; }
-        .app-info h1 { font-size: 2rem; margin-bottom: 0.2rem; }
-        .developer { color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; }
-        .meta-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Download Section */
-        .download-bar { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; align-items: center; }
-        .btn-download {
-            background: var(--accent); color: white; text-decoration: none; padding: 0.9rem 2rem;
-            border-radius: 50px; font-weight: 700; font-size: 1.1rem; display: inline-flex;
-            align-items: center; gap: 0.6rem; transition: all 0.3s ease;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 1rem;
         }
-        .btn-download:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4); }
 
-        /* Info Grid */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-        .info-box { background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 16px; border: 1px solid var(--border); }
-        .info-box span { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.2rem; }
-        .info-box strong { font-size: 0.95rem; word-break: break-all; }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-        /* Screenshots Scroll */
-        .screenshots { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; margin-top: 1rem; }
-        .screenshots img { height: 320px; border-radius: 16px; border: 1px solid var(--border); }
+        /* Hero Section */
+        .hero-app {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
 
-        /* Toast Notification */
-        .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; }
-        .toast.show { bottom: 20px; }
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border: 1px solid var(--color-border);
+        }
+
+        .app-details h1 {
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .dev-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--color-primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+        }
+
+        .badge.primary { background: rgba(16, 185, 129, 0.1); color: var(--color-primary); border-color: rgba(16, 185, 129, 0.2); }
+        .badge.secondary { background: rgba(59, 130, 246, 0.1); color: var(--color-secondary); border-color: rgba(59, 130, 246, 0.2); }
+        .badge.warning { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); border-color: rgba(245, 158, 11, 0.2); }
+
+        .app-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0, 0); opacity: 0.5; }
+            100% { transform: scale(40, 40); opacity: 0; }
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: #000;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--color-text-muted);
+            box-shadow: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .secondary-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Markdown Content */
+        .markdown-body {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5 {
+            color: var(--color-text);
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 600;
+        }
+
+        .markdown-body ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body li { margin-bottom: 0.5rem; }
+        
+        .markdown-body code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85em;
+        }
+
+        .markdown-body a { color: var(--color-primary); text-decoration: underline; }
+
+        /* Versions History */
+        .version-search {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            margin-bottom: 1.5rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .version-search:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .version-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+        }
+        
+        .version-filters::-webkit-scrollbar { display: none; }
+
+        .filter-chip {
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .filter-chip.active {
+            background: var(--color-primary);
+            color: #000;
+            border-color: var(--color-primary);
+        }
+
+        .version-item {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .version-item:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .version-header {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .version-info h4 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .version-meta { font-size: 0.8rem; color: var(--color-text-muted); display: flex; gap: 1rem; }
+        
+        .version-body {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+
+        .version-item.expanded .version-body {
+            padding: 0 1rem 1rem;
+            max-height: 2000px; /* Arbitrary large height for animation */
+        }
+
+        .version-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .expand-icon { transition: transform 0.3s ease; }
+
+        /* Screenshots */
+        .screenshot-gallery {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-surface) transparent;
+        }
+
+        .screenshot-gallery::-webkit-scrollbar { height: 6px; }
+        .screenshot-gallery::-webkit-scrollbar-thumb { background: var(--color-surface); border-radius: var(--radius-full); }
+
+        .screenshot-item {
+            flex: 0 0 auto;
+            width: 160px;
+            height: 284px;
+            border-radius: var(--radius-md);
+            scroll-snap-align: start;
+            cursor: pointer;
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+            background: rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.02);
+            border-color: var(--color-primary);
+        }
+
+        /* Sidebar Elements */
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: #fff;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+        }
+        
+        #qrcode {
+            padding: 0.5rem;
+        }
+
+        .sidebar-widget { margin-bottom: 1.5rem; }
+
+        /* Reviews System */
+        .rating-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .avg-rating {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stars-outer {
+            position: relative;
+            display: inline-block;
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: var(--color-warning);
+        }
+
+        .rating-bars { flex: 1; }
+        
+        .rating-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--color-warning);
+            border-radius: var(--radius-full);
+            transition: width 1s ease-out;
+        }
+
+        .review-form input, .review-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--color-primary);
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .review-card {
+            background: rgba(0,0,0,0.15);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-info { display: flex; align-items: center; gap: 0.5rem; }
+        .reviewer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+        .review-date { font-size: 0.75rem; color: var(--color-text-muted); }
+
+        /* Skeletons */
+        .skeleton {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.05) 25%, 
+                rgba(255,255,255,0.1) 37%, 
+                rgba(255,255,255,0.05) 63%);
+            background-size: 400% 100%;
+            animation: shimmer 1.4s ease infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+
+        .sk-text { height: 1rem; margin-bottom: 0.5rem; width: 100%; }
+        .sk-title { height: 1.5rem; width: 60%; margin-bottom: 1rem; }
+        .sk-btn { height: 3rem; width: 100%; border-radius: var(--radius-md); }
+        .sk-icon { width: 120px; height: 120px; border-radius: var(--radius-md); flex-shrink: 0; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -2rem;
+            right: -2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            background: rgba(0,0,0,0.5);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        #modal-img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--color-border);
+            padding: 3rem 0;
+            background: rgba(0,0,0,0.3);
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h4 { margin-bottom: 1rem; color: var(--color-text); }
+        .footer-col ul { display: flex; flex-direction: column; gap: 0.5rem; }
+        .footer-col a { color: var(--color-text-muted); font-size: 0.9rem; }
+        .footer-col a:hover { color: var(--color-primary); }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { order: -1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-app { flex-direction: column; align-items: center; text-align: center; }
+            .meta-tags { justify-content: center; }
+            .secondary-actions { flex-direction: column; }
+            .modal-close { top: 10px; right: 10px; }
+        }
+
+        /* Error Cards */
+        .error-card {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-md);
+        }
+        .error-card i { font-size: 3rem; color: var(--color-danger); margin-bottom: 1rem; }
+        
+        .sticky-mobile { position: static; }
+        
+        @media (max-width: 768px) {
+            .sticky-mobile {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--color-bg-glass);
+                backdrop-filter: var(--glass-blur);
+                padding: 1rem;
+                z-index: 50;
+                border-top: 1px solid var(--color-border);
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Main Card -->
-        <div class="glass-card">
-            <div class="app-header">
-                <!-- Replace with your icon URL -->
-                <img src="https://i.ibb.co/HTksY8s6/icon-512.png" alt="App Icon" class="app-icon">
-                <div class="app-info">
-                    <h1>StreameX v2.0.0 — Final Version</h1>
-                    <div class="developer"><i class="fa-solid fa-circle-check"></i> Official Developer</div>
-                    <div class="meta-tags">
-                        <span class="tag"><i class="fa-solid fa-star" style="color: #f59e0b;"></i> 4.5</span>
-                        <span class="tag">Tools</span>
-                        <span class="tag">Contains no ads</span>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="brand">
+                <i class="fa-solid fa-cube"></i>
+                StreameX
+            </a>
+            <div class="nav-links">
+                <a href="#versions" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container main-layout">
+        <!-- Main Content Column -->
+        <div class="main-content">
+            
+            <!-- Hero Card -->
+            <section class="card" id="hero-card">
+                <!-- Skeleton Loader initially visible -->
+                <div id="hero-skeleton">
+                    <div class="hero-app">
+                        <div class="skeleton sk-icon"></div>
+                        <div class="app-details" style="flex:1; width:100%;">
+                            <div class="skeleton sk-title"></div>
+                            <div class="skeleton sk-text" style="width:40%;"></div>
+                            <div class="skeleton sk-text" style="width:80%; margin-top:1rem;"></div>
+                            <div class="skeleton sk-text" style="width:70%;"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton sk-btn"></div>
+                </div>
+
+                <!-- Actual Content (Hidden by JS initially) -->
+                <div id="hero-content" style="display: none;">
+                    <div class="hero-app">
+                        <img src="https://i.ibb.co/HTksY8s6/icon-512.png" alt="App Icon" class="app-icon" id="app-icon" loading="lazy">
+                        <div class="app-details">
+                            <h1 id="app-name">StreameX</h1>
+                            <div class="dev-badge">
+                                <i class="fa-solid fa-circle-check"></i> Official Developer
+                            </div>
+                            <div class="meta-tags">
+                                <span class="badge primary"><i class="fa-solid fa-fire"></i> Latest <span id="badge-version">v2.0.0</span></span>
+                                <span class="badge secondary"><i class="fa-brands fa-android"></i> Android 7.0+</span>
+                                <span class="badge warning"><i class="fa-solid fa-shield-halved"></i> No Ads</span>
+                            </div>
+                            <p class="markdown-body" style="margin-bottom: 1rem;">
+                                Stream movies, TV shows, anime and live TV with a modern, fast and ad-free experience.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="app-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-size">-- MB</div>
+                            <div class="stat-label">Size</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-downloads">--</div>
+                            <div class="stat-label">Downloads</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value"><span id="hero-avg-rating">0.0</span> <i class="fa-solid fa-star" style="color:var(--color-warning); font-size:1rem;"></i></div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-date">--</div>
+                            <div class="stat-label">Updated</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons sticky-mobile">
+                        <a href="#" id="primary-download-btn" class="btn btn-primary">
+                            <i class="fa-solid fa-download"></i> Download APK (<span id="btn-size">--</span>)
+                        </a>
+                        <div class="secondary-actions">
+                            <button id="copy-sha-btn" class="btn btn-outline" style="flex: 1;" title="Copy SHA256 Checksum">
+                                <i class="fa-solid fa-fingerprint"></i> SHA256
+                            </button>
+                            <button id="share-btn" class="btn btn-outline" style="flex: 1;">
+                                <i class="fa-solid fa-share-nodes"></i> Share
+                            </button>
+                            <a href="#" id="github-btn" target="_blank" rel="noopener" class="btn btn-outline" style="flex: 1;">
+                                <i class="fa-brands fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screenshots Section -->
+            <section class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-mobile-screen"></i> Screenshots</h2>
+                </div>
+                <div class="screenshot-gallery" id="screenshot-container">
+                    <img src="https://i.ibb.co/JTY7mgr/Whats-App-Image-2026-07-25-at-11-14-22-AM.jpg" class="screenshot-item" alt="Screenshot 1" loading="lazy">
+                    <img src="https://i.ibb.co/Swhyx1JN/Whats-App-Image-2026-07-25-at-11-14-23-AM.jpg" class="screenshot-item" alt="Screenshot 2" loading="lazy">
+                    <img src="https://i.ibb.co/zhWx9chn/Whats-App-Image-2026-07-25-at-11-14-23-AM-1.jpg" class="screenshot-item" alt="Screenshot 3" loading="lazy">
+                    <img src="https://i.ibb.co/6JLbBmzz/Whats-App-Image-2026-07-25-at-11-14-23-AM-2.jpg" class="screenshot-item" alt="Screenshot 4" loading="lazy">
+                </div>
+            </section>
+
+            <!-- What's New Section -->
+            <section class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-wand-magic-sparkles"></i> What's New</h2>
+                    <span id="changelog-version" class="badge secondary">--</span>
+                </div>
+                <div id="changelog-skeleton">
+                    <div class="skeleton sk-text"></div>
+                    <div class="skeleton sk-text" style="width: 80%"></div>
+                    <div class="skeleton sk-text" style="width: 90%"></div>
+                    <div class="skeleton sk-text" style="width: 60%"></div>
+                </div>
+                <div id="changelog-content" class="markdown-body" style="display: none;">
+                    <!-- Auto-populated from GitHub release body -->
+                </div>
+            </section>
+
+            <!-- Previous Versions -->
+            <section class="card" id="versions">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-box-archive"></i> Previous Versions</h2>
+                </div>
+                
+                <input type="text" id="version-search" class="version-search" placeholder="Search versions (e.g., v2.0)..." aria-label="Search versions">
+                
+                <div class="version-filters">
+                    <button class="filter-chip active" data-filter="all">All</button>
+                    <button class="filter-chip" data-filter="latest">Latest Only</button>
+                    <button class="filter-chip" data-filter="oldest">Oldest First</button>
+                </div>
+
+                <div id="versions-list">
+                    <!-- Populated via JS -->
+                    <div class="skeleton sk-title" style="width: 100%; height: 60px; margin-bottom: 1rem;"></div>
+                    <div class="skeleton sk-title" style="width: 100%; height: 60px; margin-bottom: 1rem;"></div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Sidebar Column -->
+        <aside class="sidebar">
+            
+            <!-- QR Code Widget -->
+            <div class="card sidebar-widget">
+                <h3 class="card-title" style="margin-bottom: 1rem; font-size: 1.1rem;">
+                    <i class="fa-solid fa-qrcode"></i> Download on Phone
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem; text-align: center;">
+                    Scan this QR code with your mobile device to download the APK directly.
+                </p>
+                <div class="qr-container">
+                    <div id="qrcode"></div>
+                </div>
+            </div>
+
+            <!-- Download Stats Widget -->
+            <div class="card sidebar-widget">
+                <h3 class="card-title" style="margin-bottom: 1rem; font-size: 1.1rem;">
+                    <i class="fa-solid fa-chart-simple"></i> Global Stats
+                </h3>
+                <ul style="display: flex; flex-direction: column; gap: 1rem;">
+                    <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
+                        <span style="color: var(--color-text-muted);">Total Downloads</span>
+                        <strong id="stat-total-dl">--</strong>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
+                        <span style="color: var(--color-text-muted);">Repository Stars</span>
+                        <strong id="stat-stars">--</strong>
+                    </li>
+                    <li style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--color-text-muted);">Package</span>
+                        <strong>com.movie.streamex</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Reviews Widget with Firebase Integration -->
+            <div class="card sidebar-widget">
+                <div class="card-header" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                    <h3 class="card-title"><i class="fa-solid fa-comments"></i> Ratings & Reviews</h3>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <div class="rating-header">
+                        <div class="avg-rating" id="avg-rating-text">0.0</div>
+                        <div class="rating-bars">
+                            <div class="stars-outer">
+                                <div class="stars-inner" id="avg-stars-inner" style="width: 0%;"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.25rem;"><span id="total-reviews-text">0</span> Total Reviews</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-distribution">
+                        <div class="rating-bar-item">
+                            <span>5</span> <i class="fa-solid fa-star" style="color:var(--color-text-muted); font-size:0.7rem;"></i>
+                            <div class="bar-container"><div class="bar-fill" id="bar-5" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="rating-bar-item">
+                            <span>4</span> <i class="fa-solid fa-star" style="color:var(--color-text-muted); font-size:0.7rem;"></i>
+                            <div class="bar-container"><div class="bar-fill" id="bar-4" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="rating-bar-item">
+                            <span>3</span> <i class="fa-solid fa-star" style="color:var(--color-text-muted); font-size:0.7rem;"></i>
+                            <div class="bar-container"><div class="bar-fill" id="bar-3" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="rating-bar-item">
+                            <span>2</span> <i class="fa-solid fa-star" style="color:var(--color-text-muted); font-size:0.7rem;"></i>
+                            <div class="bar-container"><div class="bar-fill" id="bar-2" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="rating-bar-item">
+                            <span>1</span> <i class="fa-solid fa-star" style="color:var(--color-text-muted); font-size:0.7rem;"></i>
+                            <div class="bar-container"><div class="bar-fill" id="bar-1" style="width: 0%;"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Write a Review Form -->
+                    <div class="review-form" style="margin-top: 1.5rem; background: rgba(0,0,0,0.15); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--color-text);">Write a Review</h4>
+                        
+                        <div id="star-selector" style="font-size: 1.5rem; color: var(--color-text-muted); cursor: pointer; margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+                            <i class="fa-solid fa-star star" data-value="1"></i>
+                            <i class="fa-solid fa-star star" data-value="2"></i>
+                            <i class="fa-solid fa-star star" data-value="3"></i>
+                            <i class="fa-solid fa-star star" data-value="4"></i>
+                            <i class="fa-solid fa-star star" data-value="5"></i>
+                        </div>
+                        
+                        <input type="text" id="reviewer-name" placeholder="Your Name (Required)" required>
+                        <textarea id="review-text" rows="3" placeholder="Describe your experience... (Required)" required></textarea>
+                        
+                        <button id="submit-review" class="btn btn-primary" style="width: 100%;">Post Review</button>
+                        <div id="review-error" style="color: var(--color-danger); margin-top: 0.5rem; font-size: 0.85rem; text-align: center; display: none;"></div>
+                    </div>
+
+                    <!-- Reviews List (Latest 5) -->
+                    <div class="review-list" id="reviews-container">
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Loading reviews...</p>
                     </div>
                 </div>
             </div>
 
-            <div class="download-bar">
-                <!-- PASTE YOUR GITHUB RELEASE DIRECT APK LINK BELOW -->
-                <a href="https://github.com/snahasishdey141/StreameX/releases/download/v2.0.0/StreameX-v2.0.0.apk" class="btn-download">
-                    <i class="fa-solid fa-download"></i> Download APK
-                </a>
-                <button onclick="copyHash('a42ef80d87c4afd8bfcf17b7d029aee1f51d51b1e572e93a14accc5a11efead3')" class="btn-download" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border);">
-                    <i class="fa-solid fa-copy"></i> SHA256 Hash
-                </button>
-            </div>
+        </aside>
+    </main>
 
-            <!-- App Details Grid -->
-            <div class="info-grid">
-                <div class="info-box"><span>Version</span><strong>v2.0.0</strong></div>
-                <div class="info-box"><span>File Size</span><strong>4.0 MB</strong></div>
-                <div class="info-box"><span>Requires Android</span><strong>7.0+</strong></div>
-                <div class="info-box"><span>Package Name</span><strong>com.movie.streamex</strong></div>
-            </div>
-        </div>
-
-        <!-- Screenshots -->
-        <div class="glass-card">
-            <h3><i class="fa-solid fa-image"></i> Screenshots</h3>
-            <div class="screenshots">
-                <img src="https://i.ibb.co/bMNTCm00/Whats-App-Image-2026-07-23-at-10-12-19-AM.jpg" alt="Screenshot 1">
-                <img src="https://i.ibb.co/xSpBVSrY/Whats-App-Image-2026-07-23-at-10-12-20-AM.jpg" alt="Screenshot 2">
-                <img src="https://i.ibb.co/7JrfGkNz/Whats-App-Image-2026-07-23-at-10-12-20-AM-1.jpg" alt="Screenshot 3">
-            </div>
-        </div>
-
-        <!-- What's New & Description -->
-        <div class="glass-card">
-            <h3><i class="fa-solid fa-sparkles"></i> What's New in v2.0.0</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; line-height: 1.6;">
-                <h5>• Faster Playback:</h5> Re-engineered buffer controls for instant stream loading and auto-reconnect on network drops.<br>
-                <h5>• Redesigned Hero Slider:</h5> Dynamic movie titles, high-contrast typography, and quick plot previews right on the home screen.<br>
-                <h5>• One-Tap History Clear:</h5> Easily remove items from Continue Watching and Watch History with the new delete icon.<br>
-                <h5>• New Download Links:</h5> Updated download server choices with accurate season and episode link generation.<br>
-                <h5>• Bug Fixes:</h5> Fixed channel logo loading errors, resolved "Unknown Channel" labels, and optimized app performance.
-            </p>
-        </div>
-
-        <!-- Review Submission Card -->
-<!-- Review Submission Card -->
-        <div class="glass-card">
-            <h3><i class="fa-solid fa-star" style="color: #f59e0b;"></i> Rate StreameX</h3>
-            <div style="margin-top: 1rem;">
-                <!-- Stars -->
-                <div id="star-selector" style="font-size: 1.8rem; color: var(--text-muted); cursor: pointer; margin-bottom: 1rem; display: flex; gap: 0.5rem;">
-                    <i class="fa-solid fa-star star" data-value="1"></i>
-                    <i class="fa-solid fa-star star" data-value="2"></i>
-                    <i class="fa-solid fa-star star" data-value="3"></i>
-                    <i class="fa-solid fa-star star" data-value="4"></i>
-                    <i class="fa-solid fa-star star" data-value="5"></i>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>StreameX</h4>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Stream movies, TV shows, anime and live TV with a modern, fast and ad-free experience.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#"><i class="fa-brands fa-telegram" style="font-size: 1.5rem;"></i></a>
+                        <a href="#"><i class="fa-brands fa-discord" style="font-size: 1.5rem;"></i></a>
+                        <a href="#"><i class="fa-brands fa-github" style="font-size: 1.5rem;"></i></a>
+                    </div>
                 </div>
-                
-                <!-- Mandatory Inputs -->
-                <input type="text" id="reviewer-name" placeholder="Your Name (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;">
-                
-                <textarea id="review-text" rows="3" placeholder="Describe your experience... (Required)" required style="width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1rem;"></textarea>
-                
-                <button id="submit-review" class="btn-download" style="width: 100%; justify-content: center; border: none; cursor: pointer;">Post Review</button>
-                <div id="review-error" style="color: #ef4444; margin-top: 1rem; text-align: center; display: none;">Please fill out all fields and select a star rating.</div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">DMCA Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Report an Issue</a></li>
+                        <li><a href="#">Request Feature</a></li>
+                        <li><a href="#">Contact Developer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> StreameX. All Rights Reserved.
             </div>
         </div>
+    </footer>
 
-        <!-- Display Reviews Card (MOVED ABOVE SCRIPT) -->
-        <div class="glass-card">
-            <h3><i class="fa-solid fa-comments"></i> User Reviews</h3>
-            <div id="reviews-container" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-                <p style="color: var(--text-muted);">Loading reviews...</p>
-            </div>
-        </div>
-
-        <script type="module">
-            // Import Firebase tools (ADDED 'limit' HERE)
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-            import { getFirestore, collection, addDoc, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-            const firebaseConfig = {
-                apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
-                authDomain: "streamex-v1.firebaseapp.com",
-                projectId: "streamex-v1",
-                storageBucket: "streamex-v1.firebasestorage.app",
-                messagingSenderId: "87040295346",
-                appId: "1:87040295346:web:4369ebb00242756e5f24ab"
-            };
-
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-
-            // Star Selection Logic
-            let selectedRating = 0;
-            const stars = document.querySelectorAll('.star');
-
-            stars.forEach(star => {
-                star.addEventListener('click', (e) => {
-                    selectedRating = e.target.getAttribute('data-value');
-                    stars.forEach(s => {
-                        if (s.getAttribute('data-value') <= selectedRating) {
-                            s.style.color = '#f59e0b';
-                        } else {
-                            s.style.color = 'var(--text-muted)';
-                        }
-                    });
-                });
-            });
-
-            // Post Review Logic
-            document.getElementById('submit-review').addEventListener('click', async () => {
-                const nameInput = document.getElementById('reviewer-name').value.trim();
-                const textInput = document.getElementById('review-text').value.trim();
-                const errorMsg = document.getElementById('review-error');
-                const btn = document.getElementById('submit-review');
-
-                if (selectedRating === 0 || nameInput === '' || textInput === '') {
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-
-                errorMsg.style.display = 'none';
-                btn.textContent = "Posting...";
-                btn.disabled = true;
-
-                try {
-                    await addDoc(collection(db, "reviews"), {
-                        name: nameInput,
-                        text: textInput,
-                        rating: Number(selectedRating),
-                        timestamp: new Date()
-                    });
-                    
-                    document.getElementById('reviewer-name').value = '';
-                    document.getElementById('review-text').value = '';
-                    selectedRating = 0;
-                    stars.forEach(s => s.style.color = 'var(--text-muted)');
-                    
-                    btn.textContent = "Post Review";
-                    btn.disabled = false;
-                    
-                    loadReviews(); 
-                } catch (error) {
-                    console.error("Error adding review: ", error);
-                    errorMsg.textContent = "Failed to post review. Please try again.";
-                    errorMsg.style.display = 'block';
-                    btn.textContent = "Post Review";
-                    btn.disabled = false;
-                }
-            });
-
-            // Fetch and Display Reviews
-            async function loadReviews() {
-                const container = document.getElementById('reviews-container');
-                // ADDED limit(10) TO THIS QUERY
-                const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"), limit(10));
-                
-                try {
-                    const querySnapshot = await getDocs(q);
-                    container.innerHTML = ''; 
-                    
-                    if(querySnapshot.empty) {
-                        container.innerHTML = '<p style="color: var(--text-muted);">No reviews yet. Be the first to review StreameX!</p>';
-                        return;
-                    }
-
-                    querySnapshot.forEach((doc) => {
-                        const review = doc.data();
-                        let starsHtml = '';
-                        for(let i = 0; i < 5; i++) {
-                            starsHtml += `<i class="fa-solid fa-star" style="color: ${i < review.rating ? '#f59e0b' : 'rgba(255,255,255,0.1)'}; font-size: 0.9rem;"></i>`;
-                        }
-
-                        const reviewElement = document.createElement('div');
-                        reviewElement.style.cssText = "background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);";
-                        reviewElement.innerHTML = `
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <strong style="font-size: 1.1rem; color: white;">${review.name}</strong>
-                                <div style="display: flex; gap: 2px;">${starsHtml}</div>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">${review.text}</p>
-                        `;
-                        container.appendChild(reviewElement);
-                    });
-                } catch (error) {
-                    console.error("Error loading reviews: ", error);
-                    container.innerHTML = '<p style="color: #ef4444;">Failed to load reviews. Check console for details.</p>';
-                }
-            }
-
-            loadReviews();
-        </script>
-
-        <!-- QR Code Download Section -->
-        <div class="glass-card" style="text-align: center;">
-            <h3>Scan to Download on Phone</h3>
-            <img id="qrcode" style="margin-top: 1rem; border-radius: 12px; border: 4px solid white;" src="" alt="QR Code">
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="image-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            <img src="" id="modal-img" alt="Enlarged Screenshot">
         </div>
     </div>
 
-    <div id="toast" class="toast">Copied to clipboard!</div>
+    <!-- Application Logic (GitHub API + Firebase) -->
+    <script type="module">
+        'use strict';
 
-    <script>
-        // Generate QR code dynamically for the page URL
-        document.getElementById('qrcode').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)}`;
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            githubUser: 'snahasishdey141',
+            githubRepo: 'StreameX'
+        };
 
-        function copyHash(hash) {
-            navigator.clipboard.writeText(hash);
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+        // ==========================================
+        // FIREBASE IMPORTS & INIT
+        // ==========================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
+            authDomain: "streamex-v1.firebaseapp.com",
+            projectId: "streamex-v1",
+            storageBucket: "streamex-v1.firebasestorage.app",
+            messagingSenderId: "87040295346",
+            appId: "1:87040295346:web:4369ebb00242756e5f24ab"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ==========================================
+        // STATE & UTILS
+        // ==========================================
+        const state = {
+            releases: [],
+            latestRelease: null,
+            totalDownloads: 0,
+            repoInfo: null
+        };
+
+        const formatBytes = (bytes, decimals = 2) => {
+            if (!+bytes) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+        };
+
+        const formatDate = (dateString) => {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+
+        const escapeHTML = (str) => {
+            const p = document.createElement('p');
+            p.appendChild(document.createTextNode(str));
+            return p.innerHTML;
+        };
+
+        // ==========================================
+        // GITHUB API LOGIC
+        // ==========================================
+        async function fetchGitHubData() {
+            try {
+                const releasesRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}/releases`);
+                if (!releasesRes.ok) throw new Error('Failed to fetch releases');
+                const releases = await releasesRes.json();
+                
+                if (!releases || releases.length === 0) throw new Error('No releases found');
+
+                const repoRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}`);
+                let repoData = null;
+                if (repoRes.ok) {
+                    repoData = await repoRes.json();
+                }
+
+                state.releases = releases;
+                state.latestRelease = releases[0];
+                state.repoInfo = repoData;
+
+                state.totalDownloads = releases.reduce((total, rel) => {
+                    return total + rel.assets.reduce((sum, asset) => sum + asset.download_count, 0);
+                }, 0);
+
+                renderGitHubUI();
+
+            } catch (error) {
+                console.error("GitHub API Error:", error);
+                document.querySelector('.main-content').innerHTML = `
+                    <div class="card error-card">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h2>Failed to Load Repository Data</h2>
+                        <p style="color: var(--color-text-muted); margin-top:0.5rem;">${error.message}</p>
+                        <button class="btn btn-primary" style="margin-top:1.5rem; width: auto;" onclick="location.reload()">Retry</button>
+                    </div>
+                `;
+            }
         }
+
+        function renderGitHubUI() {
+            const latest = state.latestRelease;
+            const apkAsset = latest.assets.find(a => a.name.endsWith('.apk')) || latest.assets[0];
+
+            document.getElementById('app-name').textContent = state.repoInfo ? state.repoInfo.name.replace(/-/g, ' ') : CONFIG.githubRepo;
+            document.getElementById('badge-version').textContent = latest.tag_name;
+            document.getElementById('stat-size').textContent = apkAsset ? formatBytes(apkAsset.size) : 'Unknown';
+            document.getElementById('stat-downloads').textContent = apkAsset ? apkAsset.download_count.toLocaleString() : '0';
+            document.getElementById('stat-date').textContent = formatDate(latest.published_at);
+            
+            const btnDownload = document.getElementById('primary-download-btn');
+            const btnSize = document.getElementById('btn-size');
+            if (apkAsset) {
+                btnDownload.href = apkAsset.browser_download_url;
+                btnSize.textContent = formatBytes(apkAsset.size);
+            } else {
+                btnDownload.href = latest.html_url;
+                btnDownload.innerHTML = '<i class="fa-brands fa-github"></i> View on GitHub';
+            }
+            
+            document.getElementById('github-btn').href = latest.html_url;
+
+            document.getElementById('hero-skeleton').style.display = 'none';
+            document.getElementById('hero-content').style.display = 'block';
+
+            // Changelog
+            document.getElementById('changelog-version').textContent = latest.tag_name;
+            const clContent = document.getElementById('changelog-content');
+            if (window.marked) {
+                clContent.innerHTML = marked.parse(latest.body || '*No release notes provided.*');
+            } else {
+                clContent.innerHTML = `<p>${escapeHTML(latest.body || 'No release notes provided.')}</p>`;
+            }
+            
+            document.getElementById('changelog-skeleton').style.display = 'none';
+            clContent.style.display = 'block';
+
+            // Sidebar Stats
+            document.getElementById('stat-total-dl').textContent = state.totalDownloads.toLocaleString();
+            document.getElementById('stat-stars').textContent = state.repoInfo ? state.repoInfo.stargazers_count.toLocaleString() : '--';
+
+            // Versions list
+            renderVersionsList(state.releases);
+
+            // Generate QR
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: window.location.href,
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        function renderVersionsList(releasesArray) {
+            const list = document.getElementById('versions-list');
+            const fragment = document.createDocumentFragment();
+            list.innerHTML = '';
+
+            if (releasesArray.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--color-text-muted);">No matching versions found.</div>';
+                return;
+            }
+
+            releasesArray.forEach((release, index) => {
+                const apk = release.assets.find(a => a.name.endsWith('.apk')) || release.assets[0];
+                const sizeStr = apk ? formatBytes(apk.size) : 'Unknown size';
+                const dlUrl = apk ? apk.browser_download_url : release.html_url;
+                const isLatest = index === 0;
+
+                const item = document.createElement('div');
+                item.className = 'version-item';
+                
+                const parsedBody = window.marked ? marked.parse(release.body || '*No notes.*') : escapeHTML(release.body);
+
+                item.innerHTML = `
+                    <div class="version-header">
+                        <div class="version-info">
+                            <h4>${escapeHTML(release.name || release.tag_name)} ${isLatest ? '<span class="badge primary" style="font-size:0.65rem; margin-left:0.5rem;">Latest</span>' : ''}</h4>
+                            <div class="version-meta">
+                                <span><i class="fa-regular fa-calendar"></i> ${formatDate(release.published_at)}</span>
+                                <span><i class="fa-solid fa-weight-hanging"></i> ${sizeStr}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 1rem;">
+                            <a href="${dlUrl}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="event.stopPropagation()">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            <i class="fa-solid fa-chevron-down expand-icon"></i>
+                        </div>
+                    </div>
+                    <div class="version-body">
+                        <div style="padding-top: 1rem; border-top: 1px solid var(--color-border); margin-top: 0.5rem;">
+                            <div class="markdown-body">${parsedBody}</div>
+                            <a href="${release.html_url}" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 1rem; font-size:0.8rem; padding: 0.5rem 1rem;">
+                                View on GitHub
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                item.querySelector('.version-header').addEventListener('click', () => {
+                    const isExpanded = item.classList.contains('expanded');
+                    document.querySelectorAll('.version-item').forEach(el => el.classList.remove('expanded'));
+                    if (!isExpanded) item.classList.add('expanded');
+                });
+
+                fragment.appendChild(item);
+            });
+
+            list.appendChild(fragment);
+        }
+
+        // ==========================================
+        // FIREBASE LOGIC (REVIEWS)
+        // ==========================================
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.star');
+
+        // Star Selection Visuals
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                selectedRating = parseInt(e.target.getAttribute('data-value'));
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-value')) <= selectedRating) {
+                        s.style.color = 'var(--color-warning)';
+                    } else {
+                        s.style.color = 'var(--color-text-muted)';
+                    }
+                });
+            });
+        });
+
+        // Submit Review
+        document.getElementById('submit-review').addEventListener('click', async () => {
+            const nameInput = document.getElementById('reviewer-name').value.trim();
+            const textInput = document.getElementById('review-text').value.trim();
+            const errorMsg = document.getElementById('review-error');
+            const btn = document.getElementById('submit-review');
+
+            if (selectedRating === 0 || nameInput === '' || textInput === '') {
+                errorMsg.textContent = "Please fill out all fields and select a rating.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+            btn.textContent = "Posting...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "reviews"), {
+                    name: nameInput,
+                    text: textInput,
+                    rating: Number(selectedRating),
+                    timestamp: new Date()
+                });
+                
+                // Reset Form
+                document.getElementById('reviewer-name').value = '';
+                document.getElementById('review-text').value = '';
+                selectedRating = 0;
+                stars.forEach(s => s.style.color = 'var(--color-text-muted)');
+                
+                btn.textContent = "Post Review";
+                btn.disabled = false;
+                
+                // Refresh list and stats
+                loadReviews(); 
+            } catch (error) {
+                console.error("Error adding review: ", error);
+                errorMsg.textContent = "Failed to post review. Please try again.";
+                errorMsg.style.display = 'block';
+                btn.textContent = "Post Review";
+                btn.disabled = false;
+            }
+        });
+
+        // Fetch and calculate stats & display top 5
+        async function loadReviews() {
+            const container = document.getElementById('reviews-container');
+            
+            try {
+                // Fetch ALL to calculate the true average and bar distribution
+                const q = collection(db, "reviews");
+                const snapshot = await getDocs(q);
+                
+                let totalStars = 0;
+                let totalReviews = 0;
+                let counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                let reviews = [];
+                
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    reviews.push(data);
+                    const rating = Number(data.rating) || 0;
+                    if (rating >= 1 && rating <= 5) {
+                        counts[rating]++;
+                        totalStars += rating;
+                        totalReviews++;
+                    }
+                });
+
+                // Calculate Average
+                let avgRating = 0;
+                if (totalReviews > 0) {
+                    avgRating = (totalStars / totalReviews).toFixed(1);
+                }
+
+                // Update Stats UI
+                document.getElementById('avg-rating-text').textContent = avgRating || "0.0";
+                document.getElementById('hero-avg-rating').textContent = avgRating || "0.0"; // Also update hero stats
+                document.getElementById('total-reviews-text').textContent = totalReviews;
+                document.getElementById('avg-stars-inner').style.width = `${(avgRating / 5) * 100}%`;
+
+                for (let i = 1; i <= 5; i++) {
+                    const bar = document.getElementById(`bar-${i}`);
+                    const percentage = totalReviews > 0 ? (counts[i] / totalReviews) * 100 : 0;
+                    bar.style.width = `${percentage}%`;
+                }
+
+                // Sort by timestamp descending
+                reviews.sort((a, b) => {
+                    const timeA = a.timestamp ? (a.timestamp.toMillis ? a.timestamp.toMillis() : new Date(a.timestamp).getTime()) : 0;
+                    const timeB = b.timestamp ? (b.timestamp.toMillis ? b.timestamp.toMillis() : new Date(b.timestamp).getTime()) : 0;
+                    return timeB - timeA;
+                });
+
+                // Get Latest 5 only
+                const top5 = reviews.slice(0, 5);
+
+                // Render Top 5
+                container.innerHTML = '';
+                if (top5.length === 0) {
+                    container.innerHTML = '<p style="color: var(--color-text-muted); font-size: 0.9rem;">No reviews yet. Be the first to review StreameX!</p>';
+                    return;
+                }
+
+                top5.forEach((review) => {
+                    let starsHtml = '';
+                    for (let i = 0; i < 5; i++) {
+                        starsHtml += `<i class="fa-solid fa-star" style="color: ${i < review.rating ? 'var(--color-warning)' : 'rgba(255,255,255,0.1)'}; font-size: 0.7rem;"></i>`;
+                    }
+
+                    const initial = review.name ? review.name.charAt(0).toUpperCase() : 'U';
+                    
+                    let dateStr = "Recent";
+                    if (review.timestamp && review.timestamp.toDate) {
+                        dateStr = review.timestamp.toDate().toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+                    } else if (review.timestamp) {
+                        dateStr = new Date(review.timestamp).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+                    }
+
+                    const reviewElement = document.createElement('div');
+                    reviewElement.className = 'review-card';
+                    reviewElement.innerHTML = `
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">${initial}</div>
+                                <div>
+                                    <div style="font-size: 0.9rem; font-weight: 600;">${escapeHTML(review.name)} <i class="fa-solid fa-circle-check" style="color:var(--color-primary); font-size:0.7rem;" title="Verified"></i></div>
+                                    <div style="display:flex; gap: 2px;">${starsHtml}</div>
+                                </div>
+                            </div>
+                            <div class="review-date">${dateStr}</div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem; word-break: break-word;">
+                            ${escapeHTML(review.text)}
+                        </p>
+                    `;
+                    container.appendChild(reviewElement);
+                });
+
+            } catch (error) {
+                console.error("Error loading reviews: ", error);
+                container.innerHTML = '<p style="color: var(--color-danger); font-size: 0.9rem;">Failed to load reviews.</p>';
+            }
+        }
+
+        // ==========================================
+        // UI INTERACTIONS & EVENT LISTENERS
+        // ==========================================
+        
+        // Search & Filter
+        const searchInput = document.getElementById('version-search');
+        const filterChips = document.querySelectorAll('.filter-chip');
+        let currentFilter = 'all';
+
+        const filterReleases = () => {
+            const query = searchInput.value.toLowerCase();
+            let filtered = state.releases.filter(r => 
+                r.tag_name.toLowerCase().includes(query) || 
+                (r.name && r.name.toLowerCase().includes(query))
+            );
+
+            if (currentFilter === 'latest') {
+                filtered = filtered.slice(0, 1);
+            } else if (currentFilter === 'oldest') {
+                filtered = [...filtered].reverse();
+            }
+
+            renderVersionsList(filtered);
+        };
+
+        searchInput.addEventListener('input', filterReleases);
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentFilter = chip.dataset.filter;
+                filterReleases();
+            });
+        });
+
+        // Screenshot Modal
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { modalImg.src = ''; }, 300);
+        };
+
+        document.querySelectorAll('.screenshot-item').forEach(img => {
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+
+        // Copy Hash
+        const btnCopySha = document.getElementById('copy-sha-btn');
+        btnCopySha.addEventListener('click', () => {
+            const origHTML = btnCopySha.innerHTML;
+            navigator.clipboard.writeText('a42ef80d87c4afd8bfcf17b7d029aee1f51d51b1e572e93a14accc5a11efead3'); // Preserved from original
+            btnCopySha.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+            setTimeout(() => { btnCopySha.innerHTML = origHTML; }, 2000);
+        });
+
+        // Share Link
+        const btnShare = document.getElementById('share-btn');
+        btnShare.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Download StreameX',
+                        text: `Check out the latest release of StreameX!`,
+                        url: window.location.href,
+                    });
+                } catch (err) {
+                    console.log('Share canceled', err);
+                }
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                const origHTML = btnShare.innerHTML;
+                btnShare.innerHTML = `<i class="fa-solid fa-check"></i> Link Copied!`;
+                setTimeout(() => { btnShare.innerHTML = origHTML; }, 2000);
+            }
+        });
+
+        // Date
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // INIT calls
+        fetchGitHubData();
+        loadReviews();
+
     </script>
 </body>
 </html>
