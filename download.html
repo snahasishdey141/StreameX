@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://www.gstatic.com">
     <link rel="dns-prefetch" href="https://api.github.com">
 
-    <!-- External Libraries (Integrity removed to prevent blocking errors) -->
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
@@ -99,6 +99,7 @@
                 radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
             overflow-x: hidden;
+            width: 100%;
         }
 
         a {
@@ -134,12 +135,14 @@
             -webkit-backdrop-filter: var(--glass-blur);
             border-bottom: 1px solid var(--color-border);
             padding: 1rem 0;
+            width: 100%;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1.5rem;
+            width: 100%;
         }
 
         .nav-content {
@@ -180,6 +183,7 @@
             margin-bottom: 1.5rem;
             overflow: hidden;
             position: relative;
+            width: 100%;
         }
 
         .card-header {
@@ -214,6 +218,7 @@
             object-fit: cover;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             border: 1px solid var(--color-border);
+            flex-shrink: 0;
         }
 
         .app-details h1 {
@@ -460,7 +465,7 @@
         }
 
         .version-info h4 { font-size: 1.1rem; margin-bottom: 0.25rem; }
-        .version-meta { font-size: 0.8rem; color: var(--color-text-muted); display: flex; gap: 1rem; }
+        .version-meta { font-size: 0.8rem; color: var(--color-text-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
         
         .version-body {
             padding: 0 1rem;
@@ -471,7 +476,7 @@
 
         .version-item.expanded .version-body {
             padding: 0 1rem 1rem;
-            max-height: 2000px; /* Arbitrary large height for animation */
+            max-height: 2000px;
         }
 
         .version-item.expanded .expand-icon {
@@ -496,8 +501,8 @@
 
         .screenshot-item {
             flex: 0 0 auto;
-            width: 160px;
-            height: 284px;
+            width: 140px;
+            height: 248px;
             border-radius: var(--radius-md);
             scroll-snap-align: start;
             cursor: pointer;
@@ -710,6 +715,8 @@
             width: 40px; height: 40px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            border: none;
+            cursor: pointer;
         }
         
         .text-modal-content .modal-close {
@@ -727,6 +734,7 @@
             max-height: 85vh;
             border-radius: var(--radius-md);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain;
         }
 
         /* Footer */
@@ -740,12 +748,12 @@
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
-        .footer-col h4 { margin-bottom: 1rem; color: var(--color-text); }
-        .footer-col ul { display: flex; flex-direction: column; gap: 0.5rem; }
-        .footer-col a { color: var(--color-text-muted); font-size: 0.9rem; }
+        .footer-col h4 { margin-bottom: 1.2rem; color: var(--color-text); }
+        .footer-col ul { display: flex; flex-direction: column; gap: 0.8rem; }
+        .footer-col a { color: var(--color-text-muted); font-size: 0.95rem; }
         .footer-col a:hover { color: var(--color-primary); }
 
         .footer-bottom {
@@ -757,17 +765,54 @@
             font-size: 0.85rem;
         }
 
-        /* Responsive */
+        /* Highly Optimized Mobile Responsive Queries */
         @media (max-width: 992px) {
-            .main-layout { grid-template-columns: 1fr; }
-            .sidebar { order: -1; }
+            /* Changed to column to strictly preserve top-to-bottom layout order */
+            .main-layout { 
+                display: flex; 
+                flex-direction: column; 
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-app { flex-direction: column; align-items: center; text-align: center; }
+            .card { padding: 1.25rem; }
+            .hero-app { 
+                flex-direction: column; 
+                align-items: center; 
+                text-align: center; 
+                gap: 1rem;
+            }
+            .app-icon { 
+                width: 100px; 
+                height: 100px; 
+            }
+            .app-details h1 { font-size: 1.75rem; }
             .meta-tags { justify-content: center; }
-            .secondary-actions { flex-direction: column; }
-            .modal-close { top: 10px; right: 10px; }
+            .app-stats { 
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .secondary-actions { 
+                flex-direction: column; 
+                width: 100%; 
+            }
+            .secondary-actions button, .secondary-actions a { 
+                width: 100%; 
+            }
+            
+            /* Center aligned mobile footer fixes the squished visual layout */
+            .footer-grid { 
+                text-align: center; 
+                gap: 2rem;
+            }
+            .footer-col ul { 
+                align-items: center; 
+            }
+            .footer-col div { 
+                justify-content: center; 
+            }
+            .modal-close { 
+                top: 10px; right: 10px; 
+            }
         }
 
         /* Error Cards */
@@ -779,23 +824,6 @@
             border-radius: var(--radius-md);
         }
         .error-card i { font-size: 3rem; color: var(--color-danger); margin-bottom: 1rem; }
-        
-        .sticky-mobile { position: static; }
-        
-        @media (max-width: 768px) {
-            .sticky-mobile {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: var(--color-bg-glass);
-                backdrop-filter: var(--glass-blur);
-                padding: 1rem;
-                z-index: 50;
-                border-top: 1px solid var(--color-border);
-                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
-            }
-        }
     </style>
 </head>
 <body>
@@ -816,7 +844,7 @@
     </nav>
 
     <main class="container main-layout">
-        <!-- Main Content Column -->
+        <!-- Main Content Column (Always first visually) -->
         <div class="main-content">
             
             <!-- Hero Card -->
@@ -874,7 +902,7 @@
                         </div>
                     </div>
 
-                    <div class="action-buttons sticky-mobile">
+                    <div class="action-buttons">
                         <a href="#" id="primary-download-btn" class="btn btn-primary">
                             <i class="fa-solid fa-download"></i> Download APK (<span id="btn-size">--</span>)
                         </a>
@@ -946,7 +974,7 @@
 
         </div>
 
-        <!-- Sidebar Column -->
+        <!-- Sidebar Column (Always below main content on Mobile) -->
         <aside class="sidebar">
             
             <!-- QR Code Widget -->
@@ -1058,10 +1086,10 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>StreameX</h4>
-                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">
                         Stream movies, TV shows, anime and live TV with a modern, fast and ad-free experience.
                     </p>
-                    <div style="display: flex; gap: 1rem;">
+                    <div style="display: flex; gap: 1.25rem;">
                         <a href="https://t.me/streamexapp" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="font-size: 1.5rem;"></i></a>
                         <a href="#" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="font-size: 1.5rem;"></i></a>
                         <a href="https://github.com/basic30" target="_blank" rel="noopener"><i class="fa-brands fa-github" style="font-size: 1.5rem;"></i></a>
@@ -1642,7 +1670,7 @@
         if (btnCopySha) {
             btnCopySha.addEventListener('click', () => {
                 const origHTML = btnCopySha.innerHTML;
-                navigator.clipboard.writeText('04aa830c3385f857840bd971ee8f329a35c07f57152d98178d116afe85d27d86'); // Preserved from original
+                navigator.clipboard.writeText('59079048a26e0f465f7d5ae7f1c8a0585193e571b8ffc8b9f74a0d7956c87f4d'); // Preserved from original
                 btnCopySha.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
                 setTimeout(() => { btnCopySha.innerHTML = origHTML; }, 2000);
             });
