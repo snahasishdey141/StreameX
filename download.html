@@ -28,10 +28,10 @@
     <link rel="preconnect" href="https://www.gstatic.com">
     <link rel="dns-prefetch" href="https://api.github.com">
 
-    <!-- External Libraries -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js" integrity="sha512-BbpOigZ/F5O8/q/h5jZ45x5b+yZ8JRs90qB/N5jVf3hD8S9z9Q6U3zRk/8c1O0L+Q+u2P2R/C+8n+A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WU1yM/RVIL/V8Fp2Zysw4uC8U5n3YkQ9cKivB+aJ/6/3k==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <!-- External Libraries (Integrity removed to prevent blocking errors) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
     <!-- JSON-LD App Schema -->
     <script type="application/ld+json">
@@ -1213,23 +1213,30 @@
             clContent.style.display = 'block';
 
             // Sidebar Stats
-            document.getElementById('stat-total-dl').textContent = state.totalDownloads.toLocaleString();
-            document.getElementById('stat-stars').textContent = state.repoInfo ? state.repoInfo.stargazers_count.toLocaleString() : '--';
+            const statTotalDl = document.getElementById('stat-total-dl');
+            if(statTotalDl) statTotalDl.textContent = state.totalDownloads.toLocaleString();
+            
+            const statStars = document.getElementById('stat-stars');
+            if(statStars) statStars.textContent = state.repoInfo ? state.repoInfo.stargazers_count.toLocaleString() : '--';
 
             // Versions list
             renderVersionsList(state.releases);
 
-            // Generate QR
+            // Generate QR - Fallback check in case script is still blocked
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
-            new QRCode(qrContainer, {
-                text: window.location.href,
-                width: 128,
-                height: 128,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(qrContainer, {
+                    text: window.location.href,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } else {
+                qrContainer.innerHTML = '<p style="color:var(--color-text-muted); font-size:0.8rem;">QR Code library blocked by browser.</p>';
+            }
         }
 
         function renderVersionsList(releasesArray) {
@@ -1387,16 +1394,25 @@
                     avgRating = (totalStars / totalReviews).toFixed(1);
                 }
 
-                // Update Stats UI
-                document.getElementById('avg-rating-text').textContent = avgRating || "0.0";
-                document.getElementById('hero-avg-rating').textContent = avgRating || "0.0"; // Also update hero stats
-                document.getElementById('total-reviews-text').textContent = totalReviews;
-                document.getElementById('avg-stars-inner').style.width = `${(avgRating / 5) * 100}%`;
+                // Update Stats UI (Safely handling if the element was destroyed by GitHub Error block)
+                const avgRatingText = document.getElementById('avg-rating-text');
+                if (avgRatingText) avgRatingText.textContent = avgRating || "0.0";
+                
+                const heroAvgRating = document.getElementById('hero-avg-rating');
+                if (heroAvgRating) heroAvgRating.textContent = avgRating || "0.0"; 
+                
+                const totalReviewsText = document.getElementById('total-reviews-text');
+                if (totalReviewsText) totalReviewsText.textContent = totalReviews;
+                
+                const avgStarsInner = document.getElementById('avg-stars-inner');
+                if (avgStarsInner) avgStarsInner.style.width = `${(avgRating / 5) * 100}%`;
 
                 for (let i = 1; i <= 5; i++) {
                     const bar = document.getElementById(`bar-${i}`);
-                    const percentage = totalReviews > 0 ? (counts[i] / totalReviews) * 100 : 0;
-                    bar.style.width = `${percentage}%`;
+                    if (bar) {
+                        const percentage = totalReviews > 0 ? (counts[i] / totalReviews) * 100 : 0;
+                        bar.style.width = `${percentage}%`;
+                    }
                 }
 
                 // Sort by timestamp descending
@@ -1453,7 +1469,9 @@
 
             } catch (error) {
                 console.error("Error loading reviews: ", error);
-                container.innerHTML = '<p style="color: var(--color-danger); font-size: 0.9rem;">Failed to load reviews.</p>';
+                if (container) {
+                    container.innerHTML = '<p style="color: var(--color-danger); font-size: 0.9rem;">Failed to load reviews.</p>';
+                }
             }
         }
 
@@ -1482,7 +1500,10 @@
             renderVersionsList(filtered);
         };
 
-        searchInput.addEventListener('input', filterReleases);
+        if (searchInput) {
+            searchInput.addEventListener('input', filterReleases);
+        }
+        
         filterChips.forEach(chip => {
             chip.addEventListener('click', () => {
                 filterChips.forEach(c => c.classList.remove('active'));
@@ -1509,42 +1530,52 @@
             });
         });
 
-        document.getElementById('close-modal').addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+        const closeModalBtn = document.getElementById('close-modal');
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+        if (modal) {
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+        }
 
         // Copy Hash
         const btnCopySha = document.getElementById('copy-sha-btn');
-        btnCopySha.addEventListener('click', () => {
-            const origHTML = btnCopySha.innerHTML;
-            navigator.clipboard.writeText('a42ef80d87c4afd8bfcf17b7d029aee1f51d51b1e572e93a14accc5a11efead3'); // Preserved from original
-            btnCopySha.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
-            setTimeout(() => { btnCopySha.innerHTML = origHTML; }, 2000);
-        });
+        if (btnCopySha) {
+            btnCopySha.addEventListener('click', () => {
+                const origHTML = btnCopySha.innerHTML;
+                navigator.clipboard.writeText('a42ef80d87c4afd8bfcf17b7d029aee1f51d51b1e572e93a14accc5a11efead3'); // Preserved from original
+                btnCopySha.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+                setTimeout(() => { btnCopySha.innerHTML = origHTML; }, 2000);
+            });
+        }
 
         // Share Link
         const btnShare = document.getElementById('share-btn');
-        btnShare.addEventListener('click', async () => {
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'Download StreameX',
-                        text: `Check out the latest release of StreameX!`,
-                        url: window.location.href,
-                    });
-                } catch (err) {
-                    console.log('Share canceled', err);
+        if (btnShare) {
+            btnShare.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'Download StreameX',
+                            text: `Check out the latest release of StreameX!`,
+                            url: window.location.href,
+                        });
+                    } catch (err) {
+                        console.log('Share canceled', err);
+                    }
+                } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    const origHTML = btnShare.innerHTML;
+                    btnShare.innerHTML = `<i class="fa-solid fa-check"></i> Link Copied!`;
+                    setTimeout(() => { btnShare.innerHTML = origHTML; }, 2000);
                 }
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                const origHTML = btnShare.innerHTML;
-                btnShare.innerHTML = `<i class="fa-solid fa-check"></i> Link Copied!`;
-                setTimeout(() => { btnShare.innerHTML = origHTML; }, 2000);
-            }
-        });
+            });
+        }
 
         // Date
-        document.getElementById('year').textContent = new Date().getFullYear();
+        const yearEl = document.getElementById('year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
 
         // INIT calls
         fetchGitHubData();
