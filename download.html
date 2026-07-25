@@ -682,6 +682,19 @@
             transform: scale(0.9);
             transition: var(--transition);
         }
+        
+        .text-modal-content {
+            background: var(--color-bg);
+            padding: 2.5rem 2rem 2rem;
+            border-radius: var(--radius-md);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
 
         .modal-overlay.active .modal-content {
             transform: scale(1);
@@ -697,6 +710,16 @@
             width: 40px; height: 40px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+        }
+        
+        .text-modal-content .modal-close {
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .text-modal-content .modal-close:hover {
+            background: var(--color-danger);
         }
 
         #modal-img {
@@ -817,7 +840,7 @@
                     <div class="hero-app">
                         <img src="https://i.ibb.co/HTksY8s6/icon-512.png" alt="App Icon" class="app-icon" id="app-icon" loading="lazy">
                         <div class="app-details">
-                            <h1 id="app-name">StreameX</h1>
+                            <h1 id="app-name">StreameX v2.0.0 - Final Release</h1>
                             <div class="dev-badge">
                                 <i class="fa-solid fa-circle-check"></i> Official Developer
                             </div>
@@ -1039,25 +1062,25 @@
                         Stream movies, TV shows, anime and live TV with a modern, fast and ad-free experience.
                     </p>
                     <div style="display: flex; gap: 1rem;">
-                        <a href="#"><i class="fa-brands fa-telegram" style="font-size: 1.5rem;"></i></a>
-                        <a href="#"><i class="fa-brands fa-discord" style="font-size: 1.5rem;"></i></a>
-                        <a href="#"><i class="fa-brands fa-github" style="font-size: 1.5rem;"></i></a>
+                        <a href="https://t.me/streamexapp" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="font-size: 1.5rem;"></i></a>
+                        <a href="#" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="font-size: 1.5rem;"></i></a>
+                        <a href="https://github.com/basic30" target="_blank" rel="noopener"><i class="fa-brands fa-github" style="font-size: 1.5rem;"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">DMCA Disclaimer</a></li>
+                        <li><a href="#" class="legal-link" data-type="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="legal-link" data-type="terms">Terms of Service</a></li>
+                        <li><a href="#" class="legal-link" data-type="dmca">DMCA Disclaimer</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#">Report an Issue</a></li>
-                        <li><a href="#">Request Feature</a></li>
-                        <li><a href="#">Contact Developer</a></li>
+                        <li><a href="https://github.com/snahasishdey141/StreameX/issues/new?title=Bug+Report&labels=bug" target="_blank" rel="noopener">Report an Issue</a></li>
+                        <li><a href="https://github.com/snahasishdey141/StreameX/issues/new?title=Feature+Request&labels=enhancement" target="_blank" rel="noopener">Request Feature</a></li>
+                        <li><a href="https://ig.me/m/snahasish0915" target="_blank" rel="noopener">Contact Developer</a></li>
                     </ul>
                 </div>
             </div>
@@ -1072,6 +1095,17 @@
         <div class="modal-content">
             <button class="modal-close" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
             <img src="" id="modal-img" alt="Enlarged Screenshot">
+        </div>
+    </div>
+
+    <!-- Text Modal for Legal Docs -->
+    <div class="modal-overlay" id="text-modal">
+        <div class="modal-content text-modal-content">
+            <button class="modal-close" id="close-text-modal"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="text-modal-title" style="margin-bottom: 1rem; color: var(--color-primary); font-size: 1.75rem;">Title</h2>
+            <div id="text-modal-body" class="markdown-body" style="color: var(--color-text-muted); line-height: 1.8;">
+                <!-- Text populated via JS -->
+            </div>
         </div>
     </div>
 
@@ -1537,12 +1571,78 @@
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
         }
 
+        // Text Modal (Legal Documentation) Logic
+        const textModal = document.getElementById('text-modal');
+        const closeTextModalBtn = document.getElementById('close-text-modal');
+        const textModalTitle = document.getElementById('text-modal-title');
+        const textModalBody = document.getElementById('text-modal-body');
+
+        const legalContent = {
+            privacy: {
+                title: "Privacy Policy",
+                body: `
+                    <h4>Data Collection</h4>
+                    <p>StreameX is an ad-free, open-source application designed with user privacy as a priority. We do not collect, store, or transmit any personal data, usage statistics, or telemetry from your device.</p>
+                    <br>
+                    <h4>Permissions</h4>
+                    <p>The application only requests the standard permissions necessary for media playback and connecting to the internet to fetch streaming sources.</p>
+                `
+            },
+            terms: {
+                title: "Terms of Service",
+                body: `
+                    <h4>Usage Agreement</h4>
+                    <p>By downloading and using StreameX, you agree to use the application at your own risk. The application is provided "as is", without warranty of any kind, express or implied.</p>
+                    <br>
+                    <h4>Liability</h4>
+                    <p>The developer(s) of StreameX shall not be held liable for any damages or legal consequences arising from the use of this software. This software is intended strictly for educational and personal utility purposes.</p>
+                `
+            },
+            dmca: {
+                title: "DMCA Disclaimer",
+                body: `
+                    <h4>Content Hosting</h4>
+                    <p>StreameX does not host, upload, or manage any of the media content (movies, TV shows, anime) available through the application.</p>
+                    <br>
+                    <h4>Third-Party Sources</h4>
+                    <p>All content is scraped and aggregated in real-time from third-party hosting services scattered across the web. StreameX operates strictly as a client-side search indexer and media player. We do not control the servers where the actual files are hosted.</p>
+                    <br>
+                    <h4>Takedown Requests</h4>
+                    <p>Because StreameX does not host any media files, we cannot execute takedown requests for copyrighted material. Any copyright infringement claims must be directed to the third-party platforms physically hosting the content.</p>
+                `
+            }
+        };
+
+        const closeTextModal = () => {
+            textModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        document.querySelectorAll('.legal-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const type = link.getAttribute('data-type');
+                if (legalContent[type]) {
+                    textModalTitle.textContent = legalContent[type].title;
+                    textModalBody.innerHTML = legalContent[type].body;
+                    textModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        if (closeTextModalBtn) closeTextModalBtn.addEventListener('click', closeTextModal);
+        if (textModal) {
+            textModal.addEventListener('click', (e) => { if (e.target === textModal) closeTextModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && textModal.classList.contains('active')) closeTextModal(); });
+        }
+
         // Copy Hash
         const btnCopySha = document.getElementById('copy-sha-btn');
         if (btnCopySha) {
             btnCopySha.addEventListener('click', () => {
                 const origHTML = btnCopySha.innerHTML;
-                navigator.clipboard.writeText('a42ef80d87c4afd8bfcf17b7d029aee1f51d51b1e572e93a14accc5a11efead3'); // Preserved from original
+                navigator.clipboard.writeText('04aa830c3385f857840bd971ee8f329a35c07f57152d98178d116afe85d27d86'); // Preserved from original
                 btnCopySha.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
                 setTimeout(() => { btnCopySha.innerHTML = origHTML; }, 2000);
             });
