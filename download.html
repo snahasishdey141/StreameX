@@ -1201,18 +1201,20 @@
         // GITHUB API LOGIC
         // ==========================================
         async function fetchGitHubData() {
-            try {
-                const releasesRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}/releases`);
-                if (!releasesRes.ok) throw new Error('Failed to fetch releases');
-                const releases = await releasesRes.json();
-                
-                if (!releases || releases.length === 0) throw new Error('No releases found');
+    try {
+        // 🔥 ADDED: { cache: 'no-store' } prevents the browser from loading old cached data
+        const releasesRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}/releases`, { cache: 'no-store' });
+        if (!releasesRes.ok) throw new Error('Failed to fetch releases');
+        const releases = await releasesRes.json();
+        
+        if (!releases || releases.length === 0) throw new Error('No releases found');
 
-                const repoRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}`);
-                let repoData = null;
-                if (repoRes.ok) {
-                    repoData = await repoRes.json();
-                }
+        // 🔥 ADDED: cache prevention here as well
+        const repoRes = await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}`, { cache: 'no-store' });
+        let repoData = null;
+        if (repoRes.ok) {
+            repoData = await repoRes.json();
+        }
 
                 state.releases = releases;
                 state.latestRelease = releases[0];
