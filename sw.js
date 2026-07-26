@@ -76,9 +76,12 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
     // 1. DO NOT cache video streams, APIs, or workers
-    if (url.pathname.includes('/play') || url.hostname.includes('workers.dev') || url.hostname.includes('api.themoviedb.org')) {
-        return; 
-    }
+    if (url.pathname.includes('/play') || 
+    url.hostname.includes('workers.dev') || 
+    url.hostname.includes('api.themoviedb.org') || 
+    url.hostname.includes('api.github.com')) { // 🔥 ADDED THIS LINE
+    return; 
+}
 
     // 2. Limit Image Caching (wsrv.nl proxy and TMDB images)
     if (url.hostname.includes('wsrv.nl') || url.hostname.includes('tmdb.org')) {
