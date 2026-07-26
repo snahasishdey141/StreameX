@@ -67,6 +67,12 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    
+    // 🔥 FIX ADDED HERE: Do not attempt to cache POST, PUT, or DELETE requests
+    if (event.request.method !== 'GET') {
+        return; 
+    }
+
     const url = new URL(event.request.url);
 
     // 1. DO NOT cache video streams, APIs, or workers
