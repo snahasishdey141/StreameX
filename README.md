@@ -7,6 +7,10 @@
   <a href="https://github.com/snahasishdey141/StreameX/releases/latest">
     <img src="https://img.shields.io/github/v/release/snahasishdey141/StreameX?style=for-the-badge&label=Download%20APK&color=green" alt="Download APK">
   </a>
+  <br>
+    <a href="https://sourceforge.net/projects/streamex/files/latest/download">
+    <img alt="Download StreameX" src="https://a.fsdn.com/con/app/sf-download-button">
+  </a>
 </div>
   <b>Stream movies and TV shows in HD. No ads. registration required.</b>
   <br>
