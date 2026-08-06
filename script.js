@@ -67,6 +67,7 @@ const servers = [
     { name: "Streamrip", key: "Streamrip_Movie", useSandbox: false },
     { name: "FilmU", key: "FilmU_Movie", useSandbox: false },
     { name: "Vidcore", key: "vidcore", useSandbox: false },
+    { name: "Vipembed", key: "2embed", useSandbox: false },
 
 ];
 
