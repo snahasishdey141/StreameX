@@ -491,7 +491,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js"; // You already had this import!
 
         const firebaseConfig = {
             apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
@@ -499,12 +499,14 @@
             projectId: "streamex-v1",
             storageBucket: "streamex-v1.firebasestorage.app",
             messagingSenderId: "87040295346",
-            appId: "1:87040295346:web:4369ebb00242756e5f24ab"
+            appId: "1:87040295346:web:4369ebb00242756e5f24ab",
+            measurementId: "G-3854NTCXSW" // <-- 1. ADDED YOUR MEASUREMENT ID HERE
         };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
+        const analytics = getAnalytics(app); // <-- 2. INITIALIZED ANALYTICS HERE
 
         // Ask for permission when a user clicks a button
         window.enableNotifications = () => {
