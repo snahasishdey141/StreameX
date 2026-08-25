@@ -39,6 +39,7 @@ const servers = [
     { name: "Anime (Dub)", isAnime: true, key: "animepahe_dub", useSandbox: false },
     { name: "VidLink (Sub)", isAnime: true, key: "vidlink_anime_sub", useSandbox: false },
     { name: "VidLink (Dub)", isAnime: true, key: "vidlink_anime_dub", useSandbox: false },
+    { name: "Megaplay", isAnime: true, key: "megaplay_anime_sub", useSandbox: false },
 
     // --- MOVIE/TV SERVERS (Use TMDB ID) ---
     { name: "StreameX", key: "streamex", useSandbox: false },
