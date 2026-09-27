@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-       <loc>https://streamex.pages.dev/</loc>
-       <lastmod>2026-08-17T15:30:05+00:00</lastmod>
+    <loc>https://streamex.pages.dev/download</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/HTksY8s6/icon-512.png</image:loc>
+      <image:title>StreameX Official Android App Icon</image:title>
+      <image:caption>StreameX Android Streaming Client Official Logo</image:caption>
+    </image:image>
   </url>
   <url>
-       <loc>https://streamex.pages.dev/download</loc>
-       <lastmod>2026-08-17T15:30:05+00:00</lastmod>
+    <loc>https://streamex.pages.dev/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
