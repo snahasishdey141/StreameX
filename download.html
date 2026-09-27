@@ -64,10 +64,7 @@
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
-    <!-- ==========================================================================
-         STRUCTURED DATA: Rich Snippets for Google Search Console (JSON-LD)
-         ========================================================================== -->
-    <!-- 1. SoftwareApplication Schema (App Rich Snippet) -->
+    <!-- Structured Data: Rich Snippets for Google Search Console (JSON-LD) -->
     <script type="application/ld+json" id="app-ld-json">
     {
       "@context": "https://schema.org",
@@ -105,7 +102,6 @@
     }
     </script>
 
-    <!-- 2. BreadcrumbList Schema (Search Console Navigation) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -127,7 +123,6 @@
     }
     </script>
 
-    <!-- 3. FAQPage Schema (Google Search FAQ Rich Results) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -179,7 +174,7 @@
 
     <style>
         /* ==========================================================================
-           StreameX Bespoke Design System & Tokens
+           StreameX Bespoke Design Tokens
            ========================================================================== */
         :root {
             --bg-canvas: #080b11;
@@ -223,7 +218,7 @@
             --blur-glass: blur(24px);
         }
 
-        /* Reset & Base */
+        /* Base Resets */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -325,12 +320,12 @@
             width: 100%;
         }
 
-        /* Bespoke StreameX Navbar */
+        /* StreameX Navbar */
         .navbar {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(8, 11, 17, 0.82);
+            background: rgba(8, 11, 17, 0.84);
             backdrop-filter: var(--blur-glass);
             -webkit-backdrop-filter: var(--blur-glass);
             border-bottom: 1px solid var(--border-subtle);
@@ -451,7 +446,7 @@
             transform: translateY(-1px);
         }
 
-        /* Floating Sticky Bar (Appears on Scroll) */
+        /* Floating Sticky Bar */
         .sticky-scroll-bar {
             position: fixed;
             top: 0;
@@ -679,11 +674,18 @@
             font-weight: 600;
         }
 
-        /* Hero Action Buttons */
+        /* Action Buttons */
         .hero-actions-group {
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-secondary-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             flex-wrap: wrap;
         }
 
@@ -836,6 +838,22 @@
             box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
         }
 
+        .feature-card-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--card-accent, #10b981), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+        }
+
+        .feature-card-item:hover::before {
+            opacity: 1;
+        }
+
         .feature-icon-box {
             width: 50px;
             height: 50px;
@@ -864,7 +882,7 @@
             line-height: 1.55;
         }
 
-        /* Screenshots Interactive Showcase */
+        /* Screenshots Carousel */
         .showcase-slider-wrapper {
             position: relative;
             margin: 0 -0.5rem;
@@ -1204,9 +1222,7 @@
             word-break: break-word;
         }
 
-        /* ==========================================================================
-           SEO FAQ ACCORDION SECTION (Essential for Google Search Console FAQ Rich Results)
-           ========================================================================== */
+        /* FAQ Accordion Section */
         .faq-accordion-grid {
             display: flex;
             flex-direction: column;
@@ -1516,7 +1532,6 @@
 
         .toast-pill-msg.active {
             transform: translateY(0);
-            opacity: 1;
         }
 
         /* Skeletons */
@@ -1535,55 +1550,546 @@
             100% { background-position: 0 50%; }
         }
 
-        /* Responsive */
+                /* ==========================================================================
+           Mobile Optimization & Responsive Layout Architecture (Refined & Touch-Ready)
+           ========================================================================== */
+        
+        /* Base Collapsible & Carousel Utilities */
+        .changelog-collapsible-wrap {
+            position: relative;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .changelog-collapsible-wrap.collapsed {
+            max-height: 250px;
+            overflow: hidden;
+        }
+        .changelog-collapsible-wrap.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background: linear-gradient(to bottom, rgba(14, 19, 31, 0) 0%, rgba(14, 19, 31, 0.98) 95%);
+            pointer-events: none;
+        }
+        .btn-expand-changelog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin-top: 0.85rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            color: var(--accent-emerald-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .btn-expand-changelog:hover,
+        .btn-expand-changelog:active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.35);
+            color: #34d399;
+        }
+
+        .carousel-dots-row {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 0.45rem;
+            margin-top: 1rem;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            width: 24px;
+            border-radius: var(--radius-pill);
+            background: var(--accent-emerald);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+        .swipe-hint-pill {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+        }
+
+        .mobile-section-nav {
+            display: none;
+        }
+
+        /* Prevent horizontal overflow on all screen sizes */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         @media (max-width: 1024px) {
             .features-quad-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .content-split-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
         }
 
         @media (max-width: 768px) {
+            /* Layout & Spacing */
+            .container {
+                padding: 0 1rem;
+                max-width: 100%;
+            }
+
+            /* Navbar */
+            .navbar {
+                height: 58px;
+            }
+            .brand-emblem {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .brand-name {
+                font-size: 1.1rem;
+            }
+            .brand-subtext {
+                display: none;
+            }
+            .nav-links-wrap .nav-link-item {
+                display: none;
+            }
+            .btn-nav-action {
+                padding: 0.35rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            /* Mobile Sticky Navigation Chips Bar */
+            .mobile-section-nav {
+                display: block;
+                position: sticky;
+                top: 0;
+                z-index: 850;
+                background: rgba(8, 11, 17, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 0.65rem 0;
+                margin: 0 -1rem 1.5rem -1rem;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            }
+            .mobile-nav-track {
+                display: flex;
+                gap: 0.5rem;
+                overflow-x: auto;
+                padding: 0 1rem;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+            .mobile-nav-track::-webkit-scrollbar {
+                display: none;
+            }
+            .mobile-nav-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                padding: 0.45rem 0.85rem;
+                border-radius: var(--radius-pill);
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                color: var(--text-secondary);
+                font-size: 0.775rem;
+                font-weight: 600;
+                white-space: nowrap;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                flex-shrink: 0;
+            }
+            .mobile-nav-chip.active,
+            .mobile-nav-chip:hover,
+            .mobile-nav-chip:active {
+                background: rgba(16, 185, 129, 0.15);
+                border-color: rgba(16, 185, 129, 0.4);
+                color: #10b981;
+            }
+
+            /* Hero Section */
+            .hero-section {
+                padding: 1rem 0 0.5rem;
+            }
             .hero-card-styled {
-                padding: 1.75rem 1.25rem;
+                padding: 1.35rem 1rem;
+                border-radius: var(--radius-lg);
             }
             .hero-layout-grid {
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
-                gap: 1.5rem;
+                gap: 1.15rem;
+            }
+            .hero-app-icon {
+                width: 96px;
+                height: 96px;
+                border-radius: 22px;
+            }
+            .hero-verified-dot {
+                width: 24px;
+                height: 24px;
+                font-size: 0.75rem;
+                bottom: -2px;
+                right: -2px;
+            }
+            .hero-pill-category {
+                font-size: 0.68rem;
+                padding: 0.25rem 0.65rem;
+                margin-bottom: 0.4rem;
             }
             .hero-title-main {
-                font-size: 2rem;
+                font-size: 1.55rem;
+                line-height: 1.25;
+                margin-bottom: 0.5rem;
+                word-break: break-word;
             }
+            .hero-subtitle-main {
+                font-size: 0.875rem;
+                line-height: 1.5;
+                margin-bottom: 1.15rem;
+            }
+
+            /* Metric 2x2 Clean Cards (No awkward borders) */
             .hero-metric-strip {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                gap: 0.65rem;
+                padding: 0.75rem;
+                border-radius: var(--radius-md);
+                margin-bottom: 1.15rem;
             }
-            .hero-metric-box:nth-child(2)::after {
+            .hero-metric-box::after {
                 display: none;
             }
+            .hero-metric-box {
+                background: rgba(255, 255, 255, 0.035);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: var(--radius-sm);
+                padding: 0.75rem 0.5rem;
+            }
+            .metric-value-text {
+                font-size: 1.15rem;
+                margin-bottom: 0.15rem;
+            }
+            .metric-label-text {
+                font-size: 0.68rem;
+            }
+
+            /* Buttons */
             .hero-actions-group {
                 flex-direction: column;
                 width: 100%;
+                gap: 0.65rem;
             }
-            .btn-glow-primary, .btn-outline-glass {
+            .btn-glow-primary {
+                width: 100%;
+                min-height: 52px;
+                padding: 0.85rem 1.25rem;
+                font-size: 0.95rem;
+                justify-content: center;
+            }
+            .hero-secondary-row {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
                 width: 100%;
             }
+            .hero-secondary-row .btn-outline-glass {
+                padding: 0.65rem 0.25rem;
+                font-size: 0.775rem;
+                min-height: 44px;
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+            #btn-open-qr {
+                display: none !important;
+            }
+            #btn-share-mobile {
+                display: inline-flex !important;
+            }
+            .device-detect-pill {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.75rem;
+                margin-top: 0.85rem;
+            }
+
+            /* Section Spacing */
+            .section-wrap {
+                margin-top: 2.25rem;
+            }
+            .section-header-block {
+                margin-bottom: 1.15rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            .section-heading-lg {
+                font-size: 1.3rem;
+                line-height: 1.3;
+            }
+
+            /* Features Grid */
             .features-quad-grid {
                 grid-template-columns: 1fr;
+                gap: 0.75rem;
             }
-            .footer-grid-layout {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .feature-card-item {
+                padding: 1.15rem 1rem;
+                border-radius: var(--radius-md);
+            }
+            .feature-icon-box {
+                width: 42px;
+                height: 42px;
+                font-size: 1.15rem;
+                margin-bottom: 0.75rem;
+            }
+            .feature-title-text {
+                font-size: 1.05rem;
+            }
+            .feature-desc-text {
+                font-size: 0.825rem;
+            }
+
+            /* Screenshots Carousel */
+            .phone-frame-mockup {
+                width: 170px;
+                height: 330px;
+                border-radius: 22px;
+                padding: 5px;
+                scroll-snap-align: center;
+                flex-shrink: 0;
+            }
+            .phone-screen-inner {
+                border-radius: 17px;
+            }
+            .showcase-slider {
+                gap: 0.85rem;
+                scroll-snap-type: x mandatory;
+                padding: 0.25rem 0.5rem 0.75rem;
+                -webkit-overflow-scrolling: touch;
+                scroll-padding: 0.5rem;
             }
             .slider-arrow-btn {
                 display: none;
             }
-            .nav-links-wrap .nav-link-item {
+            .carousel-dots-row {
+                display: flex;
+            }
+            .swipe-hint-pill {
+                display: flex;
+            }
+
+            /* Changelog & Reviews */
+            .content-split-grid {
+                grid-template-columns: 1fr !important;
+                margin-top: 2.25rem;
+                gap: 1.5rem;
+            }
+            .glass-box-panel {
+                padding: 1.25rem 1rem;
+                border-radius: var(--radius-lg);
+            }
+            .panel-title-text {
+                font-size: 1.15rem;
+            }
+
+            /* Rating Breakdown */
+            .rating-summary-layout {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.85rem;
+                margin-bottom: 1.15rem;
+            }
+            .rating-big-stat {
+                font-size: 2.75rem;
+            }
+            .rating-bars-stack {
+                width: 100%;
+            }
+
+            /* Write Review Box */
+            .review-write-box {
+                padding: 1.15rem 0.85rem;
+                border-radius: var(--radius-md);
+            }
+            .stars-picker-row {
+                font-size: 1.75rem;
+                gap: 0.65rem;
+                margin-bottom: 0.75rem;
+            }
+            .stars-picker-row i {
+                padding: 0.25rem;
+            }
+
+            /* Prevent mobile browser zoom on inputs */
+            .custom-input, .custom-textarea, .version-search-input {
+                font-size: 16px !important;
+                border-radius: var(--radius-sm);
+            }
+            .custom-input {
+                height: 48px;
+            }
+
+            /* FAQ Section */
+            .faq-accordion-grid {
+                gap: 0.6rem;
+            }
+            .faq-question-btn {
+                padding: 0.95rem 1rem;
+                font-size: 0.925rem;
+                line-height: 1.4;
+            }
+            .faq-answer-block {
+                padding: 0 1rem;
+            }
+            .faq-card-item.open .faq-answer-block {
+                padding: 0.95rem 1rem;
+            }
+            .faq-answer-block p {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            /* Version Archive Section */
+            .version-search-wrap {
+                margin-bottom: 1rem;
+            }
+            .version-search-input {
+                padding: 0.85rem 1rem 0.85rem 2.65rem;
+            }
+            .version-header-toggle {
+                padding: 0.95rem 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .version-header-toggle > div:last-child {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .version-tag-title {
+                font-size: 1rem;
+            }
+            .version-meta-tags {
+                flex-wrap: wrap;
+                gap: 0.65rem;
+                font-size: 0.75rem;
+            }
+
+            /* Sticky Floating Bar */
+            .sticky-scroll-bar {
+                height: 56px;
+                background: rgba(8, 11, 17, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            }
+            .sticky-avatar {
+                width: 34px;
+                height: 34px;
+                border-radius: 8px;
+            }
+            .sticky-title {
+                font-size: 0.85rem;
+                max-width: 130px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .sticky-meta {
                 display: none;
+            }
+            .sticky-scroll-bar .btn-glow-primary {
+                padding: 0.45rem 0.9rem;
+                font-size: 0.8rem;
+                min-height: 36px;
+                font-weight: 700;
+            }
+
+            /* Modals */
+            .modal-blur-overlay {
+                padding: 0.75rem;
+            }
+            .modal-window-box {
+                padding: 1.35rem 1rem;
+                border-radius: var(--radius-md);
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+            .modal-dismiss-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            /* Toast */
+            .toast-pill-msg {
+                right: auto;
+                left: 50%;
+                bottom: 1.25rem;
+                transform: translateX(-50%) translateY(20px);
+                width: calc(100vw - 2rem);
+                max-width: 360px;
+                justify-content: center;
+                text-align: center;
+                font-size: 0.8125rem;
+                padding: 0.7rem 1rem;
+            }
+            .toast-pill-msg.active {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            /* Footer */
+            footer {
+                padding: 2.5rem 0 2rem;
+                margin-top: 3rem;
+            }
+            .footer-grid-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .footer-bottom-row {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .hero-title-main {
+                font-size: 1.35rem;
+            }
+            .sticky-title {
+                max-width: 100px;
+            }
+            .hero-secondary-row {
+                grid-template-columns: 1fr;
+            }
+            .hero-metric-strip {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1655,7 +2161,7 @@
     <main class="container" role="main">
 
         <!-- ==========================================================================
-             HERO APP SHOWCASE (Optimized for Search Engines & Users)
+             HERO APP SHOWCASE (Optimized for Mobile & Desktop)
              ========================================================================== -->
         <section class="hero-section" id="hero-section" aria-labelledby="hero-title-text">
             <div class="hero-card-styled">
@@ -1699,7 +2205,7 @@
                                 The ultimate ad-free multimedia streaming client for Android. Enjoy seamless movies, TV shows, anime, and live entertainment with hardware acceleration and zero subscription fees.
                             </p>
 
-                            <!-- Live 4-Metric Glass Strip -->
+                            <!-- Live 4-Metric Glass Strip (Responsive 2x2 on Mobile) -->
                             <div class="hero-metric-strip">
                                 <div class="hero-metric-box">
                                     <div class="metric-value-text" id="metric-size-val">4.7 MB</div>
@@ -1729,20 +2235,29 @@
                                     <span>Download Official APK (<span id="btn-size-span">4.7 MB</span>)</span>
                                 </a>
 
-                                <button class="btn-outline-glass" id="btn-open-qr" aria-label="Send APK download link to phone via QR code">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                    <span>Send to Phone</span>
-                                </button>
+                                <div class="hero-secondary-row">
+                                    <!-- Desktop QR Scanner Trigger -->
+                                    <button class="btn-outline-glass" id="btn-open-qr" aria-label="Send APK download link to phone via QR code">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                        <span>Send to Phone</span>
+                                    </button>
 
-                                <button class="btn-outline-glass" id="btn-open-sha" aria-label="View SHA256 Checksum">
-                                    <i class="fa-solid fa-fingerprint"></i>
-                                    <span>SHA-256 Checksum</span>
-                                </button>
+                                    <!-- Mobile Direct Share Action -->
+                                    <button class="btn-outline-glass" id="btn-share-mobile" aria-label="Share StreameX App" style="display: none;">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                        <span>Share</span>
+                                    </button>
 
-                                <a href="https://github.com/snahasishdey141/StreameX" target="_blank" rel="noopener" class="btn-outline-glass" id="btn-repo-link" aria-label="View GitHub Repository">
-                                    <i class="fa-brands fa-github"></i>
-                                    <span>Source Code</span>
-                                </a>
+                                    <button class="btn-outline-glass" id="btn-open-sha" aria-label="View SHA256 Checksum">
+                                        <i class="fa-solid fa-fingerprint"></i>
+                                        <span>SHA-256</span>
+                                    </button>
+
+                                    <a href="https://github.com/snahasishdey141/StreameX" target="_blank" rel="noopener" class="btn-outline-glass" id="btn-repo-link" aria-label="View GitHub Repository">
+                                        <i class="fa-brands fa-github"></i>
+                                        <span>Source</span>
+                                    </a>
+                                </div>
                             </div>
 
                             <!-- Smart Device Guidance -->
@@ -1758,8 +2273,21 @@
             </div>
         </section>
 
+        <!-- Mobile Quick-Navigation Chips (Visible on Mobile <= 768px) -->
+        <nav class="mobile-section-nav" id="mobile-quick-nav" aria-label="Quick section navigation">
+            <div class="mobile-nav-track">
+                <a href="#hero-section" class="mobile-nav-chip active"><i class="fa-solid fa-house"></i> Overview</a>
+                <a href="#features-section" class="mobile-nav-chip"><i class="fa-solid fa-bolt"></i> Features</a>
+                <a href="#screenshots-section" class="mobile-nav-chip"><i class="fa-solid fa-mobile-screen"></i> Previews</a>
+                <a href="#changelog-section" class="mobile-nav-chip"><i class="fa-solid fa-sparkles"></i> What's New</a>
+                <a href="#reviews-section" class="mobile-nav-chip"><i class="fa-solid fa-star"></i> Reviews</a>
+                <a href="#faq-section" class="mobile-nav-chip"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+                <a href="#versions-section" class="mobile-nav-chip"><i class="fa-solid fa-clock-rotate-left"></i> Versions</a>
+            </div>
+        </nav>
+
         <!-- ==========================================================================
-             WHY STREAMEX (4 FEATURE PILLARS - Rich Content for Search Engines)
+             WHY STREAMEX (4 FEATURE PILLARS)
              ========================================================================== -->
         <section class="section-wrap" id="features-section" aria-labelledby="features-heading">
             <div class="section-header-block">
@@ -1797,7 +2325,7 @@
         </section>
 
         <!-- ==========================================================================
-             IN-APP SCREENSHOT SHOWCASE
+             IN-APP SCREENSHOT SHOWCASE (Mobile-Optimized Touch Carousel)
              ========================================================================== -->
         <section class="section-wrap" id="screenshots-section" aria-labelledby="screenshots-heading">
             <div class="section-header-block">
@@ -1805,7 +2333,7 @@
                     <div class="section-tagline">Visual Tour</div>
                     <h2 class="section-heading-lg" id="screenshots-heading">StreameX Android App Interface</h2>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">Click any preview to inspect</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Swipe or click preview to inspect</div>
             </div>
 
             <div class="showcase-slider-wrapper">
@@ -1840,6 +2368,15 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
+
+            <!-- Mobile Carousel Indicators & Gesture Hint -->
+            <div class="carousel-dots-row" id="carousel-dots" aria-hidden="true">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+            </div>
+            <div class="swipe-hint-pill"><i class="fa-solid fa-arrow-right-arrow-left"></i> Swipe to preview interface</div>
         </section>
 
         <!-- ==========================================================================
@@ -1864,7 +2401,13 @@
                     <div class="skeleton-shimmer" style="height: 1rem; width: 50%;"></div>
                 </div>
 
-                <div class="markdown-release-notes" id="changelog-markdown-content" style="display: none;"></div>
+                <div class="changelog-collapsible-wrap collapsed" id="changelog-collapsible">
+                    <div class="markdown-release-notes" id="changelog-markdown-content" style="display: none;"></div>
+                </div>
+                <button class="btn-expand-changelog" id="btn-toggle-changelog" type="button" aria-expanded="false">
+                    <span id="changelog-toggle-text">Read Full Release Notes</span>
+                    <i class="fa-solid fa-chevron-down" id="changelog-toggle-icon"></i>
+                </button>
             </section>
 
             <!-- Right: Community Ratings & Firebase Feedback -->
@@ -2224,7 +2767,7 @@
                 iconEl.className = 'fa-brands fa-android';
                 iconEl.style.color = '#10b981';
             } else if (/iphone|ipad|ipod/i.test(ua)) {
-                statusEl.textContent = 'iOS detected — APK files are for Android. Scan QR to transfer to phone.';
+                statusEl.textContent = 'iOS detected — APK files are for Android. Share or transfer to phone.';
                 iconEl.className = 'fa-brands fa-apple';
             } else if (/windows/i.test(ua)) {
                 statusEl.textContent = 'Windows PC detected — Transfer APK to phone or scan QR code';
@@ -2732,6 +3275,26 @@
             });
         }
 
+        // Mobile Share Action
+        const btnShareMobile = document.getElementById('btn-share-mobile');
+        if (btnShareMobile) {
+            btnShareMobile.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: document.title,
+                            text: 'Download StreameX - The ad-free streaming app for Android!',
+                            url: window.location.href
+                        });
+                    } catch (err) {}
+                } else {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        toastNotification('Page link copied to clipboard!');
+                    });
+                }
+            });
+        }
+
         // Legal Documentation Modal
         const legalOverlay = document.getElementById('legal-overlay');
         const btnCloseLegal = document.getElementById('btn-close-legal');
@@ -2803,7 +3366,6 @@
                 const item = btn.closest('.faq-card-item');
                 const isOpen = item.classList.contains('open');
                 
-                // Optional: close other FAQ items
                 document.querySelectorAll('.faq-card-item').forEach(el => {
                     el.classList.remove('open');
                     el.querySelector('.faq-question-btn').setAttribute('aria-expanded', 'false');
@@ -2850,6 +3412,86 @@
 
         // Current Year
         document.getElementById('current-year-text').textContent = new Date().getFullYear();
+
+                // --- MOBILE ENHANCEMENTS LOGIC ---
+        // 1. Collapsible Changelog Toggle
+        const btnToggleCl = document.getElementById('btn-toggle-changelog');
+        const clContainer = document.getElementById('changelog-collapsible');
+        const clToggleText = document.getElementById('changelog-toggle-text');
+        const clToggleIcon = document.getElementById('changelog-toggle-icon');
+
+        if (btnToggleCl && clContainer) {
+            btnToggleCl.addEventListener('click', () => {
+                const isCollapsed = clContainer.classList.contains('collapsed');
+                if (isCollapsed) {
+                    clContainer.classList.remove('collapsed');
+                    btnToggleCl.setAttribute('aria-expanded', 'true');
+                    clToggleText.textContent = 'Show Less';
+                    clToggleIcon.className = 'fa-solid fa-chevron-up';
+                } else {
+                    clContainer.classList.add('collapsed');
+                    btnToggleCl.setAttribute('aria-expanded', 'false');
+                    clToggleText.textContent = 'Read Full Release Notes';
+                    clToggleIcon.className = 'fa-solid fa-chevron-down';
+                    document.getElementById('changelog-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        // 2. Screenshot Carousel Dots Sync
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+        const mockupItems = document.querySelectorAll('.phone-frame-mockup');
+
+        if (sliderTrack && carouselDots.length > 0) {
+            sliderTrack.addEventListener('scroll', () => {
+                const scrollLeft = sliderTrack.scrollLeft;
+                const cardWidth = mockupItems[0] ? mockupItems[0].offsetWidth + 14 : 180;
+                const activeIndex = Math.min(Math.round(scrollLeft / cardWidth), carouselDots.length - 1);
+                
+                carouselDots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === activeIndex);
+                });
+            }, { passive: true });
+
+            carouselDots.forEach((dot) => {
+                dot.addEventListener('click', () => {
+                    const idx = parseInt(dot.getAttribute('data-index'), 10);
+                    if (mockupItems[idx]) {
+                        mockupItems[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                });
+            });
+        }
+
+        // 3. Mobile Section Nav Active State & Smooth Jump
+        const navChips = document.querySelectorAll('.mobile-nav-chip');
+        const navSections = [
+            document.getElementById('hero-section'),
+            document.getElementById('features-section'),
+            document.getElementById('screenshots-section'),
+            document.getElementById('changelog-section'),
+            document.getElementById('reviews-section'),
+            document.getElementById('faq-section'),
+            document.getElementById('versions-section')
+        ].filter(Boolean);
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + 120;
+            let currentId = '';
+
+            navSections.forEach(sec => {
+                if (sec.offsetTop <= scrollPos) {
+                    currentId = sec.getAttribute('id');
+                }
+            });
+
+            if (currentId) {
+                navChips.forEach(chip => {
+                    const target = chip.getAttribute('href').replace('#', '');
+                    chip.classList.toggle('active', target === currentId);
+                });
+            }
+        }, { passive: true });
 
         // 13. INITIALIZE ENGINE
         detectUserPlatform();
