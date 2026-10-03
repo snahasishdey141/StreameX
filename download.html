@@ -3499,5 +3499,46 @@
         loadCommunityReviews();
 
     </script>
+
+        <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawTitle = urlParams.get('title');
+
+      if (rawTitle) {
+        // Clean up title (replaces '+' and '%20' with real spaces)
+        const cleanTitle = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
+
+        const banner = document.createElement('div');
+        banner.style.cssText = `
+          background: linear-gradient(135deg, rgba(229, 9, 20, 0.95), rgba(184, 29, 36, 0.95));
+          backdrop-filter: blur(12px);
+          color: white;
+          padding: 1rem 1.5rem;
+          text-align: center;
+          font-weight: 700;
+          border-radius: 16px;
+          margin: 1.5rem auto 0 auto;
+          max-width: 720px;
+          width: calc(100% - 2rem);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+          position: relative;
+          z-index: 10;
+        `;
+
+        banner.innerHTML = `
+          <div style="font-size: 1.1rem; margin-bottom: 4px;">
+            🍿 Your friend invited you to watch <u>${cleanTitle}</u>!
+          </div>
+          <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.92;">
+            Download StreameX below to start streaming for free in HD.
+          </div>
+        `;
+
+        const container = document.querySelector('main.container') || document.body;
+        container.prepend(banner);
+      }
+    </script>
 </body>
 </html>
+
