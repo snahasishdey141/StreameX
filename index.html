@@ -549,6 +549,24 @@
 
     <script src="script.js" type="module"></script>
     <div id="connection-status" class="connection-toast"></div>
+
+    <script>
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || params.get('movieId');
+    const type = params.get('type') || 'movie';
+
+    if (id && /Android/i.test(navigator.userAgent)) {
+      const banner = document.createElement('div');
+      banner.style.cssText = "position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:99999;background:#E50914;color:#fff;padding:12px 24px;border-radius:30px;font-weight:700;box-shadow:0 8px 24px rgba(229,9,20,0.5);display:flex;align-items:center;gap:10px;cursor:pointer;";
+      banner.innerHTML = `<span>▶ Watch in StreameX App</span>`;
+      banner.onclick = function() {
+        window.location.href = `streamex://${type}/${id}`;
+      };
+      document.body.appendChild(banner);
+    }
+  })();
+</script>
     
 </body>
 
