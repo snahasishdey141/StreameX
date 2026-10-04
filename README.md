@@ -7,7 +7,7 @@
   <p>Available as a Native Android Application & Modern Web Platform.</p>
 
   <p align="center">
-    <a href="https://github.com/snahasishdey141/StreameX/releases/latest">
+    <a href="https://streamex.pages.dev/download">
       <img src="https://img.shields.io/github/v/release/snahasishdey141/StreameX?style=for-the-badge&label=Download%20Android%20APK&color=E50914&logo=android" alt="Download APK"></a>&nbsp;
     <a href="https://streamex.pages.dev/">
       <img src="https://img.shields.io/badge/Live%20Web%20App-Cloudflare%20Pages-0A84FF?style=for-the-badge&logo=cloudflare" alt="Live Demo">
