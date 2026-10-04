@@ -3501,44 +3501,61 @@
     </script>
 
         <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawTitle = urlParams.get('title');
+  const urlParams = new URLSearchParams(window.location.search);
+  const rawTitle = urlParams.get('title');
+  const type = urlParams.get('type') || 'movie';
+  const id = urlParams.get('id');
 
-      if (rawTitle) {
-        // Clean up title (replaces '+' and '%20' with real spaces)
-        const cleanTitle = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
+  if (rawTitle || id) {
+    const cleanTitle = rawTitle ? decodeURIComponent(rawTitle.replace(/\+/g, ' ')) : 'this title';
+    const appDeepLink = id ? `streamex://watch?type=${type}&id=${id}` : 'streamex://home';
 
-        const banner = document.createElement('div');
-        banner.style.cssText = `
-          background: linear-gradient(135deg, rgba(229, 9, 20, 0.95), rgba(184, 29, 36, 0.95));
-          backdrop-filter: blur(12px);
-          color: white;
-          padding: 1rem 1.5rem;
-          text-align: center;
-          font-weight: 700;
-          border-radius: 16px;
-          margin: 1.5rem auto 0 auto;
-          max-width: 720px;
-          width: calc(100% - 2rem);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
-          position: relative;
-          z-index: 10;
-        `;
+    // 1. Automatically try to launch the StreameX app immediately
+    if (id) {
+      window.location.href = appDeepLink;
+    }
 
-        banner.innerHTML = `
-          <div style="font-size: 1.1rem; margin-bottom: 4px;">
-            🍿 Your friend invited you to watch <u>${cleanTitle}</u>!
-          </div>
-          <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.92;">
-            Download StreameX below to start streaming for free in HD.
-          </div>
-        `;
+    // 2. Render invitation banner with a one-tap "Open in StreameX" button
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      background: linear-gradient(135deg, rgba(229, 9, 20, 0.95), rgba(184, 29, 36, 0.95));
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      border-radius: 16px;
+      margin: 1.5rem auto;
+      max-width: 720px;
+      width: calc(100% - 2rem);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+      position: relative;
+      z-index: 100;
+    `;
 
-        const container = document.querySelector('main.container') || document.body;
-        container.prepend(banner);
-      }
-    </script>
+    banner.innerHTML = `
+      <div style="font-size: 1.15rem; font-weight: 800; margin-bottom: 6px;">
+        🍿 Watching <u>${cleanTitle}</u>
+      </div>
+      <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.92; margin-bottom: 12px;">
+        Tap below if the app did not open automatically:
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <a href="${appDeepLink}" style="
+          display: inline-flex; align-items: center; gap: 6px;
+          background: white; color: #E50914; font-weight: 700; font-size: 0.9rem;
+          padding: 8px 20px; border-radius: 9999px; text-decoration: none;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        ">
+          ▶ Open in StreameX App
+        </a>
+      </div>
+    `;
+
+    const container = document.querySelector('main.container') || document.body;
+    container.prepend(banner);
+  }
+</script>
 </body>
 </html>
 
