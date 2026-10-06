@@ -1,105 +1,737 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Scene Missing | StreameX</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>404 - Scene Missing | StreameX Official</title>
+    <meta name="description" content="Scene 404: The content you are looking for has been cut from the reel or moved to another multiverse.">
+    <meta name="theme-color" content="#080b11">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-color: #0f0f0f;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent: #e50914;
+            --bg-canvas: #080b11;
+            --bg-surface: #0d121c;
+            --bg-card: rgba(16, 22, 36, 0.75);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --accent-emerald: #10b981;
+            --accent-emerald-light: #34d399;
+            --accent-cyan: #06b6d4;
+            --accent-indigo: #6366f1;
+            --accent-amber: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-pill: 9999px;
+            --blur-glass: blur(24px);
         }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+        }
+
+        body {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            padding: 1.5rem 1rem 2rem;
+        }
+
+        /* Ambient Animated Mesh Background */
+        .ambient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 100vh;
-            margin: 0;
-            text-align: center;
-            padding: 20px;
+            pointer-events: none;
+            z-index: 0;
             overflow: hidden;
         }
 
-        .error-code {
-            font-size: 140px;
-            font-weight: 800;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 10px;
-            letter-spacing: -5px;
-            text-shadow: 0 0 40px rgba(229, 9, 20, 0.4);
-            animation: glitch 3s infinite;
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.22;
+            will-change: transform;
         }
 
-        h1 { 
-            font-size: 32px; 
-            font-weight: 800;
-            margin: 0 0 15px 0; 
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .orb-emerald {
+            top: -10%;
+            left: 15%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            animation: orbFloat 18s ease-in-out infinite alternate;
         }
 
-        p { 
-            font-size: 16px; 
-            color: var(--text-muted); 
-            max-width: 500px;
-            line-height: 1.6;
-            margin: 0 0 40px 0;
+        .orb-indigo {
+            bottom: -10%;
+            right: 15%;
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+            animation: orbFloat 22s ease-in-out infinite alternate-reverse;
         }
 
-        .btn-home {
-            background-color: var(--accent);
-            color: #fff;
-            padding: 14px 32px;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
+        .orb-cyan {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            opacity: 0.15;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 20px) scale(1.08); }
+            100% { transform: translate(-25px, -20px) scale(0.95); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 54px 54px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Top Header Brand */
+        .header-nav {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1080px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-emblem {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #6366f1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #040910;
+            font-size: 1.15rem;
+            font-weight: 900;
+            box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand-link:hover .brand-emblem {
+            transform: scale(1.08) rotate(4deg);
+        }
+
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .header-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-emerald-light);
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.28);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-pill);
+        }
+
+        /* Main Showcase Area */
+        .error-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 760px;
+            margin: auto;
+            padding: 1rem;
+        }
+
+        /* Creative Art Centerpiece */
+        .art-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            user-select: none;
+        }
+
+        /* Spiky Sunburst Aura (Animated & Reactive) */
+        .sunburst-aura {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transform-origin: center center;
+            animation: burstSpin 45s linear infinite;
+            filter: drop-shadow(0 0 45px rgba(6, 182, 212, 0.35));
+            transition: transform 0.3s ease-out;
+        }
+
+        @keyframes burstSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Inner Pulsing Core */
+        .inner-glow-orb {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(6, 182, 212, 0.25) 50%, transparent 75%);
+            z-index: 2;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        /* Artistic Typographic Layer */
+        .typography-stage {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stylized "4 0 4" glyphs */
+        .glyph-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .glyph-char {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 6.2rem;
+            line-height: 1;
+            color: #080b11;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 60%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7));
+            position: relative;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .glyph-char:hover {
+            transform: translateY(-8px) scale(1.08);
+        }
+
+        /* Center "0" as a stylized cinematic lens / play portal */
+        .center-portal-ring {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #101624, #080d18);
+            border: 3.5px solid #06b6d4;
+            box-shadow: 
+                0 0 25px rgba(6, 182, 212, 0.6),
+                inset 0 0 18px rgba(16, 185, 129, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .center-portal-ring:hover {
+            transform: scale(1.12) rotate(15deg);
+            border-color: #10b981;
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.8);
+        }
+
+        .portal-lens-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #040910;
+            font-size: 0.95rem;
+            padding-left: 2px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+        }
+
+        /* Surrounding Dotted / Floating Typography (Devfolio Inspired) */
+        .orbit-label {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .label-top {
+            top: 28px;
+            background: rgba(8, 11, 17, 0.85);
+            padding: 0.2rem 0.65rem;
+            border-radius: var(--radius-pill);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            font-size: 0.7rem;
+            color: #7dd3fc;
+        }
+
+        .label-bottom {
+            bottom: 28px;
+            background: rgba(8, 11, 17, 0.85);
+            padding: 0.2rem 0.65rem;
+            border-radius: var(--radius-pill);
+            border: 1px dashed rgba(16, 185, 129, 0.4);
+            font-size: 0.7rem;
+            color: #34d399;
+        }
+
+        .label-left {
+            left: 10px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .label-right {
+            right: 10px;
+            writing-mode: vertical-rl;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Headline & Copy */
+        .error-tagline {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.2s ease;
+            gap: 0.5rem;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-pill);
+            margin-bottom: 1rem;
         }
 
-        .btn-home:hover {
-            background-color: #b20710;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+        .error-title {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            color: #ffffff;
+            margin-bottom: 0.85rem;
         }
 
-        /* Subtle glitch effect for the 404 text */
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
+        .error-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons Row */
+        .actions-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .btn-glow-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.95rem 1.85rem;
+            border-radius: var(--radius-md);
+            color: #04120c;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 28px -4px rgba(16, 185, 129, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn-glow-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.6);
+            color: #020b08;
+        }
+
+        .btn-outline-glass {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.9rem 1.6rem;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-outline-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.22);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        /* Interactive Easter Egg Reel */
+        .easter-egg-banner {
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.5rem 1.15rem;
+            border-radius: var(--radius-pill);
+            background: rgba(8, 12, 20, 0.6);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .easter-egg-banner:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            color: #7dd3fc;
+            background: rgba(16, 24, 40, 0.8);
+        }
+
+        /* Footer */
+        .footer-note {
+            position: relative;
+            z-index: 10;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .footer-note a {
+            color: var(--accent-emerald-light);
+            text-decoration: none;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 600px) {
+            .art-container {
+                width: 270px;
+                height: 270px;
+                margin-bottom: 1.5rem;
+            }
+
+            .glyph-char {
+                font-size: 4.8rem;
+            }
+
+            .center-portal-ring {
+                width: 68px;
+                height: 68px;
+            }
+
+            .portal-lens-dot {
+                width: 26px;
+                height: 26px;
+                font-size: 0.75rem;
+            }
+
+            .error-title {
+                font-size: 1.75rem;
+            }
+
+            .error-desc {
+                font-size: 0.925rem;
+                padding: 0 0.5rem;
+            }
+
+            .actions-group {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn-glow-primary, .btn-outline-glass {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    
-    <div class="error-code">404</div>
-    
-    <h1>Plot Hole Detected</h1>
-    
-    <p>It looks like this scene was cut from the final edit. The URL you are trying to reach has been moved, deleted, or is currently lost in the multiverse.</p>
-    
-    <a href="/" class="btn-home"><i class="fas fa-home"></i> Return to Home Base</a>
+
+    <!-- Ambient Mesh Lighting & Grid -->
+    <div class="ambient-mesh">
+        <div class="ambient-orb orb-emerald"></div>
+        <div class="ambient-orb orb-indigo"></div>
+        <div class="ambient-orb orb-cyan"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <!-- Header Navigation -->
+    <header class="header-nav">
+        <a href="/" class="brand-link" aria-label="StreameX Home">
+            <div class="brand-emblem">
+                <i class="fa-solid fa-play"></i>
+            </div>
+            <span class="brand-title">StreameX</span>
+        </a>
+        <div class="header-tag">
+            <i class="fa-solid fa-film"></i> 4K UHD Streaming
+        </div>
+    </header>
+
+    <!-- Main 404 Showcase -->
+    <main class="error-wrapper" role="main">
+        
+        <!-- Devfolio-Inspired Artistic Centerpiece with StreameX Cinematic Identity -->
+        <div class="art-container" id="interactive-art" title="Click the lens to warp back home!">
+            
+            <!-- Spiky Sunburst Aura SVG (Rotates smoothly & reacts on hover) -->
+            <svg class="sunburst-aura" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="auraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" stop-opacity="0.9" />
+                        <stop offset="45%" stop-color="#06b6d4" stop-opacity="0.85" />
+                        <stop offset="100%" stop-color="#6366f1" stop-opacity="0.9" />
+                    </linearGradient>
+                </defs>
+                <!-- 48-Ray Custom Harmonic Starburst Curve -->
+                <path d="
+                    M 250,20 
+                    L 262,70 L 290,30 L 294,82 L 330,50 L 324,102 L 368,80 L 350,130 
+                    L 400,118 L 372,164 L 424,162 L 386,204 L 438,212 L 390,248 L 440,264 
+                    L 384,292 L 428,318 L 368,336 L 404,370 L 342,374 L 368,416 L 308,406 
+                    L 322,454 L 270,428 L 272,480 L 230,438 L 220,480 L 190,430 L 170,470 
+                    L 150,414 L 120,446 L 112,390 L 76,412 L 82,358 L 40,368 L 60,320 
+                    L 20,318 L 50,274 L 14,260 L 54,228 L 20,204 L 68,184 L 42,148 
+                    L 94,142 L 80,100 L 132,108 L 130,62 L 178,84 L 188,38 L 226,72 Z" 
+                    fill="url(#auraGrad)" />
+            </svg>
+
+            <!-- Inner Pulsing Glow Sphere -->
+            <div class="inner-glow-orb"></div>
+
+            <!-- Stylized Typography Stage -->
+            <div class="typography-stage">
+                
+                <!-- Floating Decorative Micro-Labels -->
+                <span class="orbit-label label-top">SCENE NOT FOUND</span>
+                <span class="orbit-label label-bottom">MULTIVERSE 404</span>
+                <span class="orbit-label label-left">REEL • CUT</span>
+                <span class="orbit-label label-right">OFF • AIR</span>
+
+                <!-- 4 0 4 Center Glyphs -->
+                <div class="glyph-group">
+                    <span class="glyph-char">4</span>
+                    
+                    <a href="/" class="center-portal-ring" aria-label="Portal back home" title="Warp Home">
+                        <div class="portal-lens-dot">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </a>
+
+                    <span class="glyph-char">4</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Descriptive Copy -->
+        <div class="error-tagline">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Plot Hole Detected • Frame Dropped</span>
+        </div>
+
+        <h1 class="error-title">Scene Missing From The Edit</h1>
+
+        <p class="error-desc">
+            It looks like this scene was cut from the final master. The stream you’re searching for has been moved, archived, or is floating in a parallel timeline.
+        </p>
+
+        <!-- Primary CTA Buttons -->
+        <div class="actions-group">
+            <a href="/" class="btn-glow-primary">
+                <i class="fa-solid fa-house"></i>
+                <span>Return to Home Base</span>
+            </a>
+
+            <a href="/download" class="btn-outline-glass">
+                <i class="fa-solid fa-download"></i>
+                <span>Get StreameX App</span>
+            </a>
+
+            <button class="btn-outline-glass" onclick="window.history.back()" title="Go back to previous page">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Go Back</span>
+            </button>
+        </div>
+
+        <!-- Interactive Surprise Feature -->
+        <div class="easter-egg-banner" id="random-fact-btn">
+            <i class="fa-solid fa-dice" style="color: #38bdf8;"></i>
+            <span id="fact-text">Tip: Click the center play portal or tap here for a surprise!</span>
+        </div>
+
+    </main>
+
+    <!-- Footer Meta -->
+    <footer class="footer-note" role="contentinfo">
+        &copy; <span id="current-year"></span> StreameX Project • Free 4K Ultra HD Streaming Client
+    </footer>
+
+    <!-- Interactive Parallax & Easter Egg Script -->
+    <script>
+        // Dynamic Current Year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 3D Mouse Parallax Effect on Desktop
+        const artContainer = document.getElementById('interactive-art');
+        const sunburst = document.querySelector('.sunburst-aura');
+        const glyphs = document.querySelectorAll('.glyph-char');
+
+        if (window.matchMedia('(pointer: fine)').matches && artContainer) {
+            artContainer.addEventListener('mousemove', (e) => {
+                const rect = artContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                const rotateX = (-y / 12).toFixed(2);
+                const rotateY = (x / 12).toFixed(2);
+
+                artContainer.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            artContainer.addEventListener('mouseleave', () => {
+                artContainer.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg)';
+                artContainer.style.transition = 'transform 0.5s ease';
+            });
+
+            artContainer.addEventListener('mouseenter', () => {
+                artContainer.style.transition = 'none';
+            });
+        }
+
+        // Fun Cinematic Easter Egg Quotes on Click
+        const cinematicQuotes = [
+            "🎬 'Houston, we have a 404.'",
+            "🍿 'May the 404 be with you... Always.'",
+            "⛩️ 'Even Goku gets lost on Snake Way sometimes.'",
+            "📺 'This episode hasn't aired yet! Return home.'",
+            "💎 'Error 404: Too high bitrate for this reality!'",
+            "🚀 'Warp drive disengaged. Returning to StreameX HQ...'"
+        ];
+
+        let quoteIdx = 0;
+        const factBtn = document.getElementById('random-fact-btn');
+        const factText = document.getElementById('fact-text');
+
+        if (factBtn && factText) {
+            factBtn.addEventListener('click', () => {
+                quoteIdx = (quoteIdx + 1) % cinematicQuotes.length;
+                factText.style.opacity = '0';
+                setTimeout(() => {
+                    factText.textContent = cinematicQuotes[quoteIdx];
+                    factText.style.opacity = '1';
+                }, 150);
+            });
+        }
+    </script>
 
 </body>
 </html>
