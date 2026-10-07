@@ -1,0 +1,12 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.movie.streamex",
+    "sha256_cert_fingerprints": [
+      "82:AF:D0:76:F3:1B:C0:B7:0C:67:77:F3:78:B4:77:8B:44:CA:2E:49:3F:22:9C:4A:3B:83:2B:54:C3:03:8B:15",
+      "47:E4:20:C5:B4:E0:15:79:9C:20:AA:60:51:74:85:A0:EE:21:1E:E9:D8:20:CE:D7:AF:79:13:D4:14:68:E3:5E",
+      "59:48:85:52:18:C5:4B:24:55:BF:53:60:D1:1C:3D:C4:A4:1F:45:D2:5F:13:1F:B6:E9:BB:AA:A8:38:FF:D2:84"
+    ]
+  }
+}]

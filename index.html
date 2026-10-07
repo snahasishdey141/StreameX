@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <link rel="canonical" href="https://streamex.pages.dev">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="google-site-verification" content="E58HshX__LEhPIUm9GKCaedC_SIOk6wwgOZm4j15_0g">
+    <meta name="theme-color" content="#07090e">
+
+    <title>StreameX — Stream Movies, TV Shows & Anime in HD</title>
+    <meta name="description" content="Stream thousands of movies, TV shows and anime in 4K & HD for free. Ad-shield protected, ultra-fast servers, zero subscription fees. StreameX is your ultimate entertainment hub.">
+    <meta name="keywords" content="streamex, stream ex, free movies, streaming, watch online, hd movies, tv series, anime, ad-free streaming">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="referrer" content="origin">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StreameX">
+    <meta property="og:url" content="https://streamex.pages.dev">
+    <meta property="og:title" content="StreameX — Stream Movies, TV Shows & Anime in HD">
+    <meta property="og:description" content="Stream thousands of movies and TV shows in HD for free. No ads, no registration required. StreameX is your ultimate entertainment hub.">
+    <meta property="og:image" content="https://streamex.pages.dev/assets/icon-512.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="StreameX — Stream Movies, TV Shows & Anime in HD">
+    <meta name="twitter:description" content="Stream thousands of movies and TV shows in HD for free. Ad-shield protected and ultra-fast.">
+    <meta name="twitter:image" content="https://streamex.pages.dev/assets/icon-512.png">
+
+    <!-- Unified Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://streamex.pages.dev/#website",
+          "url": "https://streamex.pages.dev",
+          "name": "StreameX",
+          "alternateName": ["StreameX App", "Streame X", "streamex"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://streamex.pages.dev/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://streamex.pages.dev/#webapp",
+          "name": "StreameX",
+          "url": "https://streamex.pages.dev",
+          "applicationCategory": "EntertainmentApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript. Requires HTML5."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Preconnect & DNS-Prefetch -->
+    <link rel="dns-prefetch" href="https://wsrv.nl">
+    <link rel="preconnect" href="https://streamex-proxy.snahasishdey141.workers.dev">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Typography: Outfit + Plus Jakarta Sans + JetBrains Mono -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+
+    <!-- FontAwesome 6.6.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Master CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+
+    <!-- MASTER COLLAPSIBLE CINEMA SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <!-- Sidebar Collapse Toggle Button -->
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation Sidebar">
+            <i class="fas fa-chevron-left" id="toggle-icon"></i>
+        </button>
+
+        <div class="sidebar-scroll">
+            <!-- Brand Logo Header -->
+            <div class="logo" onclick="router('home')" role="button" tabindex="0">
+                <img src="assets/icon-192.png" alt="StreameX Logo" width="192" height="192" class="brand-logo">
+                <span class="nav-text">StreameX <span class="nav-badge-pro">PRO</span></span>
+            </div>
+
+            <!-- Browse Navigation Group -->
+            <div class="nav-group">
+                <div class="nav-label nav-text">Browse</div>
+                <div class="nav-item active" onclick="router('home')">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Home</span>
+                </div>
+                <div class="nav-item" onclick="router('movies')">
+                    <i class="fas fa-film"></i>
+                    <span class="nav-text">Movies</span>
+                </div>
+                <div class="nav-item" onclick="router('tv')">
+                    <i class="fas fa-tv"></i>
+                    <span class="nav-text">TV Shows</span>
+                </div>
+                <div class="nav-item" onclick="router('anime')">
+                    <i class="fas fa-dragon"></i>
+                    <span class="nav-text">Anime</span>
+                </div>
+            </div>
+
+            <!-- Library Navigation Group -->
+            <div class="nav-group">
+                <div class="nav-label nav-text">Library</div>
+                <div class="nav-item" onclick="router('watchlist')">
+                    <i class="far fa-heart"></i>
+                    <span class="nav-text">Watchlist</span>
+                </div>
+                <div class="nav-item" onclick="router('history')">
+                    <i class="fas fa-history"></i>
+                    <span class="nav-text">History</span>
+                </div>
+            </div>
+
+            <!-- More & System Group -->
+            <div class="nav-group" style="margin-top: auto;">
+                <div class="nav-label nav-text">Platform</div>
+                <a href="/download" target="_blank" rel="noopener noreferrer" class="nav-item" id="desktop-download-btn">
+                    <i class="fab fa-android" style="color: var(--accent-emerald);"></i>
+                    <span class="nav-text">Download App</span>
+                    <span class="live-pulse-dot"></span>
+                </a>
+                <div class="nav-item" onclick="router('adblock')">
+                    <i class="fas fa-shield-alt" style="color: var(--accent-gold);"></i>
+                    <span class="nav-text" style="color: var(--accent-gold); font-weight: 600;">Block Ads</span>
+                </div>
+                <div class="nav-item" onclick="router('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-text">Settings</span>
+                </div>
+                <div class="nav-item" onclick="router('legal')">
+                    <i class="fas fa-file-contract"></i>
+                    <span class="nav-text">Legal / DMCA</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN SCROLLABLE CONTENT VIEWPORT -->
+    <main class="main-content">
+
+        <!-- Mobile Download Floating Trigger (Hidden on Desktop) -->
+        <div id="mobile-download-btn">
+            <a href="/download" target="_blank" rel="noopener noreferrer" aria-label="Download StreameX App">
+                <i class="fas fa-download"></i>
+            </a>
+        </div>
+
+        <!-- TOP FLOATING HEADER WITH QUICK SEARCH & ACTIONS -->
+        <header class="top-header">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search movies, TV shows, anime... (Press /)"
+                    aria-label="Search content"
+                    onkeyup="handleSmartSearch(this.value)">
+                <span class="search-shortcut">/</span>
+            </div>
+
+            <div class="header-actions">
+                <div class="btn-header-pill" onclick="router('movies')">
+                    <i class="fas fa-film"></i> <span>Movies</span>
+                </div>
+                <div class="btn-header-pill" onclick="router('tv')">
+                    <i class="fas fa-tv"></i> <span>TV Shows</span>
+                </div>
+                <div class="btn-header-pill" onclick="router('anime')">
+                    <i class="fas fa-dragon"></i> <span>Anime</span>
+                </div>
+                <div class="btn-header-pill" onclick="router('watchlist')">
+                    <i class="far fa-heart"></i> <span>Watchlist</span>
+                </div>
+                <a href="/download" target="_blank" rel="noopener noreferrer" class="btn-header-pill btn-header-download" aria-label="Download StreameX App">
+                    <i class="fab fa-android"></i>
+                    <span>Get App</span>
+                    <span class="live-pulse-dot"></span>
+                </a>
+            </div>
+        </header>
+
+        <!-- VIEW: SEARCH RESULTS -->
+        <div id="view-search" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" id="search-title">Search Results</h2>
+                </div>
+            </div>
+            <div class="media-grid" id="search-res"></div>
+        </div>
+
+        <!-- VIEW: HOME (SPOTLIGHT + RAILS) -->
+        <div id="view-home" class="page-view active">
+            <!-- Accessible H1 for SEO -->
+            <h1 class="sr-only">StreameX - Watch Free HD Movies, TV Shows & Anime Online</h1>
+            
+            <!-- Cinematic Spotlight Hero Carousel -->
+            <div class="slider-container" id="hero-slider" aria-label="Spotlight Movies and TV Shows"></div>
+
+            <!-- Continue Watching Section (Dynamic) -->
+            <div id="continue-watching-section" style="display:none;">
+                <div class="section-header">
+                    <div class="section-title-wrap">
+                        <div class="section-title"><i class="fas fa-history"></i> Continue Watching</div>
+                    </div>
+                    <div class="section-actions">
+                        <button class="row-scroll-btn prev" onclick="scrollRow('home-history', -1)" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                        <button class="row-scroll-btn next" onclick="scrollRow('home-history', 1)" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="media-grid" id="home-history"></div>
+            </div>
+
+            <!-- Latest Bollywood / Regional Movies -->
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <div class="section-title" id="local-title"><i class="fas fa-film"></i> Latest Bollywood</div>
+                </div>
+                <div class="section-actions">
+                    <button class="row-scroll-btn prev" onclick="scrollRow('home-bollywood', -1)" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="row-scroll-btn next" onclick="scrollRow('home-bollywood', 1)" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="media-grid" id="home-bollywood"></div>
+
+            <!-- Latest Hollywood / Trending Worldwide -->
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <div class="section-title" id="hollywood-title"><i class="fas fa-globe"></i> Latest Hollywood</div>
+                </div>
+                <div class="section-actions">
+                    <button class="row-scroll-btn prev" onclick="scrollRow('home-hollywood', -1)" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="row-scroll-btn next" onclick="scrollRow('home-hollywood', 1)" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="media-grid" id="home-hollywood"></div>
+
+            <!-- Trending TV Shows -->
+            <div class="section-header">
+                <div class="section-title-wrap">
+                    <div class="section-title"><i class="fas fa-tv"></i> Trending TV Shows</div>
+                </div>
+                <div class="section-actions">
+                    <button class="row-scroll-btn prev" onclick="scrollRow('home-tv', -1)" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="row-scroll-btn next" onclick="scrollRow('home-tv', 1)" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="media-grid" id="home-tv"></div>
+        </div>
+
+        <!-- VIEW: MOBILE SEARCH VIEW -->
+        <div id="view-mobile-search" class="page-view">
+            <div class="search-container mobile-search-bar" style="margin-top: 20px; max-width: 100%;">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="mobile-search-input" placeholder="Search movies, TV shows, anime..."
+                    aria-label="Mobile Search"
+                    onkeyup="handleSmartSearch(this.value)">
+            </div>
+            <div id="mobile-search-results" class="media-grid" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- VIEW: MOVIES CATALOG -->
+        <div id="view-movies" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="fas fa-film"></i> Movies Catalog</h2>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="section-title">Popular Movies</div>
+            </div>
+            <div class="media-grid" id="movies-popular"></div>
+
+            <div class="section-header">
+                <div class="section-title">Top Rated Movies</div>
+            </div>
+            <div class="media-grid" id="movies-top"></div>
+
+            <div class="section-header">
+                <div class="section-title">High-Octane Action</div>
+            </div>
+            <div class="media-grid" id="movies-action"></div>
+        </div>
+
+        <!-- VIEW: TV SHOWS CATALOG -->
+        <div id="view-tv" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="fas fa-tv"></i> TV Series</h2>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="section-title">On The Air Today</div>
+            </div>
+            <div class="media-grid" id="tv-airing"></div>
+
+            <div class="section-header">
+                <div class="section-title">All-Time Top Rated Shows</div>
+            </div>
+            <div class="media-grid" id="tv-top"></div>
+        </div>
+
+        <!-- VIEW: ANIME WORLD -->
+        <div id="view-anime" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="fas fa-dragon"></i> Anime Universe</h2>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="section-title">Trending Anime</div>
+            </div>
+            <div class="media-grid" id="anime-trending"></div>
+
+            <div class="section-header">
+                <div class="section-title">All-Time Popular Anime</div>
+            </div>
+            <div class="media-grid" id="anime-popular"></div>
+        </div>
+
+        <!-- VIEW: MY WATCHLIST -->
+        <div id="view-watchlist" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="far fa-heart"></i> My Watchlist</h2>
+                </div>
+            </div>
+            <div class="media-grid" id="watchlist-grid" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- VIEW: WATCH HISTORY -->
+        <div id="view-history" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="fas fa-history"></i> Watch History</h2>
+                </div>
+            </div>
+            <div class="media-grid" id="history-grid" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- VIEW: SETTINGS -->
+        <div id="view-settings" class="page-view">
+            <div class="section-header" style="margin-top: 10px;">
+                <div class="section-title-wrap">
+                    <h2 class="section-title" style="font-size: 26px;"><i class="fas fa-sliders-h"></i> Platform Settings</h2>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-title">Appearance Theme</div>
+                        <div class="setting-desc">Switch between OLED Cinema Dark and Clean Light mode</div>
+                    </div>
+                    <select id="set-theme" class="setting-select">
+                        <option value="dark">Dark Mode (OLED Cinema)</option>
+                        <option value="light">Light Mode</option>
+                    </select>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-title">Content Language</div>
+                        <div class="setting-desc">Primary metadata language for titles and synopsis</div>
+                    </div>
+                    <select id="set-lang" class="setting-select"></select>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-title">Content Region</div>
+                        <div class="setting-desc">Prioritize trends and releases from your location</div>
+                    </div>
+                    <select id="set-region" class="setting-select"></select>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-title">Safe Search / Mature Content</div>
+                        <div class="setting-desc">Filter 18+ adult content in discovery and search</div>
+                    </div>
+                    <select id="set-adult" class="setting-select">
+                        <option value="false">Safe (Hide Mature Content)</option>
+                        <option value="true">Unrestricted (Show All)</option>
+                    </select>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-title">Cache & Data Management</div>
+                        <div class="setting-desc">Clear local history and saved watchlist items</div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-glass" onclick="clearData('history')">Clear History</button>
+                        <button class="btn btn-glass" onclick="clearData('watchlist')">Clear Watchlist</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 28px;"
+                    onclick="saveSettings()">Save Changes & Reload</button>
+            </div>
+        </div>
+
+        <!-- VIEW: BLOCK ADS (CYBER SECURITY SHIELD) -->
+        <div id="view-adblock" class="page-view">
+            <div class="legal-header" style="text-align: center; padding: 48px 24px;">
+                <i class="fas fa-shield-halved"
+                    style="font-size: 64px; color: var(--accent-gold); margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));"></i>
+                <h2 style="color: #ffffff;">Enjoy 100% Ad-Free Streaming</h2>
+                <p style="margin: 0 auto; max-width: 650px; font-size: 15px; color: var(--text-secondary);">
+                    StreameX does not host media directly; external mirror servers embed popup ads to cover bandwidth.
+                    For a clean, uninterrupted cinema experience, we strongly recommend using a reputable ad blocker.
+                </p>
+                <div style="margin-top: 24px;">
+                    <a href="https://chromewebstore.google.com/detail/bgnkhhnnamicmpeenaelnjfhikgbkllg" target="_blank"
+                        rel="noopener noreferrer" class="btn"
+                        style="background: var(--accent-gold); color: #000000; font-weight: 800; font-size: 15px; padding: 14px 32px; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);">
+                        <i class="fab fa-chrome"></i> Install AdGuard AdBlocker Free
+                    </a>
+                </div>
+            </div>
+
+            <div class="legal-grid">
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-ban" style="color: #ef4444;"></i> Zero Redirects & Popups</div>
+                    <div class="legal-text">Eliminates unwanted new tabs or ad popups whenever you press Play, Pause, or toggle Fullscreen.</div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-bolt" style="color: var(--accent-gold);"></i> Lightning-Fast Buffering</div>
+                    <div class="legal-text">Blocking heavy external tracking scripts reduces network strain and speeds up video start times.</div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-user-shield" style="color: var(--accent-emerald);"></i> Enhanced Privacy</div>
+                    <div class="legal-text">Prevents third-party trackers from profiling your viewing preferences across web sessions.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: LEGAL / DMCA POLICY -->
+        <div id="view-legal" class="page-view">
+            <div class="legal-header">
+                <h2>Legal Disclosures & Content Aggregation</h2>
+                <p>StreameX is an open metadata search engine and indexing hub. Review our policy below regarding content and third-party hosting.</p>
+            </div>
+
+            <div class="legal-grid">
+                <div class="legal-card">
+                    <div class="legal-title"><i class="far fa-file-alt"></i> Non-Hosting Policy</div>
+                    <div class="legal-text">
+                        StreameX does not host, upload, or store video files on our infrastructure. All video feeds are dynamically resolved from publicly accessible third-party embed providers.
+                    </div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-balance-scale"></i> Removal Requests</div>
+                    <div class="legal-text">
+                        Because media files reside on external hosts outside our control, removal notices should be addressed to the specific hosting service that stores the file.
+                    </div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-shield-alt"></i> Copyright Compliance</div>
+                    <div class="legal-text">
+                        We respect intellectual property rights. If you are a copyright owner seeking verification on where content originates, contact our support team.
+                    </div>
+                </div>
+
+                <div class="legal-card">
+                    <div class="legal-title"><i class="fas fa-exclamation-triangle"></i> Disclaimer</div>
+                    <div class="legal-text">
+                        StreameX utilizes TMDB and third-party APIs for informative metadata. Users are responsible for ensuring compliance with local laws when viewing external streams.
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-box">
+                <div class="legal-title"><i class="far fa-envelope"></i> Contact Information</div>
+                <div class="contact-text">
+                    For inquiries and feedback: <a href="mailto:streamex.net@gmail.com" style="color: var(--accent); font-weight: 700; text-decoration: none;">streamex.net@gmail.com</a>
+                </div>
+                <div class="contact-subtext">
+                    © 2026 StreameX. Crafted for pure entertainment. All trademarks and media belong to their respective creators.
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: THEATER MODE VIDEO PLAYER -->
+        <div id="view-player" class="page-view">
+            <div onclick="closePlayer()" class="back-btn-player" role="button" tabindex="0">
+                <i class="fas fa-arrow-left"></i> <span>Back to Browse</span>
+            </div>
+
+            <div class="player-layout">
+                <div class="player-left">
+                    <!-- Theater Video Frame -->
+                    <div class="video-wrapper">
+                        <div id="iframe-box">
+                            <i class="fas fa-spinner fa-spin" style="font-size:40px; color: var(--accent);"></i>
+                        </div>
+                    </div>
+
+                    <!-- Server Controls -->
+                    <div class="server-controls">
+                        <div class="server-label"><i class="fas fa-satellite-dish"></i> Select Streaming Node</div>
+                        <div class="server-list" id="server-list"></div>
+                    </div>
+
+                    <div id="mobile-episode-insert"></div>
+
+                    <!-- Media Details Box -->
+                    <div class="media-details-box">
+                        <div class="movie-sidebar" style="padding: 0;">
+                            <div class="movie-sidebar-header">
+                                <div class="sidebar-poster" style="background:#141925; width:110px; height:165px;"></div>
+                                <div class="sidebar-meta-info">
+                                    <div class="meta-item"><span class="meta-label">Loading metadata...</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Episode Panel (TV Shows & Anime) -->
+                <div class="player-right" id="episode-panel">
+                    <div class="ep-header">
+                        <select id="season-select" onchange="loadSeason(this.value)" aria-label="Select Season"></select>
+                        <div class="view-toggles">
+                            <i class="fas fa-list active" onclick="setEpView('list')" title="List View" role="button"></i>
+                            <i class="fas fa-th-large" onclick="setEpView('grid')" title="Grid View" role="button"></i>
+                        </div>
+                    </div>
+
+                    <div id="episode-list-box" class="ep-container list-view"></div>
+                </div>
+            </div>
+
+            <!-- Recommendations Grid -->
+            <div class="section-header" style="margin-top: 48px;">
+                <div class="section-title-wrap">
+                    <div class="section-title"><i class="fas fa-thumbs-up"></i> You May Also Like</div>
+                </div>
+            </div>
+            <div class="media-grid" id="player-recommendations"></div>
+        </div>
+
+    </main>
+
+    <!-- MOBILE FROSTED GLASS BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" aria-label="Mobile Navigation">
+        <div class="b-nav-item active" onclick="router('home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="b-nav-item" onclick="openMobileSearch()">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </div>
+        <div class="b-nav-item" onclick="router('watchlist')">
+            <i class="far fa-heart"></i>
+            <span>Library</span>
+        </div>
+        <div class="b-nav-item" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+            <span>More</span>
+        </div>
+    </nav>
+
+    <!-- MOBILE SLIDE-UP DRAWER MENU -->
+    <div id="mobile-menu-overlay" class="mobile-menu">
+        <div class="mobile-header">
+            <div class="logo">
+                <img src="assets/icon-192.png" alt="StreameX Logo" width="32" height="32" class="brand-logo">
+                <span class="nav-text">StreameX</span>
+            </div>
+            <div onclick="toggleMobileMenu()" style="cursor:pointer; font-size:22px; color: var(--text-muted);"><i class="fas fa-times"></i></div>
+        </div>
+
+        <div class="mobile-grid-menu">
+            <div class="m-menu-item" onclick="router('movies'); toggleMobileMenu()">
+                <i class="fas fa-film" style="color: var(--accent);"></i> Movies
+            </div>
+            <div class="m-menu-item" onclick="router('tv'); toggleMobileMenu()">
+                <i class="fas fa-tv" style="color: var(--accent-indigo);"></i> TV Shows
+            </div>
+            <div class="m-menu-item" onclick="router('anime'); toggleMobileMenu()">
+                <i class="fas fa-dragon" style="color: var(--accent-cyan);"></i> Anime
+            </div>
+            <div class="m-menu-item" onclick="router('watchlist'); toggleMobileMenu()">
+                <i class="far fa-heart" style="color: #ec4899;"></i> Watchlist
+            </div>
+            <div class="m-menu-item" onclick="router('history'); toggleMobileMenu()">
+                <i class="fas fa-history" style="color: var(--accent-gold);"></i> History
+            </div>
+            <div class="m-menu-item" onclick="router('settings'); toggleMobileMenu()">
+                <i class="fas fa-sliders-h" style="color: var(--text-secondary);"></i> Settings
+            </div>
+            <div class="m-menu-item" onclick="router('adblock'); toggleMobileMenu()">
+                <i class="fas fa-shield-alt" style="color: var(--accent-gold);"></i> Block Ads
+            </div>
+            <div class="m-menu-item" onclick="router('legal'); toggleMobileMenu()">
+                <i class="fas fa-file-contract" style="color: var(--text-muted);"></i> Legal
+            </div>
+        </div>
+
+        <div style="margin-top: auto; padding: 20px 0; text-align: center;">
+            <a href="/download" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <i class="fab fa-android"></i> Download Android APK
+            </a>
+            <div style="color: var(--text-subtle); margin-top: 14px; font-family: var(--font-mono); font-size: 11px;">
+                StreameX v3.0 PRO Cinema Edition
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE INITIALIZATION SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvJxtMLl-M21Kpi5JkcpioLGI9RMwD3R0",
+            authDomain: "streamex-v1.firebaseapp.com",
+            projectId: "streamex-v1",
+            storageBucket: "streamex-v1.firebasestorage.app",
+            messagingSenderId: "87040295346",
+            appId: "1:87040295346:web:4369ebb00242756e5f24ab",
+            measurementId: "G-3854NTCXSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+
+        isSupported().then((supported) => {
+            if (supported) {
+                getAnalytics(app);
+            }
+        }).catch((err) => {
+            console.error("Analytics error:", err);
+        });
+    </script>
+
+    <!-- MAIN LOGIC JAVASCRIPT -->
+    <script src="script.js" type="module"></script>
+    <div id="connection-status" class="connection-toast"></div>
+
+    <!-- ANDROID DEEP LINK SMART BANNER -->
+    <script>
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id') || params.get('movieId');
+        const type = params.get('type') || 'movie';
+
+        if (id && /Android/i.test(navigator.userAgent)) {
+            const banner = document.createElement('div');
+            banner.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg, #e50914, #b91c1c);color:#fff;padding:12px 28px;border-radius:30px;font-weight:700;box-shadow:0 8px 30px rgba(229,9,20,0.6);display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Outfit',sans-serif;";
+            banner.innerHTML = `<i class="fab fa-android"></i> <span>Watch in StreameX App</span>`;
+            banner.onclick = function() {
+                window.location.href = `streamex://${type}/${id}`;
+            };
+            document.body.appendChild(banner);
+        }
+    })();
+    </script>
+</body>
+
+</html>
