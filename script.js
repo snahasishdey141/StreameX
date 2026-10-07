@@ -457,11 +457,9 @@ function renderSlider(items) {
         slide.innerHTML = `
             <div class="hero-content">
                 <div class="hero-badges-row">
-                    <span class="hero-pill-spotlight"><i class="fas fa-fire-flame-curved"></i> #${index + 1} Spotlight</span>
                     <span class="hero-pill-rating"><i class="fas fa-star"></i> ${rating}</span>
                     <span class="hero-pill-meta">${year}</span>
                     <span class="hero-pill-meta">${type === 'tv' ? 'TV Series' : 'Movie'}</span>
-                    <span class="hero-pill-meta" style="color:var(--accent-cyan); border-color:rgba(6,182,212,0.3);"><i class="fas fa-bolt"></i> 4K Ultra HD</span>
                 </div>
                 <h2 class="hero-title">${title}</h2>
                 <p class="hero-desc">${item.overview || 'Stream this title in high definition with ultra-fast servers and ad-shield protection.'}</p>

@@ -2256,17 +2256,25 @@ body.light-mode #search-title {
         display: none !important;
     }
 
+    /* Hide top search header on mobile (handled by mobile bottom navigation) */
     .top-header {
-        padding: 12px 16px;
-        margin: 0 -16px 20px -16px;
-    }
-
-    .top-header .header-actions {
-        display: none;
+        display: none !important;
     }
 
     .main-content {
-        padding: 0 16px 90px 16px;
+        padding: 20px 16px 90px 16px;
+    }
+
+    /* Minimal Hero Badges on Mobile */
+    .hero-badges-row {
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+
+    .hero-pill-rating,
+    .hero-pill-meta {
+        font-size: 11px;
+        padding: 2px 8px;
     }
 
     /* Hero Slider on Mobile */
