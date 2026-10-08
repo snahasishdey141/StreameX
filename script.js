@@ -71,6 +71,9 @@ const servers = [
     { name: "FilmU", key: "FilmU_Movie", useSandbox: false },
     { name: "Vidcore", key: "vidcore", useSandbox: false },
     { name: "Vipembed", key: "2embed", useSandbox: false },
+    { name: "Vedika", key: "vidapi", useSandbox: false },
+    { name: "Vix", key: "vixsrc", useSandbox: false },
+    { name: "Superembed", key: "superembed", useSandbox: false },
 
 ];
 
