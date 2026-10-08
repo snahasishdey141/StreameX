@@ -65,7 +65,7 @@ const servers = [
     { name: "Premium", key: "Premium", useSandbox: false },
     { name: "MovieApi", key: "MoviesApi", useSandbox: false },
     { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
-    { name: "Vidapi", key: "Vidapi", useSandbox: false },
+    { name: "Vidapi", key: "Vidplay", useSandbox: false },
     { name: "NextGen", key: "NextGen", useSandbox: false },
     { name: "Streamrip", key: "Streamrip_Movie", useSandbox: false },
     { name: "FilmU", key: "FilmU_Movie", useSandbox: false },
