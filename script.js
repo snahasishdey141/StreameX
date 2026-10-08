@@ -74,7 +74,7 @@ const servers = [
     { name: "Vedika", key: "vidapi", useSandbox: false },
     { name: "Vix", key: "vixsrc", useSandbox: false },
     { name: "Superembed", key: "superembed", useSandbox: false },
-
+    { name: "Videm", key: "videm", useSandbox: false },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
