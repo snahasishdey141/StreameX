@@ -65,13 +65,16 @@ const servers = [
     { name: "Premium", key: "Premium", useSandbox: false },
     { name: "MovieApi", key: "MoviesApi", useSandbox: false },
     { name: "EmbedApi", key: "EmbedApi", useSandbox: false },
-    { name: "Vidapi", key: "Vidapi", useSandbox: false },
+    { name: "Vidapi", key: "Vidplay", useSandbox: false },
     { name: "NextGen", key: "NextGen", useSandbox: false },
     { name: "Streamrip", key: "Streamrip_Movie", useSandbox: false },
     { name: "FilmU", key: "FilmU_Movie", useSandbox: false },
     { name: "Vidcore", key: "vidcore", useSandbox: false },
     { name: "Vipembed", key: "2embed", useSandbox: false },
-
+    { name: "Vedika", key: "vidapi", useSandbox: false },
+    { name: "Vix", key: "vixsrc", useSandbox: false },
+    { name: "Superembed", key: "superembed", useSandbox: false },
+    { name: "Videm", key: "videm", useSandbox: false },
 ];
 
 // --- NEW HELPER: FETCH ANILIST ID ---
